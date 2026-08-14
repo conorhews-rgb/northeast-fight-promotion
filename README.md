@@ -93,6 +93,22 @@ Pulled directly from the logo:
 
 ## Deploying
 
-It is a folder of static files, so any host works. GitHub Pages, Netlify drop, Cloudflare
-Pages, or plain S3. Upload everything except `src/`, `build.py` and this README (or
-upload them too; they're harmless).
+Live on GitHub Pages from the `main` branch root:
+
+- Repo: <https://github.com/conorhews-rgb/northeast-fight-promotion>
+- Site: <https://conorhews-rgb.github.io/northeast-fight-promotion/>
+
+To publish a change, edit `src/`, rebuild, then push. Pages redeploys on its own, usually
+within a minute:
+
+```bash
+cd ~/northeast-fight-promotion
+python3 build.py
+git add -A && git commit -m "Describe the change" && git push
+```
+
+If you later point a real domain at it, add a `CNAME` file containing just the domain at
+the project root and set the same domain in the repo's Pages settings.
+
+Nothing needs a build step on the server. It is a folder of static files, so Netlify,
+Cloudflare Pages or plain S3 would work just as well.
