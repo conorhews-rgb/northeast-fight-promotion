@@ -41,6 +41,8 @@
   --gutter: clamp(16px, 3.5vw, 48px);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* gentler than --ease: eases in instead of darting, and settles long */
+  --land: cubic-bezier(0.45, 0, 0.15, 1);
 }
 
 /* ---------- reset ---------- */
@@ -457,11 +459,8 @@ body.menu-open { overflow: hidden; }
 .intro--js::before { transition: opacity 780ms var(--ease); }
 .intro--js.is-done::before { opacity: 0; }
 
-.intro-logo {
-  /* nfp-logo-alpha.png carries the plate in its alpha channel, so the mark
-     composites correctly over the page as it builds in underneath. No
-     mix-blend-mode here: blending needs a black backdrop and the backdrop
-     is precisely what goes away. */
+.intro-mark {
+  position: relative;
   width: min(58vw, 420px);
   transform-origin: center center;
   will-change: transform;
@@ -471,13 +470,64 @@ body.menu-open { overflow: hidden; }
   animation: intro-logo-in 520ms var(--ease) 100ms forwards; /* no-JS path */
 }
 
-.intro--js .intro-logo {
+.intro-logo {
+  /* nfp-logo-alpha.png carries the plate in its alpha channel, so the mark
+     composites correctly over the page as it builds in underneath. No
+     mix-blend-mode here: blending needs a black backdrop and the backdrop
+     is precisely what goes away. */
+  width: 100%;
+}
+
+/* The hero mark sits under .hero-media::after, which darkens it by roughly a
+   quarter at its top and nearly two thirds at its foot. The flying mark is
+   above everything and carries none of that, so handing over used to drop its
+   lower half to a third of its brightness in one frame. This lays the same
+   ramp onto the mark and fades it in across the flight, so the mark settles
+   behind the vignette instead of snapping behind it. The stops are measured
+   live in site.js because the panel and mark scale differently. Masked to the
+   artwork so it tints the mark and not a rectangle around it. */
+.intro-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, var(--vig-top, 0.23)) 0%,
+    rgba(0, 0, 0, 0) var(--vig-mid, 36%),
+    rgba(0, 0, 0, var(--vig-bot, 0.62)) 100%
+  );
+  -webkit-mask-image: url("../img/nfp-logo-alpha.png");
+          mask-image: url("../img/nfp-logo-alpha.png");
+  -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+}
+
+.intro--js .intro-mark {
   animation: none;
   opacity: 0;
   transform: scale(0.94);
-  transition: opacity 520ms var(--ease), transform 1000ms var(--ease);
+  /* --land eases in gently and settles long, so the mark falls into place
+     rather than darting and then stopping dead */
+  transition: opacity 520ms var(--ease), transform 950ms var(--land);
 }
-.intro--js.is-showing .intro-logo { opacity: 1; transform: scale(1); }
+.intro--js.is-showing .intro-mark { opacity: 1; transform: scale(1); }
+
+/* vignette arrives exactly as the mark lands */
+.intro--js.is-done .intro-mark::after {
+  opacity: 1;
+  transition: opacity 950ms var(--land);
+}
+
+/* the last 200ms: the real hero logo is already in place underneath, so this
+   dissolve only has to cover sub-pixel and antialiasing differences */
+.intro--js.is-landed .intro-mark {
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
 
 @keyframes intro-fallback {
   to { opacity: 0; visibility: hidden; }

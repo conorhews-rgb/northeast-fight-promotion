@@ -31,7 +31,27 @@
 
   if (intro) {
     const introLogo = $(".intro-logo", intro);
+    const introMark = $(".intro-mark", intro);
+    const heroMedia = $(".hero-media");
     const heroLogo = $(".hero-media > img:not(.region)");
+
+    // Reproduce .hero-media::after over the mark's landing rect, so the mark
+    // is already wearing the vignette when the real logo takes the handoff.
+    // Keep in step with that rule if its gradient ever changes.
+    const matchVignette = () => {
+      if (!heroMedia || !heroLogo || !introMark) return;
+      const M = heroMedia.getBoundingClientRect();
+      const L = heroLogo.getBoundingClientRect();
+      if (!M.height || !L.height) return;
+      const alphaAt = (p) =>
+        p <= 0.4 ? 0.35 * (1 - p / 0.4) : 0.8 * ((p - 0.4) / 0.6);
+      const top = (L.top - M.top) / M.height;
+      const bot = (L.bottom - M.top) / M.height;
+      const cross = Math.min(Math.max((0.4 - top) / (bot - top), 0), 1);
+      introMark.style.setProperty("--vig-top", alphaAt(top).toFixed(3));
+      introMark.style.setProperty("--vig-bot", alphaAt(bot).toFixed(3));
+      introMark.style.setProperty("--vig-mid", (cross * 100).toFixed(1) + "%");
+    };
     const clearIntro = () => {
       // deliberately not is-built: its own timer clears it once the build-in
       // keyframes have finished, and this runs before they have
@@ -72,13 +92,14 @@
         .then(() => {
           // Measure against where the hero mark will END UP. The hero panel is
           // held at opacity 0 right now but is laid out, so the rect is real.
-          if (heroLogo) {
-            const a = introLogo.getBoundingClientRect();
+          matchVignette();
+          if (heroLogo && introMark) {
+            const a = introMark.getBoundingClientRect();
             const b = heroLogo.getBoundingClientRect();
             if (a.width > 0 && b.width > 0) {
               const dx = b.left + b.width / 2 - (a.left + a.width / 2);
               const dy = b.top + b.height / 2 - (a.top + a.height / 2);
-              introLogo.style.transform =
+              introMark.style.transform =
                 "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px) scale(" +
                 (b.width / a.width).toFixed(4) + ")";
             }
@@ -93,9 +114,17 @@
           // opacity 0 until they run. Drop the class once they have finished
           // so the page can never depend on an animation to become visible.
           setTimeout(() => root.classList.remove("is-built"), 1400);
-          return wait(1000); // the flight
+          return wait(950); // the flight
         })
-        .then(clearIntro); // hand the mark over to the real hero logo
+        .then(() => {
+          // The mark has landed wearing the vignette, so the real logo can
+          // come up underneath it identically. Dissolve rather than cut, to
+          // absorb antialiasing differences between the two.
+          root.classList.remove("intro-running");
+          intro.classList.add("is-landed");
+          return wait(200);
+        })
+        .then(clearIntro);
     }
   } else {
     built();
