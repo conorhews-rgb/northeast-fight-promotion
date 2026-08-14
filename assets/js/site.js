@@ -11,15 +11,34 @@
 
   /* ---------------------------------------------------------
      0. Intro overlay
-     Holds on the mark, then flies it onto the real hero logo and
-     dissolves, so the intro resolves into the page rather than
-     cutting to it. CSS carries a no-JS fallback fade.
+     Holds on the mark, then flies it onto the real hero logo. The page
+     builds in underneath on the same frame the flight starts, so the
+     site assembles around the mark instead of being uncovered behind
+     it. CSS carries a no-JS fallback fade.
      --------------------------------------------------------- */
+  const root = document.documentElement;
   const intro = $(".intro");
+
+  // Reveals must not fire while the overlay is up, or the page has already
+  // finished assembling by the time anyone can see it. Section 3 waits for
+  // this, and built() is safe to call more than once.
+  let builtFired = false;
+  const built = () => {
+    if (builtFired) return;
+    builtFired = true;
+    document.dispatchEvent(new CustomEvent("nfp:built"));
+  };
+
   if (intro) {
     const introLogo = $(".intro-logo", intro);
     const heroLogo = $(".hero-media > img:not(.region)");
-    const clearIntro = () => intro.remove();
+    const clearIntro = () => {
+      // deliberately not is-built: its own timer clears it once the build-in
+      // keyframes have finished, and this runs before they have
+      root.classList.remove("is-booting", "intro-running");
+      built();
+      intro.remove();
+    };
 
     if (reduced) {
       clearIntro();
@@ -51,7 +70,8 @@
           return wait(620);
         })
         .then(() => {
-          // FLIP onto the hero mark, measured live so scroll or resize is fine
+          // Measure against where the hero mark will END UP. The hero panel is
+          // held at opacity 0 right now but is laid out, so the rect is real.
           if (heroLogo) {
             const a = introLogo.getBoundingClientRect();
             const b = heroLogo.getBoundingClientRect();
@@ -63,11 +83,22 @@
                 (b.width / a.width).toFixed(4) + ")";
             }
           }
+          // Same frame: the mark starts moving, the black ground starts
+          // dissolving, and the page starts building in behind it.
           intro.classList.add("is-done");
-          return wait(800);
+          root.classList.remove("is-booting");
+          root.classList.add("is-built");
+          built();
+          // The build-in keyframes use fill both, which pins elements at
+          // opacity 0 until they run. Drop the class once they have finished
+          // so the page can never depend on an animation to become visible.
+          setTimeout(() => root.classList.remove("is-built"), 1400);
+          return wait(1000); // the flight
         })
-        .then(clearIntro);
+        .then(clearIntro); // hand the mark over to the real hero logo
     }
+  } else {
+    built();
   }
 
   /* ---------------------------------------------------------
@@ -125,11 +156,18 @@
         },
         { threshold: 0.1, rootMargin: "0px 0px -6% 0px" }
       );
-      revealables.forEach((el) => {
-        const delay = el.getAttribute("data-delay");
-        if (delay) el.style.setProperty("--d", delay + "ms");
-        io.observe(el);
-      });
+      const startObserving = () => {
+        revealables.forEach((el) => {
+          const delay = el.getAttribute("data-delay");
+          if (delay) el.style.setProperty("--d", delay + "ms");
+          io.observe(el);
+        });
+      };
+      // Hold until the intro hands off, otherwise everything above the fold
+      // reveals itself behind the overlay and the page is already finished
+      // when it comes into view.
+      if (builtFired) startObserving();
+      else document.addEventListener("nfp:built", startObserving, { once: true });
     }
   }
 

@@ -436,23 +436,35 @@ body.menu-open { overflow: hidden; }
   z-index: 9999;
   display: grid;
   place-items: center;
-  background: #000;
-  /* No-JS fallback: fade out unaided so the overlay can never stick. */
-  animation: intro-fallback 700ms var(--ease) 1100ms forwards;
+  /* never trap a click, even in the unlikely case the overlay survives */
+  pointer-events: none;
+  /* No-JS fallback: fade the whole overlay, mark included, so nothing is left
+     stranded over the page. The JS path cancels this and drives the ground
+     separately below. */
+  animation: intro-fallback 700ms var(--ease) 1400ms forwards;
 }
+.intro--js { animation: none; }
 
-/* JS takes over and drives the states below instead */
-.intro--js {
-  animation: none;
-  transition: opacity 700ms var(--ease), visibility 0s linear 700ms;
+/* The black ground is its own layer so it can dissolve while the mark stays
+   fully opaque and keeps flying. Fading .intro itself would fade the mark
+   with it, which is what made the old version read as a curtain lift. */
+.intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
 }
+.intro--js::before { transition: opacity 780ms var(--ease); }
+.intro--js.is-done::before { opacity: 0; }
 
 .intro-logo {
+  /* nfp-logo-alpha.png carries the plate in its alpha channel, so the mark
+     composites correctly over the page as it builds in underneath. No
+     mix-blend-mode here: blending needs a black backdrop and the backdrop
+     is precisely what goes away. */
   width: min(58vw, 420px);
-  /* knocks the logo's black plate out against the black overlay */
-  mix-blend-mode: screen;
   transform-origin: center center;
-  will-change: transform, opacity;
+  will-change: transform;
   /* site.js loads at the end of body, so the page can paint before it runs.
      Starting hidden means the mark can never flash at full size first. */
   opacity: 0;
@@ -463,18 +475,45 @@ body.menu-open { overflow: hidden; }
   animation: none;
   opacity: 0;
   transform: scale(0.94);
-  transition: opacity 520ms var(--ease), transform 900ms var(--ease);
+  transition: opacity 520ms var(--ease), transform 1000ms var(--ease);
 }
 .intro--js.is-showing .intro-logo { opacity: 1; transform: scale(1); }
-
-/* is-done runs at the same moment the logo is flown onto the hero mark */
-.intro--js.is-done { opacity: 0; visibility: hidden; }
 
 @keyframes intro-fallback {
   to { opacity: 0; visibility: hidden; }
 }
 @keyframes intro-logo-in {
   to { opacity: 1; }
+}
+
+/* ---------------------------------------------------------
+   BOOT IN the page assembles itself as the mark flies home
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.is-booting .site-header,
+  html.is-booting .hero-media,
+  html.is-booting .hero-card,
+  html.is-booting .rail,
+  html.is-booting .fight-banner { opacity: 0; }
+
+  /* The hero mark is the thing being flown into place, so it waits for the
+     landing rather than building in with everything else. */
+  html.intro-running .hero-media > img:not(.region) { opacity: 0; }
+
+  html.is-built .hero-media   { animation: build-fade 700ms var(--ease) 0ms both; }
+  html.is-built .site-header  { animation: build-fade 620ms var(--ease) 80ms both; }
+  html.is-built .hero-card    { animation: build-rise 780ms var(--ease) 150ms both; }
+  html.is-built .rail         { animation: build-rise 780ms var(--ease) 240ms both; }
+  html.is-built .fight-banner { animation: build-rise 820ms var(--ease) 330ms both; }
+}
+
+@keyframes build-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes build-rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* no intro at all when motion is not wanted, and no flash before JS runs */

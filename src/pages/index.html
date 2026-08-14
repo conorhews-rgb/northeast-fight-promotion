@@ -1,10 +1,23 @@
 <!--{"slug": "index", "title": "Northeast Fight Promotion", "desc": "Northeast Fight Promotion is a new fight promotion based in southern New Hampshire. First show announcement coming soon."}-->
 <!-- ===================== INTRO =====================
-     Greets you with the mark, then lands it on the hero logo and dissolves.
-     Falls back to a plain CSS fade if JS never runs. -->
+     Greets you with the mark, then flies it onto the hero logo while the rest
+     of the page builds in underneath. Falls back to a plain CSS fade if JS
+     never runs. -->
 <div class="intro" aria-hidden="true">
-  <img class="intro-logo" src="assets/img/nfp-logo.png" alt="">
+  <img class="intro-logo" src="assets/img/nfp-logo-alpha.png" alt="">
 </div>
+<script>
+  /* Inline and directly after the overlay so it runs before the hero paints,
+     otherwise the page shows itself fully built for a frame first. The
+     timeout is a safety net for the case where site.js never loads. */
+  (function () {
+    var r = document.documentElement;
+    r.classList.add("is-booting", "intro-running");
+    setTimeout(function () {
+      r.classList.remove("is-booting", "intro-running");
+    }, 4000);
+  })();
+</script>
 
 <!-- ===================== HERO ===================== -->
 <section class="hero">
