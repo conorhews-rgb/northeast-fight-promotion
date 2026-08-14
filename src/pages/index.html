@@ -1,13 +1,21 @@
 <!--{"slug": "index", "title": "Northeast Fight Promotion", "desc": "Northeast Fight Promotion is a new fight promotion based in southern New Hampshire. First show announcement coming soon."}-->
+<!-- ===================== INTRO =====================
+     Greets you with the mark, then lands it on the hero logo and dissolves.
+     Falls back to a plain CSS fade if JS never runs. -->
+<div class="intro" aria-hidden="true">
+  <img class="intro-logo" src="assets/img/nfp-logo.png" alt="">
+</div>
+
 <!-- ===================== HERO ===================== -->
 <section class="hero">
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-main">
-        <!-- ambient watermark: decorative only, the h1 carries the name -->
-        <img class="hero-watermark" src="assets/img/nfp-logo.png" alt="" aria-hidden="true">
-        <img class="region" src="assets/img/region.png" alt="" aria-hidden="true"
-             data-parallax="0.06" data-parallax-base="translateY(-50%)">
+        <div class="hero-media">
+          <img class="region" src="assets/img/region.png" alt="" aria-hidden="true"
+               data-parallax="0.06" data-parallax-base="translateY(-50%)">
+          <img src="assets/img/nfp-logo.png" alt="Northeast Fight Promotion">
+        </div>
 
         <div class="hero-card">
           <p class="meta"><span class="dot"></span>Announcement coming soon</p>

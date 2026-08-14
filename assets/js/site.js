@@ -10,6 +10,67 @@
   const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
 
   /* ---------------------------------------------------------
+     0. Intro overlay
+     Holds on the mark, then flies it onto the real hero logo and
+     dissolves, so the intro resolves into the page rather than
+     cutting to it. CSS carries a no-JS fallback fade.
+     --------------------------------------------------------- */
+  const intro = $(".intro");
+  if (intro) {
+    const introLogo = $(".intro-logo", intro);
+    const heroLogo = $(".hero-media > img:not(.region)");
+    const clearIntro = () => intro.remove();
+
+    if (reduced) {
+      clearIntro();
+    } else {
+      intro.classList.add("intro--js");
+      // whatever happens below, the overlay always goes away
+      setTimeout(clearIntro, 6000);
+
+      const settled = (p) => (p && p.then ? p.catch(() => {}) : Promise.resolve());
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      // Gate on the mark itself only. Fonts are irrelevant here and waiting on
+      // them leaves the viewer on a black screen for however long they take.
+      // The race caps the wait so a slow image can never stall the intro.
+      const marksReady = Promise.race([
+        Promise.all([
+          settled(introLogo.decode && introLogo.decode()),
+          settled(heroLogo && heroLogo.decode && heroLogo.decode())
+        ]),
+        wait(1200)
+      ]);
+
+      Promise.all([
+        marksReady,
+        wait(300) // a minimum beat, so the mark never just flashes past
+      ])
+        .then(() => {
+          intro.classList.add("is-showing");
+          return wait(620);
+        })
+        .then(() => {
+          // FLIP onto the hero mark, measured live so scroll or resize is fine
+          if (heroLogo) {
+            const a = introLogo.getBoundingClientRect();
+            const b = heroLogo.getBoundingClientRect();
+            if (a.width > 0 && b.width > 0) {
+              const dx = b.left + b.width / 2 - (a.left + a.width / 2);
+              const dy = b.top + b.height / 2 - (a.top + a.height / 2);
+              introLogo.style.transform =
+                "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px) scale(" +
+                (b.width / a.width).toFixed(4) + ")";
+            }
+          }
+          intro.classList.add("is-done");
+          return wait(800);
+        })
+        .then(clearIntro);
+    }
+  }
+
+  /* ---------------------------------------------------------
      1. Header state and scroll progress
      --------------------------------------------------------- */
   const header = $(".site-header");

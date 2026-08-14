@@ -428,6 +428,61 @@ p:last-child { margin-bottom: 0; }
 body.menu-open { overflow: hidden; }
 
 /* =========================================================
+   INTRO the mark greets you, then hands off to the hero
+   ========================================================= */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: #000;
+  /* No-JS fallback: fade out unaided so the overlay can never stick. */
+  animation: intro-fallback 700ms var(--ease) 1100ms forwards;
+}
+
+/* JS takes over and drives the states below instead */
+.intro--js {
+  animation: none;
+  transition: opacity 700ms var(--ease), visibility 0s linear 700ms;
+}
+
+.intro-logo {
+  width: min(58vw, 420px);
+  /* knocks the logo's black plate out against the black overlay */
+  mix-blend-mode: screen;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  /* site.js loads at the end of body, so the page can paint before it runs.
+     Starting hidden means the mark can never flash at full size first. */
+  opacity: 0;
+  animation: intro-logo-in 520ms var(--ease) 100ms forwards; /* no-JS path */
+}
+
+.intro--js .intro-logo {
+  animation: none;
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 520ms var(--ease), transform 900ms var(--ease);
+}
+.intro--js.is-showing .intro-logo { opacity: 1; transform: scale(1); }
+
+/* is-done runs at the same moment the logo is flown onto the hero mark */
+.intro--js.is-done { opacity: 0; visibility: hidden; }
+
+@keyframes intro-fallback {
+  to { opacity: 0; visibility: hidden; }
+}
+@keyframes intro-logo-in {
+  to { opacity: 1; }
+}
+
+/* no intro at all when motion is not wanted, and no flash before JS runs */
+@media (prefers-reduced-motion: reduce) {
+  .intro { animation: none; opacity: 0; visibility: hidden; }
+}
+
+/* =========================================================
    HERO featured layout, image panel plus overlapping card
    ========================================================= */
 .hero {
@@ -444,79 +499,54 @@ body.menu-open { overflow: hidden; }
 }
 @media (max-width: 1100px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } }
 
-/* Hero stage: gradient ground, watermark layer, then text on top. */
-.hero-main {
+.hero-main { position: relative; padding-bottom: 44px; }
+
+.hero-media {
   position: relative;
-  isolation: isolate;
-  display: flex;
-  align-items: flex-end;
-  min-height: clamp(480px, 66vh, 720px);
-  padding: clamp(80px, 10vw, 150px) 0 clamp(36px, 5vw, 64px);
+  aspect-ratio: 16 / 9;
+  min-height: 320px;
+  display: grid;
+  place-items: center;
   overflow: hidden;
   background:
     radial-gradient(70% 90% at 30% 20%, rgba(15, 154, 15, 0.42), transparent 62%),
     radial-gradient(70% 90% at 85% 90%, rgba(77, 151, 38, 0.28), transparent 60%),
     #070907;
 }
-
-/* Ambient logo watermark.
-   WebKit bug: mix-blend-mode combined with mask-image and filter on the same
-   element silently fails to paint in Safari, so this layer is opacity plus
-   filter plus mask only. Do not reintroduce mix-blend-mode here. */
-.hero-watermark {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: 88%;
-  width: auto;
-  max-width: 94%;
-  z-index: 1;
-  opacity: 0.24;
-  /* contrast >1 keeps the logo's black plate clamped at true black so the
-     square never shows; brightness pulls the white letterforms down to texture */
-  filter: grayscale(1) contrast(1.1) brightness(0.72);
-  -webkit-mask-image: radial-gradient(closest-side, #000 34%, rgba(0, 0, 0, 0.5) 64%, transparent 84%);
-          mask-image: radial-gradient(closest-side, #000 34%, rgba(0, 0, 0, 0.5) 64%, transparent 84%);
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-          mask-position: center;
-  -webkit-mask-size: 100% 100%;
-          mask-size: 100% 100%;
-  pointer-events: none;
-  -webkit-user-select: none;
-          user-select: none;
+.hero-media > img {
+  position: relative;
+  z-index: 2;
+  width: min(46%, 380px);
+  mix-blend-mode: screen;
 }
-
-.hero-main .region {
+.hero-media .region {
   position: absolute;
   right: -4%;
   top: 50%;
   width: 46%;
   transform: translateY(-50%);
   opacity: 0.08;
-  z-index: 0;
+  z-index: 1;
   will-change: transform;
-  pointer-events: none;
 }
-
-/* tonal scrim, keeps the headline legible over the watermark */
-.hero-main::after {
+.hero-media::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 2;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.12) 46%, rgba(0, 0, 0, 0.86));
-  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 40%, rgba(0, 0, 0, 0.8));
 }
 
 .hero-card {
   position: relative;
-  z-index: 3;
+  z-index: 4;
+  margin: -76px 0 0 clamp(0px, 3vw, 48px);
   max-width: 720px;
-  padding-right: clamp(0px, 3vw, 40px);
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--panel-2);
+  border-top: 4px solid var(--green);
 }
+@media (max-width: 720px) { .hero-card { margin-top: -40px; margin-left: 0; } }
 
 .hero-card h1 { margin-bottom: 14px; }
 .hero-card .lede { margin-bottom: 26px; }
