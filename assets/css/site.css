@@ -643,12 +643,22 @@ body.menu-open { overflow: hidden; }
 }
 
 .region-map .rm-state {
-  fill: rgba(255, 255, 255, 0.075);
-  transition: fill 260ms var(--ease), filter 260ms var(--ease);
+  fill: rgba(255, 255, 255, 0.1);
+  /* The outlines are the affordance. Without them the map reads as one blob
+     and there is nothing to tell you the states are separate things to point
+     at. non-scaling-stroke keeps them a hairline at any rendered size. */
+  stroke: rgba(255, 255, 255, 0.24);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  transition: fill 180ms var(--ease), stroke 180ms var(--ease),
+              filter 180ms var(--ease);
 }
 .region-map .rm-state:hover {
-  fill: rgba(44, 230, 44, 0.22);
-  filter: drop-shadow(0 0 16px rgba(44, 230, 44, 0.4));
+  fill: rgba(44, 230, 44, 0.58);
+  stroke: rgba(170, 255, 170, 0.95);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 10px rgba(44, 230, 44, 0.9));
 }
 
 @media (prefers-reduced-motion: reduce) {
