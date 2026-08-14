@@ -179,35 +179,7 @@
   }
 
   /* ---------------------------------------------------------
-     7. Cursor glow (desktop pointers only)
-     --------------------------------------------------------- */
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduced) {
-    const glow = document.createElement("div");
-    glow.className = "cursor-glow";
-    document.body.appendChild(glow);
-    let gx = 0;
-    let gy = 0;
-    let cx = 0;
-    let cy = 0;
-    document.addEventListener("mousemove", (e) => {
-      gx = e.clientX;
-      gy = e.clientY;
-      if (!glow.classList.contains("is-live")) {
-        cx = gx;
-        cy = gy;
-        glow.classList.add("is-live");
-      }
-    });
-    (function loop() {
-      cx += (gx - cx) * 0.09;
-      cy += (gy - cy) * 0.09;
-      glow.style.transform = "translate3d(" + cx + "px," + cy + "px,0)";
-      requestAnimationFrame(loop);
-    })();
-  }
-
-  /* ---------------------------------------------------------
-     8. Tab switchers (Upcoming / Past on the events page)
+     7. Tab switchers (Upcoming / Past on the events page)
      --------------------------------------------------------- */
   $$("[data-tabs]").forEach((group) => {
     const buttons = $$("[data-tab]", group);
@@ -223,7 +195,7 @@
   });
 
   /* ---------------------------------------------------------
-     9. Accordions
+     8. Accordions
      --------------------------------------------------------- */
   $$(".acc-item").forEach((item) => {
     const q = $(".acc-q", item);
@@ -238,7 +210,7 @@
   });
 
   /* ---------------------------------------------------------
-     10. Forms
+     9. Forms
      There is no backend. Submitting opens a pre-filled email
      so the site works from day one. To move to a real handler
      later, swap this block for a fetch() POST.
@@ -269,7 +241,7 @@
   });
 
   /* ---------------------------------------------------------
-     11. Year stamp
+     10. Year stamp
      --------------------------------------------------------- */
   $$("[data-year]").forEach((el) => {
     el.textContent = new Date().getFullYear();
