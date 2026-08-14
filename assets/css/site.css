@@ -607,6 +607,8 @@ body.menu-open { overflow: hidden; }
   z-index: 2;
   width: min(46%, 380px);
   mix-blend-mode: screen;
+  /* decorative, and it sits over the interactive map, so let hover through */
+  pointer-events: none;
 }
 .hero-media .region {
   position: absolute;
@@ -624,6 +626,33 @@ body.menu-open { overflow: hidden; }
   inset: 0;
   z-index: 3;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 40%, rgba(0, 0, 0, 0.8));
+  /* spans the whole panel above the map, so it would otherwise eat every hover */
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   Interactive northeast map, home hero only
+   --------------------------------------------------------- */
+.hero-media .region.region-map {
+  height: auto;
+  /* The base tint lives in each state's fill rather than in an opacity on the
+     svg. An element opacity would cap every state at the same ceiling, so a
+     hovered one could never lift above its neighbours. */
+  opacity: 1;
+  overflow: visible;
+}
+
+.region-map .rm-state {
+  fill: rgba(255, 255, 255, 0.075);
+  transition: fill 260ms var(--ease), filter 260ms var(--ease);
+}
+.region-map .rm-state:hover {
+  fill: rgba(44, 230, 44, 0.22);
+  filter: drop-shadow(0 0 16px rgba(44, 230, 44, 0.4));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .region-map .rm-state { transition: none; }
 }
 
 .hero-card {
