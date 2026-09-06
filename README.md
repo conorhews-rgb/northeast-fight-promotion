@@ -39,8 +39,9 @@ Search the source for `EDIT ME`. Every one is marked. The list:
   exist or every form submission bounces. It is set in three places: `SITE["INBOX"]` in
   `build.py`, the fallback on `assets/js/site.js` line 348, and the signature line 360.
 - **Socials.** All four footer icons point at `#`.
-- **Event details.** Date (Sat 24 Oct 2026), venue (Nashua, NH) and the countdown target
-  are all marked *(TBC)* on the page and in the copy. The countdown is set by
+- **Event details.** Venue is confirmed: Nashua Community College, 505 Amherst Street,
+  Nashua, NH 03063. The date (Sat 24 Oct 2026) is still provisional and is marked
+  *(TBC)* on the page and in the copy. The countdown is set by
   `data-countdown="2026-10-24T19:00:00-04:00"` on the event cards in
   `src/pages/index.html` and `src/pages/events.html`.
 - **News posts.** The six cards on `news.html` and the three on the home page are
