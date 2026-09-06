@@ -595,6 +595,11 @@ body.menu-open { overflow: hidden; }
 .hero-media {
   position: relative;
   aspect-ratio: 16 / 9;
+  /* min-height beats the ratio on a narrow screen, and aspect-ratio then runs
+     backwards and derives the WIDTH from that height (320 x 16/9 = 569px),
+     overflowing the column. width:100% pins the box to its container and lets
+     min-height only ever make it taller. */
+  width: 100%;
   min-height: 320px;
   display: grid;
   place-items: center;
@@ -665,15 +670,6 @@ body.menu-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .region-map .rm-state { transition: none; }
-}
-
-/* On a narrow screen the decorative map crowds the centred mark and bleeds off
-   the right edge, so the hero reads as lopsided even though the mark is dead
-   centre. Its only interactivity is per-state hover, which touch cannot use,
-   and the logo artwork already carries a map, so drop it and let the mark sit
-   on the gradient on its own. */
-@media (max-width: 900px) {
-  .hero-media .region { display: none; }
 }
 
 .hero-card {
