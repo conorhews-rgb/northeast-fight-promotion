@@ -39,7 +39,7 @@ Search the source for `EDIT ME`. Every one is marked. The list:
 - **Domain.** `northeastfightpromotion.com` appears in `robots.txt`, `sitemap.xml` and the
   form footer line in `assets/js/site.js`.
 - **Socials.** All four footer icons point at `#`.
-- **Event details.** Date (Fri 24 Oct 2026), venue (Nashua, NH) and the countdown target
+- **Event details.** Date (Sat 24 Oct 2026), venue (Nashua, NH) and the countdown target
   are all marked *(TBC)* on the page and in the copy. The countdown is set by
   `data-countdown="2026-10-24T19:00:00-04:00"` on the event cards in
   `src/pages/index.html` and `src/pages/events.html`.
