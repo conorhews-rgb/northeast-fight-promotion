@@ -35,9 +35,9 @@ and meta description. `{{> notify}}` pulls in the signup band.
 
 Search the source for `EDIT ME`. Every one is marked. The list:
 
-- **Email.** `info@northeastfightpromotion.com` is invented. Set the real one in `build.py`.
-- **Domain.** `northeastfightpromotion.com` appears in `robots.txt`, `sitemap.xml` and the
-  form footer line in `assets/js/site.js`.
+- **Email.** `info@nfpfights.com` is assumed, not confirmed. The mailbox has to actually
+  exist or every form submission bounces. It is set in three places: `SITE["INBOX"]` in
+  `build.py`, the fallback on `assets/js/site.js` line 348, and the signature line 360.
 - **Socials.** All four footer icons point at `#`.
 - **Event details.** Date (Sat 24 Oct 2026), venue (Nashua, NH) and the countdown target
   are all marked *(TBC)* on the page and in the copy. The countdown is set by
@@ -96,7 +96,8 @@ Pulled directly from the logo:
 Live on GitHub Pages from the `main` branch root:
 
 - Repo: <https://github.com/conorhews-rgb/northeast-fight-promotion>
-- Site: <https://conorhews-rgb.github.io/northeast-fight-promotion/>
+- Site: <https://nfpfights.com>
+- Fallback: <https://conorhews-rgb.github.io/northeast-fight-promotion/>
 
 To publish a change, edit `src/`, rebuild, then push. Pages redeploys on its own, usually
 within a minute:
@@ -107,8 +108,21 @@ python3 build.py
 git add -A && git commit -m "Describe the change" && git push
 ```
 
-If you later point a real domain at it, add a `CNAME` file containing just the domain at
-the project root and set the same domain in the repo's Pages settings.
+### The custom domain
+
+`nfpfights.com` is registered at GoDaddy and points here. The `CNAME` file at the project
+root is what tells Pages to answer for it, so **do not delete it**: every `git add -A`
+keeps it, but a stray `rm` drops the site back to the github.io URL.
+
+DNS at GoDaddy, set 6 Sep 2026:
+
+| Type | Name | Value |
+| --- | --- | --- |
+| A | @ | 185.199.108.153, .109.153, .110.153, .111.153 |
+| CNAME | www | conorhews-rgb.github.io |
+
+The `pay`, `_domainconnect` and `_dmarc` records are GoDaddy's own and were left alone.
+The original `A @` record pointed at a GoDaddy Website Builder site and was deleted.
 
 Nothing needs a build step on the server. It is a folder of static files, so Netlify,
 Cloudflare Pages or plain S3 would work just as well.

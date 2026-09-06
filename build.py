@@ -27,7 +27,7 @@ PAGES = ROOT / "src" / "pages"
 # ---- site-wide values -------------------------------------------------------
 SITE = {
     # EDIT ME: the inbox every form on the site sends to
-    "INBOX": "info@northeastfightpromotion.com",
+    "INBOX": "info@nfpfights.com",
 }
 
 CONFIG_RE = re.compile(r"^\s*<!--(\{.*?\})-->\s*", re.S)

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "nfp",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4602", "--directory", "/Users/conorhews/northeast-fight-promotion"],
+      "port": 4602
+    }
+  ]
+}

@@ -345,7 +345,7 @@
      --------------------------------------------------------- */
   const INBOX =
     document.documentElement.getAttribute("data-inbox") ||
-    "info@northeastfightpromotion.com";
+    "info@nfpfights.com";
 
   $$("form[data-mailto]").forEach((form) => {
     form.addEventListener("submit", (e) => {
@@ -357,7 +357,7 @@
           lines.push(key.replace(/_/g, " ").toUpperCase() + ": " + value);
         }
       });
-      const body = lines.join("\n") + "\n\nSent from northeastfightpromotion.com";
+      const body = lines.join("\n") + "\n\nSent from nfpfights.com";
       const success = $(".form-success", form);
       if (success) success.classList.add("is-on");
       window.location.href =
