@@ -356,7 +356,9 @@ p:last-child { margin-bottom: 0; }
 
 @media (max-width: 1120px) {
   .nav-links { display: none; }
-  .brand { position: static; transform: none; margin-right: auto; }
+  /* The mark stays absolutely centred here too. Dropping it back into flow made
+     it sit hard left, which disagreed with the desktop header for no reason:
+     with the links hidden there is nothing on the left for it to balance. */
   .nav-right .btn { display: none; }
 }
 
