@@ -1,0 +1,31 @@
+<!-- ===================== TICKET OVERLAY =====================
+     Hosts the TicketSpice page in a dialog so nobody leaves the site.
+     Every trigger is a real link to the ticket page, so with JS off the
+     button still works, it just navigates instead of opening in place. -->
+<div class="tk" id="tickets-modal" hidden>
+  <div class="tk-scrim" data-tk-close></div>
+
+  <div class="tk-panel" role="dialog" aria-modal="true" aria-labelledby="tk-title">
+    <div class="tk-head">
+      <div>
+        <p class="tk-eyebrow">NFP 1</p>
+        <h2 id="tk-title">Buy tickets</h2>
+      </div>
+      <button class="tk-close" type="button" data-tk-close aria-label="Close tickets">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="tk-body">
+      <!-- src is set on open, so the third party page is never requested
+           until somebody actually asks for it -->
+      <iframe class="tk-frame" title="Ticket purchase"
+              data-src="{{TICKETS}}" allow="payment"></iframe>
+    </div>
+
+    <p class="tk-foot">
+      Not loading?
+      <a href="{{TICKETS}}" target="_blank" rel="noopener">Open the ticket page in a new tab</a>
+    </p>
+  </div>
+</div>

@@ -374,4 +374,44 @@
   $$("[data-year]").forEach((el) => {
     el.textContent = new Date().getFullYear();
   });
+
+  /* ---------------------------------------------------------
+     11. Ticket overlay
+     Hosts the TicketSpice page in a dialog so the buyer never
+     leaves the site. Triggers are ordinary links to the ticket
+     page, so this is pure enhancement: with JS off they still
+     work, they just navigate.
+     --------------------------------------------------------- */
+  const tk = $("#tickets-modal");
+  if (tk) {
+    const frame = $(".tk-frame", tk);
+    const closeBtn = $(".tk-close", tk);
+    let lastFocus = null;
+
+    const openTickets = (e) => {
+      if (e) e.preventDefault();
+      lastFocus = document.activeElement;
+      // Load on first open only, so the third party page is never
+      // requested until somebody actually asks to buy.
+      if (frame && !frame.getAttribute("src")) {
+        frame.setAttribute("src", frame.getAttribute("data-src"));
+      }
+      tk.hidden = false;
+      document.documentElement.classList.add("tk-open");
+      if (closeBtn) closeBtn.focus();
+    };
+
+    const closeTickets = () => {
+      if (tk.hidden) return;
+      tk.hidden = true;
+      document.documentElement.classList.remove("tk-open");
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+
+    $$("[data-tickets]").forEach((el) => el.addEventListener("click", openTickets));
+    $$("[data-tk-close]", tk).forEach((el) => el.addEventListener("click", closeTickets));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeTickets();
+    });
+  }
 })();

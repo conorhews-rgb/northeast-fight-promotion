@@ -11,8 +11,9 @@ Each page in src/pages/ starts with a JSON config comment:
 
     <!--{"slug": "events", "title": "...", "desc": "..."}-->
 
-Body text supports two includes:
-    {{> notify}}   the "be first to know" CTA band
+Body text supports these includes:
+    {{> notify}}    the "be first to know" CTA band
+    {{> tickets}}   the ticket overlay, needed on any page with a buy button
 """
 
 import json
@@ -28,6 +29,9 @@ PAGES = ROOT / "src" / "pages"
 SITE = {
     # EDIT ME: the inbox every form on the site sends to
     "INBOX": "info@nfpfights.com",
+    # The TicketSpice page. Every ticket CTA and the overlay point here, so
+    # this is the only line to change when a new card goes on sale.
+    "TICKETS": "https://northeastfightpromotions.ticketspice.com/northeast-fight-promotion-1",
 }
 
 CONFIG_RE = re.compile(r"^\s*<!--(\{.*?\})-->\s*", re.S)

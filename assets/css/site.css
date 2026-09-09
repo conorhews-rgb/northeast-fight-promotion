@@ -1318,3 +1318,104 @@ body.menu-open { overflow: hidden; }
   }
   [data-reveal] { opacity: 1 !important; transform: none !important; }
 }
+
+/* =========================================================
+   TICKETS the TicketSpice page, hosted in an overlay so the
+   buyer never leaves the site
+   ========================================================= */
+.tk {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: grid;
+  place-items: center;
+  padding: clamp(0px, 2vw, 32px);
+}
+/* .tk and [hidden] have equal specificity, so the display above would win
+   and the overlay would sit open. Spell the hidden case out. */
+.tk[hidden] { display: none; }
+
+html.tk-open { overflow: hidden; }
+
+.tk-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.86);
+  animation: tk-in 220ms var(--ease) both;
+}
+
+.tk-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(940px, 100%);
+  height: min(90vh, 1040px);
+  background: var(--panel-2);
+  border-top: 4px solid var(--green);
+  animation: tk-rise 320ms var(--ease) both;
+}
+@media (max-width: 720px) {
+  .tk-panel { height: 100vh; height: 100dvh; }
+}
+
+.tk-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(16px, 2.4vw, 24px);
+  border-bottom: 1px solid var(--line);
+}
+.tk-eyebrow {
+  margin: 0 0 4px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+}
+.tk-head h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.1rem); }
+
+.tk-close {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.tk-close:hover { color: #fff; border-color: #fff; background: rgba(255, 255, 255, 0.06); }
+
+.tk-body { flex: 1; min-height: 0; }
+.tk-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  /* the TicketSpice page is light themed, so give it a white ground rather
+     than flashing the dark panel through while it loads */
+  background: #fff;
+}
+
+.tk-foot {
+  margin: 0;
+  padding: 12px clamp(16px, 2.4vw, 24px);
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.tk-foot a { color: var(--green-bright); text-decoration: underline; }
+
+@keyframes tk-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tk-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tk-scrim, .tk-panel { animation: none; }
+}
