@@ -20,7 +20,7 @@
       <span class="count">1 event</span>
     </div>
 
-    <!-- EDIT ME: date and venue confirmed. Start time and the card are still to come. -->
+    <!-- EDIT ME: start time still to come. The bouts live in tools/make-fight-card.py. -->
     <div data-panel="upcoming">
       <article class="event-row" data-reveal>
         <div class="event-art">
@@ -43,6 +43,10 @@
           <a class="btn btn--sm btn--ghost" href="fight-for-us.html">Get on the card</a>
         </div>
       </article>
+
+      <div class="card-block" id="fights">
+        {{> fight-card}}
+      </div>
 
       <div class="empty mt-4" data-reveal>
         <span class="bar bar--center"></span>

@@ -1419,3 +1419,117 @@ html.tk-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .tk-scrim, .tk-panel { animation: none; }
 }
+
+/* =========================================================
+   CONFIRMED FIGHTS a ufc.com style card: the title fights
+   lead as large paired cards, the rest follow smaller
+   ========================================================= */
+.bouts {
+  display: grid;
+  gap: clamp(14px, 1.6vw, 24px);
+}
+.bouts--title { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.bouts--card {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(14px, 1.6vw, 24px);
+}
+@media (max-width: 980px) {
+  .bouts--title,
+  .bouts--card { grid-template-columns: minmax(0, 1fr); }
+}
+
+.bout {
+  background: var(--panel-2);
+  border-top: 4px solid var(--panel-3);
+  padding: clamp(18px, 2.2vw, 28px) clamp(14px, 2vw, 28px);
+}
+.bout--title { border-top-color: var(--green); }
+
+.bout-head {
+  text-align: center;
+  margin-bottom: clamp(16px, 2vw, 22px);
+}
+.bout-head .tag { margin-bottom: 12px; }
+.bout-name {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.bout--title .bout-name { font-size: clamp(1.4rem, 2.4vw, 2rem); }
+.bout-head .meta { margin: 0; }
+
+.bout-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(8px, 1.4vw, 18px);
+}
+
+.corner { min-width: 0; text-align: center; }
+.corner img {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  margin: 0 auto 12px;
+  background: #0b0d0c;
+}
+.bout--title .corner img { max-width: 220px; }
+
+.fighter {
+  margin: 0 0 6px;
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+  line-height: 1;
+}
+.bout--title .fighter { font-size: clamp(1.3rem, 2.2vw, 1.75rem); }
+
+.gym {
+  margin: 0 0 6px;
+  font-size: 0.88rem;
+  line-height: 1.3;
+  color: var(--muted);
+}
+.code {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.code b {
+  color: var(--green-bright);
+  font-weight: 700;
+}
+
+/* level with the photos rather than the whole column, so it sits between
+   the two faces instead of drifting down toward the names */
+.vs {
+  align-self: start;
+  margin-top: clamp(44px, 6vw, 66px);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  line-height: 1;
+  color: var(--muted-2);
+}
+.bout--title .vs { margin-top: clamp(52px, 8vw, 96px); }
+
+.card-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 28px;
+  margin-top: clamp(22px, 3vw, 36px);
+  padding-top: clamp(18px, 2.4vw, 26px);
+  border-top: 1px solid var(--line);
+}
+.card-cta p { margin: 0; max-width: 62ch; color: var(--muted); }
+.card-cta b { color: #fff; }
+.card-block { margin-top: clamp(44px, 6vw, 72px); }
