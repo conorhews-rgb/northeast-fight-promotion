@@ -33,6 +33,22 @@ BOUTS = [
     (False, "Amateur kickboxing", "155 lbs",
      ("james-johnson", "James Johnson", "KTA Nashua", "JOHNSON"),
      ("mike-fagan", "Mike Fagan", "Recon MMA", "FAGEN")),
+    (False, "Amateur kickboxing", "155 lbs",
+     ("andrew-acuna", "Andrew Acuna", "Rajasi", "ACUNA"),
+     ("nabeel-ghadfa", "Nabeel Ghadfa", "Recon MMA", "GHADFA")),
+    (False, "Amateur kickboxing", "145 lbs",
+     ("jeff-cetoute", "Jeff Cetoute", "Rajasi", "CETOUTE"),
+     ("tom-duffy", "Tom Duffy", "F.A.A", "DUFFY")),
+    # Gym printed as MOONGOSE on the poster, kept as printed until confirmed.
+    (False, "Amateur kickboxing", "150 lbs",
+     ("nate-colon", "Nate Colon", "Moongose Academy", "COLON"),
+     ("armani-kim", "Armani Kim", "Gate City MMA", "KIM")),
+    (False, "Amateur kickboxing", "165 lbs",
+     ("josh-kelly", "Josh Kelly", "KTA Nashua", "KELLY"),
+     ("jean-st-felix", "Jean St. Felix", "Song Khao Muay Thai", "FELIX")),
+    (False, "Amateur kickboxing", "145 lbs",
+     ("moeketsi-molai", "Moeketsi Molai", "KTA Nashua", "MOLAI"),
+     ("connor-nash", "Connor Nash", "Black Wolf Martial Arts", "NASH")),
 ]
 
 OUT = "src/partials/fight-card.html"

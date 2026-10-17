@@ -27,6 +27,11 @@ CARD = {
     "nfp1-silva-medina.webp":     [("jeff-silva", 290), ("john-medina", 790)],
     "nfp1-mackey-burbach.webp":   [("shayne-mackey", 303), ("blane-burbach", 802)],
     "nfp1-johnson-fagan.webp":    [("james-johnson", 310), ("mike-fagan", 794)],
+    "nfp1-acuna-ghadfa.webp":     [("andrew-acuna", 310), ("nabeel-ghadfa", 790)],
+    "nfp1-cetoute-duffy.webp":    [("jeff-cetoute", 318), ("tom-duffy", 796)],
+    "nfp1-colon-kim.webp":        [("nate-colon", 316), ("armani-kim", 792)],
+    "nfp1-kelly-st-felix.webp":   [("josh-kelly", 300), ("jean-st-felix", 786)],
+    "nfp1-molai-nash.webp":       [("moeketsi-molai", 330), ("connor-nash", 760)],
 }
 
 
