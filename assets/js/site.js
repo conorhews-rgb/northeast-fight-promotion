@@ -345,7 +345,7 @@
      --------------------------------------------------------- */
   const INBOX =
     document.documentElement.getAttribute("data-inbox") ||
-    "info@nfpfights.com";
+    "northeastfightpromotions@gmail.com";
 
   $$("form[data-mailto]").forEach((form) => {
     form.addEventListener("submit", (e) => {

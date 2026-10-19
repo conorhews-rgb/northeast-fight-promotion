@@ -28,7 +28,7 @@ PAGES = ROOT / "src" / "pages"
 # ---- site-wide values -------------------------------------------------------
 SITE = {
     # EDIT ME: the inbox every form on the site sends to
-    "INBOX": "info@nfpfights.com",
+    "INBOX": "northeastfightpromotions@gmail.com",
     # The TicketSpice page. Every ticket CTA and the overlay point here, so
     # this is the only line to change when a new card goes on sale.
     "TICKETS": "https://northeastfightpromotions.ticketspice.com/northeast-fight-promotion-1",
