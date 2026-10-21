@@ -1533,3 +1533,50 @@ html.tk-open { overflow: hidden; }
 .card-cta p { margin: 0; max-width: 62ch; color: var(--muted); }
 .card-cta b { color: #fff; }
 .card-block { margin-top: clamp(44px, 6vw, 72px); }
+
+/* =========================================================
+   FIGHT WEEK SCHEDULE three timed rows, after the poster:
+   green rule on the left, label above, time large
+   ========================================================= */
+.sched {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (max-width: 860px) { .sched { grid-template-columns: minmax(0, 1fr); } }
+
+.sched-row {
+  background: var(--panel-2);
+  border-left: 4px solid var(--green);
+  padding: clamp(18px, 2.2vw, 26px) clamp(18px, 2.2vw, 28px);
+}
+.sched-row--main { background: var(--panel-3); }
+.sched-row p { margin: 0; }
+
+.sched-what {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+}
+.sched-when {
+  margin: 4px 0 2px !important;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.sched-date {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}

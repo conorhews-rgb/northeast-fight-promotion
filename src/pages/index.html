@@ -92,7 +92,6 @@
 </section>
 
 <!-- ===================== FIGHT BANNER ===================== -->
-<!-- EDIT ME: the countdown assumes a 7pm start, which has not been confirmed. -->
 <section class="fight-banner">
   <img class="region" src="assets/img/region.png" alt="" aria-hidden="true">
   <div class="wrap">
@@ -106,7 +105,7 @@
       <a class="btn btn--ghost" href="events.html">Event details</a>
     </div>
 
-    <div class="countdown" data-countdown="2026-10-24T19:00:00-04:00"
+    <div class="countdown" data-countdown="2026-10-24T18:00:00-04:00"
          aria-label="Countdown to NFP 1">
       <div class="cd-unit"><b class="cd-num" data-cd="d">00</b><span class="cd-lbl">Days</span></div>
       <div class="cd-unit"><b class="cd-num" data-cd="h">00</b><span class="cd-lbl">Hrs</span></div>
@@ -121,6 +120,13 @@
 <section class="section" id="fights">
   <div class="wrap">
     {{> fight-card}}
+  </div>
+</section>
+
+<!-- ===================== SCHEDULE ===================== -->
+<section class="section section--edge" id="schedule">
+  <div class="wrap">
+    {{> schedule}}
   </div>
 </section>
 

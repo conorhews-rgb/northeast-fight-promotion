@@ -20,7 +20,7 @@
       <span class="count">1 event</span>
     </div>
 
-    <!-- EDIT ME: start time still to come. The bouts live in tools/make-fight-card.py. -->
+    <!-- The bouts live in tools/make-fight-card.py. -->
     <div data-panel="upcoming">
       <article class="event-row" data-reveal>
         <div class="event-art">
@@ -30,7 +30,7 @@
 
         <div class="event-info">
           <h3>NFP 1</h3>
-          <p class="when">Sat, Oct 24 2026 <i>/</i> Time TBC <i>/</i> Main card</p>
+          <p class="when">Sat, Oct 24 2026 <i>/</i> Fights start 6pm</p>
           <p class="venue">
             Nashua Community College<br>
             505 Amherst Street<br>
@@ -86,7 +86,7 @@
     <h2>NFP 1</h2>
     <p class="where">Sat, Oct 24 2026 &nbsp;·&nbsp; Nashua Community College</p>
 
-    <div class="countdown" data-countdown="2026-10-24T19:00:00-04:00"
+    <div class="countdown" data-countdown="2026-10-24T18:00:00-04:00"
          aria-label="Countdown to NFP 1">
       <div class="cd-unit"><b class="cd-num" data-cd="d">00</b><span class="cd-lbl">Days</span></div>
       <div class="cd-unit"><b class="cd-num" data-cd="h">00</b><span class="cd-lbl">Hrs</span></div>
@@ -95,6 +95,13 @@
     </div>
   </div>
   <div class="shelf"></div>
+</section>
+
+<!-- ===================== SCHEDULE ===================== -->
+<section class="section section--edge" id="schedule">
+  <div class="wrap">
+    {{> schedule}}
+  </div>
 </section>
 
 <!-- ===================== HOW A NIGHT RUNS ===================== -->
