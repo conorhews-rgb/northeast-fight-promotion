@@ -43,7 +43,7 @@ BOUTS = [
     (False, "Amateur kickboxing", "165 lbs",
      ("josh-kelly", "Josh Kelly", "KTA Nashua", "KELLY"),
      ("jean-st-felix", "Jean St. Felix", "Song Khao Muay Thai", "ST.FELIX")),
-    (False, "Amateur kickboxing", "145 lbs",
+    (False, "Amateur kickboxing", "135 lbs",
      ("moeketsi-molai", "Moeketsi Molai", "KTA Nashua", "MOLAI"),
      ("connor-nash", "Connor Nash", "Black Wolf Martial Arts", "NASH")),
 ]
