@@ -33,7 +33,7 @@ BOUTS = [
      ("mike-fagan", "Mike Fagan", "Recon MMA", "FAGEN")),
     (None, "Amateur kickboxing", "155 lbs",
      ("andrew-acuna", "Andrew Acuna", "Rajasi", "ACUNA"),
-     ("nabeel-ghadfa", "Nabeel Ghadfa", "Recon MMA", "GHADFA")),
+     ("kyrylo-drazhan", "Kyrylo Drazhan", "Recon MMA", "DRAZHAN")),
     (None, "Amateur kickboxing", "145 lbs",
      ("jeff-cetoute", "Jeff Cetoute", "Rajasi", "CETOUTE"),
      ("tom-duffy", "Tom Duffy", "F.A.A", "DUFFY")),
@@ -44,9 +44,6 @@ BOUTS = [
     (None, "Amateur kickboxing", "165 lbs",
      ("josh-kelly", "Josh Kelly", "KTA Nashua", "KELLY"),
      ("jean-st-felix", "Jean St. Felix", "Song Khao Muay Thai", "ST.FELIX")),
-    (None, "Amateur kickboxing", "135 lbs",
-     ("moeketsi-molai", "Moeketsi Molai", "KTA Nashua", "MOLAI"),
-     ("connor-nash", "Connor Nash", "Black Wolf Martial Arts", "NASH")),
     # Grappling opens the night, so it sits at the foot of the card.
     (None, "No-gi grappling", "200 lbs",
      ("shayne-mackey", "Shayne Mackey", "KTA Nashua", "MACKEY"),
