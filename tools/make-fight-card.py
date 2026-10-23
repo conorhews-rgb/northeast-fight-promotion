@@ -54,6 +54,12 @@ BOUTS = [
     (None, "No-gi submission only", "170 lbs",
      ("owen-stocker", "Owen Stocker", "Team Link", "STOCKER"),
      ("julian-connerton", "Julian Connerton", "Hook N Roll", "CONNERTON")),
+    (None, "No-gi grappling", "205 lbs",
+     ("ben-bernard", "Ben Bernard", "KTA Nashua", "BERNARD"),
+     ("ramon-silva", "Ramon Silva", "Team Link Hooksett", "RAMON")),
+    (None, "Gi grappling", "Heavyweight",
+     ("bruce-pacy", "Bruce Pacy", "Limitless Pride", "PACY"),
+     ("kris-juarez", "Kris Juarez", "Elements MMA", "JUAREZ")),
 ]
 
 OUT = "src/partials/fight-card.html"
