@@ -1580,3 +1580,9 @@ html.tk-open { overflow: hidden; }
   text-transform: uppercase;
   color: var(--muted);
 }
+
+/* the main event spans the featured row, with room for bigger faces */
+.bout--main { grid-column: 1 / -1; }
+.bout--main .bout-body { max-width: 760px; margin-inline: auto; }
+.bout--main .corner img { max-width: 260px; }
+.bout--main .vs { margin-top: clamp(52px, 9vw, 118px); }

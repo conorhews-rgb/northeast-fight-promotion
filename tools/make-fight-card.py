@@ -2,8 +2,9 @@
 """Build src/partials/fight-card.html, the Confirmed fights block.
 
 The card lives in the BOUTS table below, in card order with the main event
-first. Title fights render as large paired cards, everything else follows
-smaller. Reorder the card or swap a fighter here, then:
+first. Any bout with a tag (Main event, Co-main event, Title fight) renders
+as a large featured card, the main event across the full width; everything
+else follows smaller. Reorder the card or swap a fighter here, then:
 
     python3 tools/make-fight-card.py && python3 build.py
 
@@ -12,38 +13,41 @@ tools/make-fighter-headshots.py.
 """
 
 BOUTS = [
-    # (title fight?, bout name, meta line, left fighter, right fighter)
+    # (tag or None, bout name, meta line, left fighter, right fighter)
     # fighter = (headshot slug, name, gym, ticket code)
-    (True, "NFP Middleweight Championship",
+    ("Main event", "NFP Middleweight Championship",
      'Professional boxing <span class="sep">/</span> 185 lbs',
      ("connor-barry", "Connor Barry", "Imperium Martial Arts", "BARRY"),
      ("paul-teague", "Paul Teague", "No Mercy MMA", "TEAGUE")),
-    (True, "NFP Bantamweight Championship",
+    ("Co-main event", "Professional boxing", "135 lbs",
+     ("jake-ferri", "Jake Ferri", "KTA", "FERRI"),
+     ("tyler-smythe", "Tyler Smythe", "Nostos", "SMYTHE")),
+    ("Title fight", "NFP Bantamweight Championship",
      'Amateur kickboxing <span class="sep">/</span> 135 lbs',
      ("maria-zahir", "Maria Zahir", "Hard Knocks Everett", "ZAHIR"),
      ("victoria-walsh", "Victoria Walsh", "Black Wolf Martial Arts", "WALSH")),
-    (False, "No-gi grappling", "200 lbs",
+    (None, "No-gi grappling", "200 lbs",
      ("shayne-mackey", "Shayne Mackey", "KTA Nashua", "MACKEY"),
      ("blane-burbach", "Blane Burbach", "Balance Point BJJ", "BURBACH")),
     # The poster prints this code as FAGEN although the name is Fagan. Kept as
     # printed, because it has to match the coupon configured in TicketSpice.
-    (False, "Amateur kickboxing", "155 lbs",
+    (None, "Amateur kickboxing", "155 lbs",
      ("james-johnson", "James Johnson", "KTA Nashua", "JOHNSON"),
      ("mike-fagan", "Mike Fagan", "Recon MMA", "FAGEN")),
-    (False, "Amateur kickboxing", "155 lbs",
+    (None, "Amateur kickboxing", "155 lbs",
      ("andrew-acuna", "Andrew Acuna", "Rajasi", "ACUNA"),
      ("nabeel-ghadfa", "Nabeel Ghadfa", "Recon MMA", "GHADFA")),
-    (False, "Amateur kickboxing", "145 lbs",
+    (None, "Amateur kickboxing", "145 lbs",
      ("jeff-cetoute", "Jeff Cetoute", "Rajasi", "CETOUTE"),
      ("tom-duffy", "Tom Duffy", "F.A.A", "DUFFY")),
     # Gym printed as MOONGOSE on the poster, kept as printed until confirmed.
-    (False, "Amateur kickboxing", "150 lbs",
+    (None, "Amateur kickboxing", "150 lbs",
      ("nate-colon", "Nate Colon", "Moongose Academy", "COLON"),
      ("armani-kim", "Armani Kim", "Gate City MMA", "KIM")),
-    (False, "Amateur kickboxing", "165 lbs",
+    (None, "Amateur kickboxing", "165 lbs",
      ("josh-kelly", "Josh Kelly", "KTA Nashua", "KELLY"),
      ("jean-st-felix", "Jean St. Felix", "Song Khao Muay Thai", "ST.FELIX")),
-    (False, "Amateur kickboxing", "135 lbs",
+    (None, "Amateur kickboxing", "135 lbs",
      ("moeketsi-molai", "Moeketsi Molai", "KTA Nashua", "MOLAI"),
      ("connor-nash", "Connor Nash", "Black Wolf Martial Arts", "NASH")),
 ]
@@ -62,9 +66,13 @@ def corner(f):
 
 
 def bout(b):
-    title, name, meta, left, right = b
-    cls = "bout bout--title" if title else "bout"
-    tag = '\n          <span class="tag">Title fight</span>' if title else ""
+    tag, name, meta, left, right = b
+    cls = "bout"
+    if tag:
+        cls += " bout--title"
+    if tag == "Main event":
+        cls += " bout--main"
+    tag = f'\n          <span class="tag">{tag}</span>' if tag else ""
     return f'''      <article class="{cls}" data-reveal aria-label="{left[1]} versus {right[1]}">
         <header class="bout-head">{tag}
           <p class="bout-name">{name}</p>
