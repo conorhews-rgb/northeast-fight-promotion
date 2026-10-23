@@ -24,6 +24,7 @@ PAD = 10            # clearance from each text band
 CARD = {
     "nfp1-barry-teague.webp":     [("connor-barry", 302), ("paul-teague", 768)],
     "nfp1-ferri-smythe.webp":     [("jake-ferri", 318), ("tyler-smythe", 783)],
+    "nfp1-stocker-connerton.webp": [("owen-stocker", 330), ("julian-connerton", 800)],
     "nfp1-zahir-walsh.webp":      [("maria-zahir", 318), ("victoria-walsh", 782)],
     "nfp1-silva-medina.webp":     [("jeff-silva", 290), ("john-medina", 790)],
     "nfp1-mackey-burbach.webp":   [("shayne-mackey", 303), ("blane-burbach", 802)],

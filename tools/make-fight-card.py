@@ -26,9 +26,6 @@ BOUTS = [
      'Amateur kickboxing <span class="sep">/</span> 135 lbs',
      ("maria-zahir", "Maria Zahir", "Hard Knocks Everett", "ZAHIR"),
      ("victoria-walsh", "Victoria Walsh", "Black Wolf Martial Arts", "WALSH")),
-    (None, "No-gi grappling", "200 lbs",
-     ("shayne-mackey", "Shayne Mackey", "KTA Nashua", "MACKEY"),
-     ("blane-burbach", "Blane Burbach", "Balance Point BJJ", "BURBACH")),
     # The poster prints this code as FAGEN although the name is Fagan. Kept as
     # printed, because it has to match the coupon configured in TicketSpice.
     (None, "Amateur kickboxing", "155 lbs",
@@ -50,6 +47,13 @@ BOUTS = [
     (None, "Amateur kickboxing", "135 lbs",
      ("moeketsi-molai", "Moeketsi Molai", "KTA Nashua", "MOLAI"),
      ("connor-nash", "Connor Nash", "Black Wolf Martial Arts", "NASH")),
+    # Grappling opens the night, so it sits at the foot of the card.
+    (None, "No-gi grappling", "200 lbs",
+     ("shayne-mackey", "Shayne Mackey", "KTA Nashua", "MACKEY"),
+     ("blane-burbach", "Blane Burbach", "Balance Point BJJ", "BURBACH")),
+    (None, "No-gi submission only", "170 lbs",
+     ("owen-stocker", "Owen Stocker", "Team Link", "STOCKER"),
+     ("julian-connerton", "Julian Connerton", "Hook N Roll", "CONNERTON")),
 ]
 
 OUT = "src/partials/fight-card.html"
