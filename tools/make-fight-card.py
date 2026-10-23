@@ -26,37 +26,41 @@ BOUTS = [
      'Amateur kickboxing <span class="sep">/</span> 135 lbs',
      ("maria-zahir", "Maria Zahir", "Hard Knocks Everett", "ZAHIR"),
      ("victoria-walsh", "Victoria Walsh", "Black Wolf Martial Arts", "WALSH")),
+    # Running order follows the official NFP Fight Night 1 sheet, bout 10
+    # down to bout 1. The sheet numbers bouts in the order they happen, so
+    # the bottom of this list opens the night.
     # The poster prints this code as FAGEN although the name is Fagan. Kept as
     # printed, because it has to match the coupon configured in TicketSpice.
-    (None, "Amateur kickboxing", "155 lbs",
+    (None, "Amateur kickboxing", "155 lbs",                          # 10
      ("james-johnson", "James Johnson", "KTA Nashua", "JOHNSON"),
      ("mike-fagan", "Mike Fagan", "Recon MMA", "FAGEN")),
-    (None, "Amateur kickboxing", "155 lbs",
-     ("andrew-acuna", "Andrew Acuna", "Rajasi", "ACUNA"),
-     ("kyrylo-drazhan", "Kyrylo Drazhan", "Recon MMA", "DRAZHAN")),
-    (None, "Amateur kickboxing", "145 lbs",
-     ("jeff-cetoute", "Jeff Cetoute", "Rajasi", "CETOUTE"),
-     ("tom-duffy", "Tom Duffy", "F.A.A", "DUFFY")),
-    # Gym printed as MOONGOSE on the poster, kept as printed until confirmed.
-    (None, "Amateur kickboxing", "150 lbs",
+    # Gym printed as Moongose on the poster and the official sheet alike.
+    (None, "Amateur kickboxing", "150 lbs",                          # 9
      ("nate-colon", "Nate Colon", "Moongose Academy", "COLON"),
      ("armani-kim", "Armani Kim", "Gate City MMA", "KIM")),
-    (None, "Amateur kickboxing", "165 lbs",
+    (None, "Amateur kickboxing", "145 lbs",                          # 8
+     ("jeff-cetoute", "Jeff Cetoute", "Rajasi", "CETOUTE"),
+     ("tom-duffy", "Tom Duffy", "F.A.A", "DUFFY")),
+    (None, "Amateur kickboxing", "165 lbs",                          # 7
      ("josh-kelly", "Josh Kelly", "KTA Nashua", "KELLY"),
      ("jean-st-felix", "Jean St. Felix", "Song Khao Muay Thai", "ST.FELIX")),
-    # Grappling opens the night, so it sits at the foot of the card.
-    (None, "No-gi grappling", "200 lbs",
-     ("shayne-mackey", "Shayne Mackey", "KTA Nashua", "MACKEY"),
-     ("blane-burbach", "Blane Burbach", "Balance Point BJJ", "BURBACH")),
-    (None, "No-gi submission only", "170 lbs",
-     ("owen-stocker", "Owen Stocker", "Team Link", "STOCKER"),
-     ("julian-connerton", "Julian Connerton", "Hook N Roll", "CONNERTON")),
-    (None, "No-gi grappling", "205 lbs",
+    (None, "Amateur kickboxing", "155 lbs",                          # 6
+     ("andrew-acuna", "Andrew Acuna", "Rajasi", "ACUNA"),
+     ("kyrylo-drazhan", "Kyrylo Drazhan", "Recon MMA", "DRAZHAN")),
+    # Bout 5 on the sheet, Molai vs Nash, was called off; awaiting confirmation.
+    (None, "No-gi submission only", "205 lbs",                       # 4
      ("ben-bernard", "Ben Bernard", "KTA Nashua", "BERNARD"),
      ("ramon-silva", "Ramon Silva", "Team Link Hooksett", "RAMON")),
-    (None, "Gi grappling", "Heavyweight",
+    (None, "Gi grappling", "Heavyweight",                            # 3
      ("bruce-pacy", "Bruce Pacy", "Limitless Pride", "PACY"),
      ("kris-juarez", "Kris Juarez", "Elements MMA", "JUAREZ")),
+    # Connerton has the red corner on the sheet, so he takes the left.
+    (None, "No-gi submission only", "170 lbs",                       # 2
+     ("julian-connerton", "Julian Connerton", "Hook N Roll", "CONNERTON"),
+     ("owen-stocker", "Owen Stocker", "Team Link Hooksett", "STOCKER")),
+    (None, "No-gi submission only", "200 lbs",                       # 1
+     ("shayne-mackey", "Shayne Mackey", "KTA Nashua", "MACKEY"),
+     ("blane-burbach", "Blane Burbach", "Balance Point BJJ", "BURBACH")),
 ]
 
 OUT = "src/partials/fight-card.html"
