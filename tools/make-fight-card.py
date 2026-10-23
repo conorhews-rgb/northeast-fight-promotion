@@ -17,7 +17,7 @@ BOUTS = [
     (True, "NFP Middleweight Championship",
      'Professional boxing <span class="sep">/</span> 185 lbs',
      ("connor-barry", "Connor Barry", "Imperium Martial Arts", "BARRY"),
-     ("derik-de-freitas", "Derik De Freitas", "Atom BJJ", "DE FREITAS")),
+     ("paul-teague", "Paul Teague", "No Mercy MMA", "TEAGUE")),
     (True, "NFP Bantamweight Championship",
      'Amateur kickboxing <span class="sep">/</span> 135 lbs',
      ("maria-zahir", "Maria Zahir", "Hard Knocks Everett", "ZAHIR"),
