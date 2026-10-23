@@ -102,9 +102,8 @@ for side, (slug, name, gym, code) in (("l", main[3]), ("r", main[4])):
         px, tx, anc = W - M - 28 - ph, W - M - 28 - ph - 18, "rt"
     photo(slug, px, py, ph)
     maxw = W / 2 - 50 - (ph + 46)
-    text((tx, py + 22), name.upper(), fit(name.upper(), "800i", 40, maxw), WHITE, anc)
-    text((tx, py + 72), gym.upper(), fit(gym.upper(), "700", 18, maxw), MUTED, anc)
-    text((tx, py + 100), f"CODE: {code}", font("700", 16), GREEN, anc)
+    text((tx, py + 40), name.upper(), fit(name.upper(), "800i", 40, maxw), WHITE, anc)
+    text((tx, py + 90), gym.upper(), fit(gym.upper(), "700", 18, maxw), MUTED, anc)
 text((W / 2, py + ph / 2), "VS", font("800i", 44), (120, 128, 124), "mm")
 
 # ---------- co-main and title fight, side by side ----------
@@ -121,7 +120,6 @@ for i, b in enumerate(featured[1:3]):
         photo(slug, fx - ph / 2, py, ph)
         text((fx, py + ph + 8), name.upper(), fit(name.upper(), "800i", 24, cw * 0.44), WHITE)
         text((fx, py + ph + 36), gym.upper(), fit(gym.upper(), "700", 14, cw * 0.44), MUTED)
-        text((fx, py + ph + 56), f"CODE: {code}", font("700", 13), GREEN)
     text((cx, py + ph / 2), "VS", font("800i", 30), (120, 128, 124), "mm")
 
 # ---------- undercard, three across in card order ----------
@@ -142,7 +140,6 @@ for k, b in enumerate(under):
         photo(slug, fx - ph / 2, py, ph)
         text((fx, py + ph + 5), name.upper(), fit(name.upper(), "800i", 16, uw * 0.46), WHITE)
         text((fx, py + ph + 22), gym.upper(), fit(gym.upper(), "700", 11, uw * 0.46), MUTED)
-        text((fx, py + ph + 36), f"CODE: {code}", font("700", 10.5), GREEN)
     text((cx, py + ph / 2), "VS", font("800i", 20), (120, 128, 124), "mm")
 
 # ---------- footer ----------
