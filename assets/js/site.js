@@ -339,22 +339,23 @@
 
   /* ---------------------------------------------------------
      9. Forms
-     Every form posts to FormSubmit, which emails the submission
+     Every form posts to Web3Forms, which emails the submission
      to the site inbox with the visitor's address as reply-to.
-     If that fails for any reason, the old behaviour kicks in and
-     a pre-filled email opens instead, so nothing is ever lost.
-     FormSubmit needs a one-time activation: the first submission
-     sends a confirmation link to the inbox, which must be clicked.
+     The access key lives in build.py and reaches the page as
+     data-form-key on <html>. If the post fails or stalls, the
+     old behaviour kicks in and a pre-filled email opens instead,
+     so nothing is ever lost.
      --------------------------------------------------------- */
   const INBOX =
     document.documentElement.getAttribute("data-inbox") ||
     "northeastfightpromotions@gmail.com";
-  const ENDPOINT = "https://formsubmit.co/ajax/" + INBOX;
+  const FORM_KEY = document.documentElement.getAttribute("data-form-key") || "";
+  const ENDPOINT = "https://api.web3forms.com/submit";
 
   $$("form[data-mailto]").forEach((form) => {
-    // honeypot: invisible to people, filled in by bots, rejected by FormSubmit
+    // honeypot: invisible to people, ticked by bots, rejected by Web3Forms
     const trap = document.createElement("input");
-    trap.type = "text"; trap.name = "_honey"; trap.tabIndex = -1;
+    trap.type = "checkbox"; trap.name = "botcheck"; trap.tabIndex = -1;
     trap.autocomplete = "off"; trap.setAttribute("aria-hidden", "true");
     trap.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px;opacity:0";
     form.appendChild(trap);
@@ -371,13 +372,13 @@
         success.classList.remove("is-on");
       }
 
-      const data = { _subject: subject, _template: "table", _captcha: "false" };
+      const data = { access_key: FORM_KEY, subject: subject, from_name: "nfpfights.com" };
       const lines = [];
       new FormData(form).forEach((value, key) => {
         const v = String(value).trim();
         if (!v) return;
         data[key] = v;
-        if (key !== "_honey") lines.push(key.replace(/_/g, " ").toUpperCase() + ": " + v);
+        if (key !== "botcheck") lines.push(key.replace(/_/g, " ").toUpperCase() + ": " + v);
       });
 
       if (button) { button.disabled = true; button.textContent = "Sending"; }
@@ -394,7 +395,7 @@
           signal: ctrl.signal
         });
         const json = await res.json().catch(() => ({}));
-        sent = res.ok && String(json.success) === "true";
+        sent = res.ok && json.success === true;
       } catch (err) {
         sent = false;
       }

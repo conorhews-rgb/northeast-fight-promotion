@@ -29,6 +29,9 @@ PAGES = ROOT / "src" / "pages"
 SITE = {
     # EDIT ME: the inbox every form on the site sends to
     "INBOX": "northeastfightpromotions@gmail.com",
+    # Web3Forms access key for that inbox. Not a secret: it can only send
+    # form submissions to the inbox it was issued for.
+    "FORM_KEY": "33906421-7b0c-4e48-bcbb-ed44cda7f1c4",
     # The TicketSpice page. Every ticket CTA and the overlay point here, so
     # this is the only line to change when a new card goes on sale.
     "TICKETS": "https://northeastfightpromotions.ticketspice.com/northeast-fight-promotion-1",
