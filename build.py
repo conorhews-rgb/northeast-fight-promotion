@@ -55,6 +55,21 @@ def mark_active(html: str, slug: str) -> str:
     return html.replace(target, f'{target} aria-current="page"')
 
 
+def fingerprint(html: str) -> str:
+    """Stamp the CSS and JS links with a hash of their contents.
+
+    GitHub Pages lets browsers reuse these files for a while, so after a
+    change returning visitors kept running the old script and seeing the old
+    styles. A query string that changes whenever the file changes makes the
+    browser fetch the new one straight away.
+    """
+    import hashlib
+    for rel in ("assets/css/site.css", "assets/js/site.js"):
+        digest = hashlib.sha1((ROOT / rel).read_bytes()).hexdigest()[:10]
+        html = html.replace(f'"{rel}"', f'"{rel}?v={digest}"')
+    return html
+
+
 def build_page(path: pathlib.Path) -> str:
     raw = path.read_text()
     match = CONFIG_RE.match(raw)
@@ -77,6 +92,7 @@ def build_page(path: pathlib.Path) -> str:
     ])
 
     html = mark_active(html, cfg["slug"])
+    html = fingerprint(html)
     out = ROOT / f"{cfg['slug']}.html"
     out.write_text(html)
     return out.name

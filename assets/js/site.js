@@ -339,32 +339,76 @@
 
   /* ---------------------------------------------------------
      9. Forms
-     There is no backend. Submitting opens a pre-filled email
-     so the site works from day one. To move to a real handler
-     later, swap this block for a fetch() POST.
+     Every form posts to FormSubmit, which emails the submission
+     to the site inbox with the visitor's address as reply-to.
+     If that fails for any reason, the old behaviour kicks in and
+     a pre-filled email opens instead, so nothing is ever lost.
+     FormSubmit needs a one-time activation: the first submission
+     sends a confirmation link to the inbox, which must be clicked.
      --------------------------------------------------------- */
   const INBOX =
     document.documentElement.getAttribute("data-inbox") ||
     "northeastfightpromotions@gmail.com";
+  const ENDPOINT = "https://formsubmit.co/ajax/" + INBOX;
 
   $$("form[data-mailto]").forEach((form) => {
-    form.addEventListener("submit", (e) => {
+    // honeypot: invisible to people, filled in by bots, rejected by FormSubmit
+    const trap = document.createElement("input");
+    trap.type = "text"; trap.name = "_honey"; trap.tabIndex = -1;
+    trap.autocomplete = "off"; trap.setAttribute("aria-hidden", "true");
+    trap.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px;opacity:0";
+    form.appendChild(trap);
+
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const subject = form.getAttribute("data-subject") || "Website enquiry";
+      const button = $("button[type=submit], button:not([type])", form);
+      const success = $(".form-success", form);
+      const label = button ? button.textContent : "";
+      if (success) {
+        success.dataset.msg = success.dataset.msg || success.textContent;
+        success.textContent = success.dataset.msg;
+        success.classList.remove("is-on");
+      }
+
+      const data = { _subject: subject, _template: "table", _captcha: "false" };
       const lines = [];
       new FormData(form).forEach((value, key) => {
-        if (String(value).trim()) {
-          lines.push(key.replace(/_/g, " ").toUpperCase() + ": " + value);
-        }
+        const v = String(value).trim();
+        if (!v) return;
+        data[key] = v;
+        if (key !== "_honey") lines.push(key.replace(/_/g, " ").toUpperCase() + ": " + v);
       });
-      const body = lines.join("\n") + "\n\nSent from nfpfights.com";
-      const success = $(".form-success", form);
-      if (success) success.classList.add("is-on");
+
+      if (button) { button.disabled = true; button.textContent = "Sending"; }
+      let sent = false;
+      try {
+        const res = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json().catch(() => ({}));
+        sent = res.ok && String(json.success) === "true";
+      } catch (err) {
+        sent = false;
+      }
+      if (button) { button.disabled = false; button.textContent = label; }
+
+      if (sent) {
+        if (success) success.classList.add("is-on");
+        form.reset();
+        return;
+      }
+      // fallback: hand it to the visitor's mail app
+      if (success) {
+        success.textContent = "Opening your email app to send it.";
+        success.classList.add("is-on");
+      }
       window.location.href =
         "mailto:" + INBOX +
         "?subject=" + encodeURIComponent(subject) +
-        "&body=" + encodeURIComponent(body);
-      form.reset();
+        "&body=" + encodeURIComponent(lines.join("\n") + "\n\nSent from nfpfights.com");
     });
   });
 
