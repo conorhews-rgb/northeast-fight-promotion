@@ -1,4 +1,4 @@
-<!--{"slug": "index", "title": "Northeast Fight Promotion", "desc": "Northeast Fight Promotion is a new combat sports promotion in southern New Hampshire. Our first card is booked into Nashua Community College in Nashua, NH."}-->
+<!--{"slug": "index", "title": "Northeast Fight Promotion", "desc": "Northeast Fight Promotion is a new combat sports promotion in southern New Hampshire. NFP 1 took place on October 24 2026 at Nashua Community College in Nashua, NH. Full results inside."}-->
 <!-- ===================== INTRO =====================
      Greets you with the mark, then flies it onto the hero logo while the rest
      of the page builds in underneath. Falls back to a plain CSS fade if JS
@@ -32,14 +32,14 @@
         </div>
 
         <div class="hero-card">
-          <p class="meta"><span class="dot"></span>Tickets on sale now</p>
+          <p class="meta"><span class="dot"></span>NFP 1 results are in</p>
           <h1>Northeast<br>Fight Promotion</h1>
           <p class="lede">
             A new combat sports promotion built in southern New Hampshire, putting the best
             amateurs and pros in New England in front of a crowd that actually shows up.
           </p>
           <div class="btn-row">
-            <a class="btn" href="{{TICKETS}}" data-tickets>Buy tickets</a>
+            <a class="btn" href="#fights">See the results</a>
             <a class="btn btn--ghost" href="fight-for-us.html">Fight for us</a>
           </div>
         </div>
@@ -63,16 +63,16 @@
               <span class="n">2</span>
               <span>
                 <span class="k">Fighters</span>
-                <span class="t">Applications are open for card one</span>
+                <span class="t">Fighter applications are open</span>
               </span>
             </a>
           </li>
           <li>
-            <a href="events.html">
+            <a href="#fights">
               <span class="n">3</span>
               <span>
-                <span class="k">Venue</span>
-                <span class="t">Card one lands at Nashua Community College</span>
+                <span class="k">Results</span>
+                <span class="t">Barry and Walsh crowned at NFP 1</span>
               </span>
             </a>
           </li>
@@ -97,36 +97,21 @@
   <div class="wrap">
     <img class="mark" src="assets/img/nfp-logo.png" alt="">
     <p class="card-no">NFP 1</p>
-    <h2>Our first show</h2>
+    <h2>In the books</h2>
     <p class="where">Nashua Community College &nbsp;·&nbsp; Nashua, NH &nbsp;·&nbsp; Sat, Oct 24 2026</p>
 
     <div class="btn-row">
-      <a class="btn" href="{{TICKETS}}" data-tickets>Buy tickets</a>
-      <a class="btn btn--ghost" href="events.html">Event details</a>
-    </div>
-
-    <div class="countdown" data-countdown="2026-10-24T18:00:00-04:00"
-         aria-label="Countdown to NFP 1">
-      <div class="cd-unit"><b class="cd-num" data-cd="d">00</b><span class="cd-lbl">Days</span></div>
-      <div class="cd-unit"><b class="cd-num" data-cd="h">00</b><span class="cd-lbl">Hrs</span></div>
-      <div class="cd-unit"><b class="cd-num" data-cd="m">00</b><span class="cd-lbl">Min</span></div>
-      <div class="cd-unit"><b class="cd-num" data-cd="s">00</b><span class="cd-lbl">Sec</span></div>
+      <a class="btn" href="#fights">See the results</a>
+      <a class="btn btn--ghost" href="#notify">Get notified for the next card</a>
     </div>
   </div>
   <div class="shelf"></div>
 </section>
 
-<!-- ===================== CONFIRMED FIGHTS ===================== -->
+<!-- ===================== RESULTS ===================== -->
 <section class="section" id="fights">
   <div class="wrap">
     {{> fight-card}}
-  </div>
-</section>
-
-<!-- ===================== SCHEDULE ===================== -->
-<section class="section section--edge" id="schedule">
-  <div class="wrap">
-    {{> schedule}}
   </div>
 </section>
 
@@ -175,12 +160,11 @@
         <span class="bar"></span>
         <h2>Home base:<br>the 603</h2>
         <p class="lede">
-          We are setting up in southern New Hampshire. Card one is booked into Nashua
-          Community College, close enough to Manchester, Lowell and Boston that nobody
-          has an excuse.
+          Southern New Hampshire is home. NFP 1 ran at Nashua Community College, close
+          enough to Manchester, Lowell and Boston that nobody has an excuse.
         </p>
         <ul class="checks mt-2">
-          <li>Card one at Nashua Community College, 505 Amherst Street, Nashua</li>
+          <li>NFP 1 at Nashua Community College, 505 Amherst Street, Nashua</li>
           <li>Sanctioned amateur and pro bouts under state athletic commission rules</li>
           <li>Open to fighters, coaches and officials from across the Northeast</li>
           <li>Sponsorship and venue partnerships open now</li>
@@ -199,8 +183,8 @@
     <div class="grid grid-4" data-stagger="80">
       <div class="stat" data-reveal><b data-count="6">0</b><span>Northeast states</span></div>
       <div class="stat" data-reveal><b data-count="100" data-suffix="%">0</b><span>Local talent</span></div>
-      <div class="stat" data-reveal><b>1</b><span>Next card</span></div>
-      <div class="stat" data-reveal><b style="font-size:2.6rem">Oct 24</b><span>First show date</span></div>
+      <div class="stat" data-reveal><b>12</b><span>Bouts at NFP 1</span></div>
+      <div class="stat" data-reveal><b style="font-size:2.6rem">Oct 24</b><span>NFP 1</span></div>
     </div>
   </div>
 </section>

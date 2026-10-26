@@ -1586,3 +1586,36 @@ html.tk-open { overflow: hidden; }
 .bout--main .bout-body { max-width: 760px; margin-inline: auto; }
 .bout--main .corner img { max-width: 260px; }
 .bout--main .vs { margin-top: clamp(52px, 9vw, 118px); }
+
+/* ---------- results ---------- */
+.corner--win img { box-shadow: 0 0 0 3px var(--green); }
+.win {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 4px 10px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--green);
+}
+/* the loser's column has no badge, so lift its name to sit level */
+.corner:not(.corner--win) .fighter { margin-top: 0; }
+.bout-body:has(.corner--win) .corner:not(.corner--win) img { margin-bottom: 50px; }
+
+.result {
+  margin: clamp(14px, 1.8vw, 20px) 0 0;
+  padding-top: clamp(12px, 1.6vw, 16px);
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.result b { color: #fff; font-weight: 800; }
+.bout--title .result { font-size: 1.05rem; }
