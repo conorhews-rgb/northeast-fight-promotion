@@ -313,11 +313,11 @@ p:last-child { margin-bottom: 0; }
 .nav-links a {
   position: relative;
   display: block;
-  padding: 10px 14px;
+  padding: 10px 10px;
   font-family: var(--display);
   font-weight: 700;
   font-size: 1.02rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #d8ded9;
   transition: color 0.22s var(--ease);
@@ -354,7 +354,9 @@ p:last-child { margin-bottom: 0; }
 
 .nav-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
 
-@media (max-width: 1120px) {
+/* Seven links need about 1320px to clear the centred mark; below that the
+   burger takes over rather than letting the two collide. */
+@media (max-width: 1320px) {
   .nav-links { display: none; }
   /* The mark stays absolutely centred here too. Dropping it back into flow made
      it sit hard left, which disagreed with the desktop header for no reason:
@@ -1619,3 +1621,54 @@ html.tk-open { overflow: hidden; }
 }
 .result b { color: #fff; font-weight: 800; }
 .bout--title .result { font-size: 1.05rem; }
+
+/* =========================================================
+   CHAMPIONS one card per division: belt photo, then the title
+   ========================================================= */
+.champs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+}
+@media (max-width: 760px) { .champs { grid-template-columns: minmax(0, 1fr); } }
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-2);
+  border-top: 4px solid var(--green);
+}
+.champ-photo { background: #000; overflow: hidden; }
+.champ-photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  /* the studio shots have deep black above the head; keep face and belt */
+  object-position: 50% 60%;
+}
+.champ-body { padding: clamp(18px, 2.4vw, 30px); }
+.champ-div {
+  margin: 0 0 8px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+}
+.champ-div .sep { color: var(--muted-2); margin: 0 6px; }
+.champ h2 { margin: 0 0 6px; font-size: clamp(2rem, 3.6vw, 3rem); }
+.champ-gym { margin: 0 0 16px; color: var(--muted); }
+.champ-won {
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.champ-won span { color: #fff; margin-right: 8px; }
