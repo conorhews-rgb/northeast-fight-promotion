@@ -382,17 +382,23 @@
 
       if (button) { button.disabled = true; button.textContent = "Sending"; }
       let sent = false;
+      // never leave a visitor stuck on "Sending": if the service has not
+      // answered in 12 seconds, give up and fall back to the mail app
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 12000);
       try {
         const res = await fetch(ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
+          signal: ctrl.signal
         });
         const json = await res.json().catch(() => ({}));
         sent = res.ok && String(json.success) === "true";
       } catch (err) {
         sent = false;
       }
+      clearTimeout(timer);
       if (button) { button.disabled = false; button.textContent = label; }
 
       if (sent) {
