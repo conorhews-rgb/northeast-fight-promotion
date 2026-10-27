@@ -34,7 +34,7 @@ EVENTS = [
 
 def card(gallery, slug, label):
     return f'''      <a class="photo-set" href="{gallery}{slug}/" target="_blank" rel="noopener" data-reveal>
-        <img src="assets/img/photos/nfp1-{slug}.jpg" alt="{label}, NFP 1" width="720" height="480" loading="lazy">
+        <img src="assets/img/photos/nfp1-{slug}.jpg?v=2" alt="{label}, NFP 1" width="720" height="480" loading="lazy">
         <span class="photo-set-label">{label}<span class="arw" aria-hidden="true">&rarr;</span></span>
       </a>'''
 
