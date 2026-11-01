@@ -26,7 +26,7 @@ CDN = "https://images.pixieset.com/922645521/{}-{}.jpg"
 CACHE = os.path.join(tempfile.gettempdir(), "nfp-photos")
 
 PHOTOS = {  # name: Pixieset key, gallery set in the comment
-    "barry-belt":        "a4d70cbfc3399514ac0c99c76deab590",  # barryvsteauge
+    "barry-belt":        "53456eeaa7f22c8bea0d370084325068",  # barryvsteauge, portrait
     "barry-straight":    "115f98dd24bfe40b89455b60d4b8c8eb",  # barryvsteauge
     "walk-gold":         "b1f8487119e3d900de56e3cf42f1d575",  # barryvsteauge
     "walsh-belt":        "1577ded5b9ab168e28f7f4ac3b6ee5ce",  # walshvszahir, portrait
@@ -119,9 +119,9 @@ def font(w, px): return ImageFont.truetype(F.format(w), int(px))
 def photo(name): return Image.open(fetch(PHOTOS[name], "xxlarge")).convert("RGB")
 
 
-def cover(im, w, h, fx=.5, fy=.5):
-    """Scale to fill w x h, then crop around the focal point (fx, fy as fractions)."""
-    s = max(w / im.width, h / im.height)
+def cover(im, w, h, fx=.5, fy=.5, zoom=1.0):
+    """Scale to fill w x h (times zoom), then crop around the focal point (fx, fy as fractions)."""
+    s = max(w / im.width, h / im.height) * zoom
     im = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
     x = min(max(round(fx * im.width - w / 2), 0), im.width - w)
     y = min(max(round(fy * im.height - h / 2), 0), im.height - h)
@@ -198,8 +198,10 @@ class Post:
 def new_champions():
     p = Post()
     top_x, bot_x = 600, 480                             # diagonal seam, Barry left, Walsh right
-    p.put(cover(photo("barry-belt"), 640, H, fx=.45))
-    p.put(cover(photo("walsh-belt"), 640, H), (440, 0), poly_mask([(top_x, 0), (W, 0), (W, H), (bot_x, H)]))
+    # matching portraits at the same zoom: eyes level near the top, both belt plates clear of the seam and headline
+    p.put(cover(photo("barry-belt"), 640, H, fx=.601, fy=.503, zoom=1.15))
+    p.put(cover(photo("walsh-belt"), 640, H, fx=.393, fy=.478, zoom=1.15), (440, 0),
+          poly_mask([(top_x, 0), (W, 0), (W, H), (bot_x, H)]))
     p.d.polygon([(top_x - 5, 0), (top_x + 5, 0), (bot_x + 5, H), (bot_x - 5, H)], fill=GREEN)
     p.shade(0, 190, 160, 0)
     p.shade(780, H, 0, 245)
