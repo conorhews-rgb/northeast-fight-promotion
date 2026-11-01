@@ -86,11 +86,11 @@ MOSAIC = """
 
 RESULTS = [  # (winner or first named, loser or second named, method, title fight)
     ("PRO BOXING", [
-        ("CONNOR BARRY", "PAUL TEAGUE", "TKO R2", True),
+        ("CONNOR BARRY", "PAUL TEAGUE", "TKO RD2", True),
         ("JAKE FERRI", "TYLER SMYTHE", "UD", False)]),
     ("AMATEUR KICKBOXING", [
         ("VICTORIA WALSH", "MARIA ZAHIR", "UD", True),
-        ("MIKE FAGAN", "JAMES JOHNSON", "TKO R1", False),
+        ("MIKE FAGAN", "JAMES JOHNSON", "TKO RD1", False),
         ("ARMANI KIM", "NATE COLON", "UD", False),
         ("JEFF CETOUTE", "TOM DUFFY", "UD", False),
         ("JOSH KELLY", "JEAN ST. FELIX", "UD", False),
@@ -204,13 +204,13 @@ def new_champions():
     p.shade(0, 190, 160, 0)
     p.shade(780, H, 0, 245)
     p.logo(592, 24, 112)                                # sits on the seam
-    p.text(W / 2, 1060, p.fit(lambda px: [("NEW ", font("800i", px), WHITE), ("CHAMPIONS", font("800i", px), GREEN)], 150, W - 100), "c", shadow=8)
-    for cx, name, div, how in ((270, "CONNOR BARRY", "MIDDLEWEIGHT  /  PRO BOXING", "TKO, ROUND 2"),
-                               (810, "VICTORIA WALSH", "BANTAMWEIGHT  /  AMATEUR KICKBOXING", "UNANIMOUS DECISION")):
+    p.text(W / 2, 1060, [("AND ", font("800i", 200), WHITE), ("NEW", font("800i", 200), GREEN)], "c", shadow=8)
+    for cx, name, div, how in ((270, "CONNOR BARRY", "MIDDLEWEIGHT CHAMPION", "TKO  |  RD 2"),
+                               (810, "VICTORIA WALSH", "BANTAMWEIGHT CHAMPION", "UNANIMOUS DECISION")):
         p.text(cx, 1140, p.fit(lambda px: [(name, font("800i", px), WHITE)], 56, 470), "c", shadow=6)
         p.text(cx, 1182, [(div, font("700", 23), MUTED)], "c")
         p.text(cx, 1220, [(how, font("800i", 26), GREEN)], "c")
-    p.text(W / 2, 1300, [("BOTH BELTS WON AT NFP 1, OCT 24 2026, NASHUA", font("700", 21), MUTED)], "c")
+    p.text(W / 2, 1300, [("NFP 1  |  SAT OCT 24  |  NASHUA, NH", font("700", 21), MUTED)], "c")
     p.credit(W - 28, H - 18)
     p.save("01-new-champions")
 
@@ -221,7 +221,7 @@ def main_event_tko():
     p.shade(140, 260, 255, 0)
     p.shade(700, 900, 0, 255)
     p.text(44, 76, [("MAIN EVENT", font("800i", 46), GREEN)])
-    p.text(44, 112, [("NFP MIDDLEWEIGHT CHAMPIONSHIP  /  PRO BOXING  /  185 LBS", font("700", 23), MUTED)])
+    p.text(44, 112, [("NFP MIDDLEWEIGHT TITLE  |  PRO BOXING", font("700", 23), MUTED)])
     p.logo(W - 40, 22, 100, align="r")
     p.text(36, 1078, [("TKO.", font("800i", 300), WHITE)], shadow=10)
     p.text(44, 1190, [("ROUND 2.", font("800i", 120), GREEN)])
@@ -229,7 +229,6 @@ def main_event_tko():
     p.text(W - 44, 990, [("BARRY", font("800i", 64), WHITE)], "r", shadow=6)
     p.text(W - 44, 1038, [("DEF. PAUL TEAGUE", font("700", 30), MUTED)], "r")
     p.text(W - 44, 1078, [("NEW CHAMPION", font("800i", 30), GREEN)], "r")
-    p.text(44, 1262, [("BARRY CAME FOR THE BELT AND TOOK IT INSIDE TWO ROUNDS.", font("700", 25), MUTED)])
     p.credit(W - 28, H - 22)
     p.save("02-main-event-tko")
 
@@ -241,7 +240,7 @@ def results():
     p.shade(300, 540, 0, 255)
     p.logo(W // 2, 22, 104)
     p.text(W / 2, 470, [("NFP 1 ", font("800i", 140), GREEN), ("RESULTS", font("800i", 140), WHITE)], "c", shadow=8)
-    p.text(W / 2, 512, [("SAT, OCT 24 2026  /  NASHUA COMMUNITY COLLEGE  /  12 BOUTS", font("700", 23), MUTED)], "c")
+    p.text(W / 2, 512, [("SAT OCT 24  |  NASHUA, NH", font("700", 23), MUTED)], "c")
     name, small, meth = font("800i", 33), font("700", 22), font("800i", 29)
     y, L, R = 560, 56, W - 56
     for group, bouts in RESULTS:
@@ -272,7 +271,7 @@ def the_walk():
     p.shade(820, H, 0, 248)
     p.logo(W // 2, 24, 104)
     p.text(W / 2, 1180, [("THE WALK", font("800i", 230), WHITE), (".", font("800i", 230), GREEN)], "c", shadow=10)
-    p.text(W / 2, 1248, [("24 FIGHTERS. 24 WALKS. ONE NIGHT IN NASHUA.", font("700", 28), MUTED)], "c")
+    p.text(W / 2, 1248, [("NFP 1  |  NASHUA, NH", font("700", 28), MUTED)], "c")
     p.credit(W / 2, H - 22, "c")
     p.save("04-the-walk")
 
@@ -284,10 +283,9 @@ def corner():
     p.shade(760, H, 0, 250)
     p.logo(40, 26, 104, align="l")
     p.credit(W - 28, 46)
-    p.text(48, 1088, p.fit(lambda px: [("BEHIND EVERY FIGHTER", font("800i", px), WHITE)], 140, W - 96), shadow=8)
-    p.text(48, 1215, [("IS A CORNER.", font("800i", 132), GREEN)], shadow=8)
-    p.text(48, 1282, [("TO EVERY COACH AND TEAMMATE WHO WORKED A CORNER AT NFP 1: THANK YOU.", font("700", 25), MUTED)])
-    p.save("05-behind-every-fighter")
+    p.text(48, 1130, [("LISTEN TO", font("800i", 160), WHITE)], shadow=8)
+    p.text(48, 1280, p.fit(lambda px: [("YOUR CORNER.", font("800i", px), GREEN)], 160, W - 96), shadow=8)
+    p.save("05-listen-to-your-corner")
 
 
 def grappling():
@@ -303,16 +301,13 @@ def grappling():
         right = i % 2                                   # labels on the outer corners, clear of the badge
         p.text(x + tw - 22 if right else x + 22, y + th - 22,
                [(label, font("800i", 30), WHITE), ("  " + rules, font("700", 20), GREEN)], "r" if right else "l", shadow=4)
-    p.text(48, 140, p.fit(lambda px: [("4 GRAPPLING MATCHES.", font("800i", px), WHITE)], 120, W - 96))
-    p.text(44, 318, [("0 TAPS.", font("800i", 210), GREEN)])
-    p.text(W - 48, 260, [("ALL FOUR WENT", font("800i", 38), WHITE)], "r")
-    p.text(W - 48, 302, [("THE DISTANCE.", font("800i", 38), WHITE)], "r")
-    p.text(W - 48, 340, [("ALL FOUR DRAWS.", font("700", 24), MUTED)], "r")
-    p.text(W - 48, 374, [(CREDIT, font("600", 17), MUTED)], "r")
+    p.text(44, 215, p.fit(lambda px: [("NOBODY TAPPED.", font("800i", px), GREEN)], 200, W - 88))
+    p.text(48, 296, p.fit(lambda px: [("ALL 4 GRAPPLING MATCHES WENT TO A DRAW", font("800i", px), WHITE)], 50, W - 96))
+    p.text(W - 48, 368, [(CREDIT, font("600", 17), MUTED)], "r")
     cx, cy = W // 2, top + th + gap // 2               # logo badge where the four tiles meet
     p.d.ellipse((cx - 74, cy - 74, cx + 74, cy + 74), fill=(0, 0, 0), outline=GREEN_DK, width=4)
     p.logo(cx, cy - 44, 100)
-    p.save("06-zero-taps")
+    p.save("06-nobody-tapped")
 
 
 def kicks_or_hands():
@@ -331,7 +326,6 @@ def kicks_or_hands():
     cx, cy = W // 2, (yl + yr) // 2
     p.d.ellipse((cx - 68, cy - 68, cx + 68, cy + 68), fill=GREEN)
     p.text(cx, cy + 26, [("OR", font("800i", 76), (0, 0, 0))], "c")
-    p.text(48, H - 40, [("WHAT WINS FIGHTS? ", font("800i", 34), WHITE), ("COMMENT BELOW", font("800i", 34), GREEN)])
     p.credit(W - 28, H - 18)
     p.save("07-kicks-or-hands")
 
@@ -348,7 +342,7 @@ def shot_of_the_night():
         p.text(30, y + sh - 18, [(str(i + 1), font("800i", 150), GREEN)], shadow=8)
         p.text(W - 30, y + sh - 22, [(label, font("800i", 30), WHITE)], "r", shadow=5)
     p.text(40, 98, [("SHOT OF THE NIGHT", font("800i", 92), WHITE), ("?", font("800i", 92), GREEN)])
-    p.text(42, 146, [("VOTE 1, 2 OR 3 IN THE COMMENTS", font("800i", 32), GREEN)])
+    p.text(42, 150, [("1, 2 OR 3?", font("800i", 40), GREEN)])
     p.logo(W - 40, 24, 96, align="r")
     p.text(W - 40, 158, [(CREDIT, font("600", 17), MUTED)], "r")
     p.save("08-shot-of-the-night")
@@ -367,11 +361,10 @@ def every_frame():
     p.d.rectangle((0, b0, W, b1), fill=(0, 0, 0))
     p.d.rectangle((0, b0, W, b0 + 5), fill=GREEN_DK)
     p.d.rectangle((0, b1 - 5, W, b1), fill=GREEN_DK)
-    p.logo(W // 2, b0 + 34, 104)
-    p.text(W / 2, b0 + 330, [("766", font("800i", 230), GREEN)], "c")
-    p.text(W / 2, b0 + 400, [("PHOTOS. 12 BOUTS. ONE NIGHT.", font("800i", 60), WHITE)], "c")
-    p.text(W / 2, b0 + 450, [("FIND YOURSELF IN THE NFP 1 GALLERY", font("700", 30), MUTED)], "c")
-    p.text(W / 2, b0 + 510, [("NFPFIGHTS.COM/PHOTOS", font("800i", 42), GREEN)], "c")
+    p.logo(W // 2, b0 + 50, 104)
+    p.text(W / 2, b0 + 350, [("766", font("800i", 230), GREEN)], "c")
+    p.text(W / 2, b0 + 425, [("PHOTOS FROM NFP 1 ARE UP", font("800i", 64), WHITE)], "c")
+    p.text(W / 2, b0 + 495, [("NFPFIGHTS.COM/PHOTOS", font("800i", 42), GREEN)], "c")
     p.text(W / 2, H - 22, [("SHOT BY PAPERVIEW PRODUCTIONS", font("800i", 26), WHITE)], "c", shadow=6)
     p.save("09-766-photos")
 
@@ -386,9 +379,9 @@ def that_was_round_1():
     p.credit(W - 28, 44)
     p.text(W / 2, 905, [("THAT WAS", font("800i", 120), WHITE)], "c", shadow=8)
     p.text(W / 2, 1110, [("ROUND 1.", font("800i", 240), GREEN)], "c")
-    p.text(W / 2, 1188, [("NFP 2 IS COMING. THE DATE, VENUE AND CARD LAND HERE FIRST.", font("700", 29), MUTED)], "c")
+    p.text(W / 2, 1190, [("NFP 2 IS COMING.", font("800i", 44), WHITE)], "c")
     p.d.rectangle((W / 2 - 300, 1232, W / 2 + 300, 1302), outline=GREEN_DK, width=3)
-    p.text(W / 2, 1281, [("GET ON THE LIST  /  NFPFIGHTS.COM", font("800i", 38), WHITE)], "c")
+    p.text(W / 2, 1281, [("GET ON THE LIST  |  NFPFIGHTS.COM", font("800i", 38), WHITE)], "c")
     p.save("10-that-was-round-1")
 
 
@@ -409,7 +402,7 @@ def who_next():
     cap = runs[0][1].getbbox("H", anchor="ls")[1]       # negative cap height
     p.text(W / 2, panel - cap / 2, runs, "c")           # caps optically centred in the bar
     p.logo(W // 2, 26, 128)
-    p.text(W / 2, H - 52, [("DROP NAMES IN THE COMMENTS", font("800i", 34), GREEN)], "c", shadow=6)
+    p.text(W / 2, H - 52, [("TAG ’EM BELOW", font("800i", 38), GREEN)], "c", shadow=6)
     p.save("11-who-should-be-on-nfp-2")
 
 
