@@ -21,7 +21,6 @@ W, H = 1080, 1350
 F = "assets/fonts/BarlowCondensed-{}-latin.woff2"
 WHITE, MUTED, GREEN, GREEN_DK = (255, 255, 255), (164, 172, 166), (22, 194, 22), (15, 154, 15)
 LOGO = Image.open("assets/img/nfp-logo-alpha.png").convert("RGBA")
-CREDIT = "PHOTOS: PAPERVIEW PRODUCTIONS"
 CDN = "https://images.pixieset.com/922645521/{}-{}.jpg"
 CACHE = os.path.join(tempfile.gettempdir(), "nfp-photos")
 
@@ -186,9 +185,6 @@ class Post:
         self.im.alpha_composite(glow.filter(ImageFilter.GaussianBlur(10)))
         self.im.alpha_composite(lg, (x, y))
 
-    def credit(self, x, y, align="r"):
-        self.text(x, y, [(CREDIT, font("600", 17), (255, 255, 255, 150))], align, shadow=3)
-
     def save(self, name):
         path = os.path.join(out, name + ".png")
         self.im.convert("RGB").save(path, optimize=True)
@@ -213,7 +209,6 @@ def new_champions():
         p.text(cx, 1182, [(div, font("700", 23), MUTED)], "c")
         p.text(cx, 1220, [(how, font("800i", 26), GREEN)], "c")
     p.text(W / 2, 1300, [("NFP 1  |  SAT OCT 24  |  NASHUA, NH", font("700", 21), MUTED)], "c")
-    p.credit(W - 28, H - 18)
     p.save("01-new-champions")
 
 
@@ -231,7 +226,6 @@ def main_event_tko():
     p.text(W - 44, 990, [("BARRY", font("800i", 64), WHITE)], "r", shadow=6)
     p.text(W - 44, 1038, [("DEF. PAUL TEAGUE", font("700", 30), MUTED)], "r")
     p.text(W - 44, 1078, [("NEW CHAMPION", font("800i", 30), GREEN)], "r")
-    p.credit(W - 28, H - 22)
     p.save("02-main-event-tko")
 
 
@@ -260,7 +254,6 @@ def results():
                 p.text(x1 - tw / 2, y - 6, [("TITLE", font("800", 18), (0, 0, 0))], "c")
             p.d.line((L, y + 14, R, y + 14), fill=(38, 42, 40), width=1)
         y += 30
-    p.credit(W - 28, H - 16)
     p.save("03-results")
 
 
@@ -274,7 +267,6 @@ def the_walk():
     p.logo(W // 2, 24, 104)
     p.text(W / 2, 1180, [("THE WALK", font("800i", 230), WHITE)], "c", shadow=10)
     p.text(W / 2, 1248, [("NFP 1  |  NASHUA, NH", font("700", 28), MUTED)], "c")
-    p.credit(W / 2, H - 22, "c")
     p.save("04-the-walk")
 
 
@@ -284,7 +276,6 @@ def corner():
     p.shade(0, 220, 150, 0)
     p.shade(760, H, 0, 250)
     p.logo(40, 26, 104, align="l")
-    p.credit(W - 28, 46)
     p.text(48, 1130, [("LISTEN TO", font("800i", 160), WHITE)], shadow=8)
     p.text(48, 1280, p.fit(lambda px: [("YOUR CORNER", font("800i", px), GREEN)], 160, W - 96), shadow=8)
     p.save("05-listen-to-your-corner")
@@ -305,7 +296,6 @@ def grappling():
                [(label, font("800i", 30), WHITE), ("  " + rules, font("700", 20), GREEN)], "r" if right else "l", shadow=4)
     p.text(44, 215, p.fit(lambda px: [("NOBODY TAPPED", font("800i", px), GREEN)], 200, W - 88))
     p.text(48, 296, p.fit(lambda px: [("ALL 4 GRAPPLING MATCHES WENT TO A DRAW", font("800i", px), WHITE)], 50, W - 96))
-    p.text(W - 48, 368, [(CREDIT, font("600", 17), MUTED)], "r")
     cx, cy = W // 2, top + th + gap // 2               # logo badge where the four tiles meet
     p.d.ellipse((cx - 74, cy - 74, cx + 74, cy + 74), fill=(0, 0, 0), outline=GREEN_DK, width=4)
     p.logo(cx, cy - 44, 100)
@@ -328,7 +318,6 @@ def kicks_or_hands():
     cx, cy = W // 2, (yl + yr) // 2
     p.d.ellipse((cx - 68, cy - 68, cx + 68, cy + 68), fill=GREEN)
     p.text(cx, cy + 26, [("OR", font("800i", 76), (0, 0, 0))], "c")
-    p.credit(W - 28, H - 18)
     p.save("07-kicks-or-hands")
 
 
@@ -346,7 +335,6 @@ def shot_of_the_night():
     p.text(40, 98, [("SHOT OF THE NIGHT", font("800i", 92), WHITE), ("?", font("800i", 92), GREEN)])
     p.text(42, 150, [("1, 2 OR 3?", font("800i", 40), GREEN)])
     p.logo(W - 40, 24, 96, align="r")
-    p.text(W - 40, 158, [(CREDIT, font("600", 17), MUTED)], "r")
     p.save("08-shot-of-the-night")
 
 
@@ -367,7 +355,6 @@ def every_frame():
     p.text(W / 2, b0 + 350, [("766", font("800i", 230), GREEN)], "c")
     p.text(W / 2, b0 + 425, [("PHOTOS FROM NFP 1 ARE UP", font("800i", 64), WHITE)], "c")
     p.text(W / 2, b0 + 495, [("NFPFIGHTS.COM/PHOTOS", font("800i", 42), GREEN)], "c")
-    p.text(W / 2, H - 22, [("SHOT BY PAPERVIEW PRODUCTIONS", font("800i", 26), WHITE)], "c", shadow=6)
     p.save("09-766-photos")
 
 
@@ -378,7 +365,6 @@ def that_was_round_1():
     p.shade(0, 170, 150, 0)
     p.shade(ph - 220, ph, 0, 255)
     p.logo(40, 24, 100, align="l")
-    p.credit(W - 28, 44)
     p.text(W / 2, 905, [("THAT WAS", font("800i", 120), WHITE)], "c", shadow=8)
     p.text(W / 2, 1110, [("ROUND 1", font("800i", 240), GREEN)], "c")
     p.text(W / 2, 1190, [("NFP 2 IS COMING", font("800i", 44), WHITE)], "c")
