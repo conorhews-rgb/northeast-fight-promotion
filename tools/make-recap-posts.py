@@ -223,8 +223,8 @@ def main_event_tko():
     p.text(44, 76, [("MAIN EVENT", font("800i", 46), GREEN)])
     p.text(44, 112, [("NFP MIDDLEWEIGHT TITLE  |  PRO BOXING", font("700", 23), MUTED)])
     p.logo(W - 40, 22, 100, align="r")
-    p.text(36, 1078, [("TKO.", font("800i", 300), WHITE)], shadow=10)
-    p.text(44, 1190, [("ROUND 2.", font("800i", 120), GREEN)])
+    p.text(36, 1078, [("TKO", font("800i", 300), WHITE)], shadow=10)
+    p.text(44, 1190, [("ROUND 2", font("800i", 120), GREEN)])
     p.text(W - 44, 928, [("CONNOR", font("800i", 64), WHITE)], "r", shadow=6)
     p.text(W - 44, 990, [("BARRY", font("800i", 64), WHITE)], "r", shadow=6)
     p.text(W - 44, 1038, [("DEF. PAUL TEAGUE", font("700", 30), MUTED)], "r")
@@ -270,7 +270,7 @@ def the_walk():
     p.shade(0, 200, 170, 0)
     p.shade(820, H, 0, 248)
     p.logo(W // 2, 24, 104)
-    p.text(W / 2, 1180, [("THE WALK", font("800i", 230), WHITE), (".", font("800i", 230), GREEN)], "c", shadow=10)
+    p.text(W / 2, 1180, [("THE WALK", font("800i", 230), WHITE)], "c", shadow=10)
     p.text(W / 2, 1248, [("NFP 1  |  NASHUA, NH", font("700", 28), MUTED)], "c")
     p.credit(W / 2, H - 22, "c")
     p.save("04-the-walk")
@@ -284,7 +284,7 @@ def corner():
     p.logo(40, 26, 104, align="l")
     p.credit(W - 28, 46)
     p.text(48, 1130, [("LISTEN TO", font("800i", 160), WHITE)], shadow=8)
-    p.text(48, 1280, p.fit(lambda px: [("YOUR CORNER.", font("800i", px), GREEN)], 160, W - 96), shadow=8)
+    p.text(48, 1280, p.fit(lambda px: [("YOUR CORNER", font("800i", px), GREEN)], 160, W - 96), shadow=8)
     p.save("05-listen-to-your-corner")
 
 
@@ -301,7 +301,7 @@ def grappling():
         right = i % 2                                   # labels on the outer corners, clear of the badge
         p.text(x + tw - 22 if right else x + 22, y + th - 22,
                [(label, font("800i", 30), WHITE), ("  " + rules, font("700", 20), GREEN)], "r" if right else "l", shadow=4)
-    p.text(44, 215, p.fit(lambda px: [("NOBODY TAPPED.", font("800i", px), GREEN)], 200, W - 88))
+    p.text(44, 215, p.fit(lambda px: [("NOBODY TAPPED", font("800i", px), GREEN)], 200, W - 88))
     p.text(48, 296, p.fit(lambda px: [("ALL 4 GRAPPLING MATCHES WENT TO A DRAW", font("800i", px), WHITE)], 50, W - 96))
     p.text(W - 48, 368, [(CREDIT, font("600", 17), MUTED)], "r")
     cx, cy = W // 2, top + th + gap // 2               # logo badge where the four tiles meet
@@ -378,8 +378,8 @@ def that_was_round_1():
     p.logo(40, 24, 100, align="l")
     p.credit(W - 28, 44)
     p.text(W / 2, 905, [("THAT WAS", font("800i", 120), WHITE)], "c", shadow=8)
-    p.text(W / 2, 1110, [("ROUND 1.", font("800i", 240), GREEN)], "c")
-    p.text(W / 2, 1190, [("NFP 2 IS COMING.", font("800i", 44), WHITE)], "c")
+    p.text(W / 2, 1110, [("ROUND 1", font("800i", 240), GREEN)], "c")
+    p.text(W / 2, 1190, [("NFP 2 IS COMING", font("800i", 44), WHITE)], "c")
     p.d.rectangle((W / 2 - 300, 1232, W / 2 + 300, 1302), outline=GREEN_DK, width=3)
     p.text(W / 2, 1281, [("GET ON THE LIST  |  NFPFIGHTS.COM", font("800i", 38), WHITE)], "c")
     p.save("10-that-was-round-1")
