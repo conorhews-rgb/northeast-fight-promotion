@@ -11,8 +11,11 @@ between the last venue row and the first discipline row.
 Face centres are measured by eye off a gridded render of each poster, in
 1080-wide poster space. Posters that are not 1080 wide are scaled to match.
 
-Run from the repo root:  python3 tools/make-fighter-headshots.py
+Run from the repo root:  python3 tools/make-fighter-headshots.py [poster ...]
+With poster file names, only those posters are cut.
 """
+import sys
+
 from PIL import Image
 
 POSTERS = "assets/img/posters"
@@ -38,6 +41,17 @@ CARD = {
     "nfp1-molai-nash.webp":       [("moeketsi-molai", 330), ("connor-nash", 760)],
 }
 
+# NFP 2 posters put the venue line just above the heads and the hotel's own
+# SHERATON sign between the fighters, so the band scan above would read the
+# sign as type. The square is given directly instead, in 1080 space:
+# (slug, face centre x, top y, edge). Framed like the NFP 1 set: crown about
+# 5% down, chin about 80% down. Slugs carry the card so the NFP 1 results keep
+# the photos from that night.
+FIXED = {
+    "nfp2-kim-cetoute.webp": [("nfp2-armani-kim", 283, 242, 260),
+                              ("nfp2-jeff-cetoute", 808, 239, 270)],
+}
+
 
 def text_rows(im):
     """Rows in 1080 space whose centre strip carries white type."""
@@ -53,8 +67,26 @@ def text_rows(im):
     return rows
 
 
+def save(im, box, slug, note):
+    shot = im.crop(box).resize((SIZE, SIZE), Image.LANCZOS)
+    shot.save(f"{OUT}/{slug}.jpg", quality=86, optimize=True, progressive=True)
+    print(f"  {slug:18s} {note}  box {box}")
+
+
 def main():
+    only = set(sys.argv[1:])
+    for poster, fighters in FIXED.items():
+        if only and poster not in only:
+            continue
+        im = Image.open(f"{POSTERS}/{poster}").convert("RGB")
+        k = im.width / 1080.0
+        for slug, cx, top, edge in fighters:
+            box = tuple(round(v * k) for v in (cx - edge / 2, top, cx + edge / 2, top + edge))
+            save(im, box, slug, f"fixed y {top}-{top + edge} ({edge}px)")
+
     for poster, fighters in CARD.items():
+        if only and poster not in only:
+            continue
         im = Image.open(f"{POSTERS}/{poster}").convert("RGB")
         k = im.width / 1080.0
         rows = text_rows(im)
@@ -66,9 +98,7 @@ def main():
         edge = bottom - top
         for slug, cx in fighters:
             box = tuple(round(v * k) for v in (cx - edge / 2, top, cx + edge / 2, bottom))
-            shot = im.crop(box).resize((SIZE, SIZE), Image.LANCZOS)
-            shot.save(f"{OUT}/{slug}.jpg", quality=86, optimize=True, progressive=True)
-            print(f"  {slug:18s} window y {top}-{bottom} ({edge}px)  box {box}")
+            save(im, box, slug, f"window y {top}-{bottom} ({edge}px)")
 
 
 if __name__ == "__main__":
