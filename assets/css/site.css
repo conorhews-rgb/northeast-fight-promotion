@@ -1716,3 +1716,139 @@ html.tk-open { overflow: hidden; }
 .photo-set:hover { border-top-color: var(--green); }
 .photo-set:hover img { transform: scale(1.04); filter: brightness(1); }
 .photo-set:hover .arw { transform: translateX(4px); }
+
+/* =========================================================
+   NEXT EVENT the announcement in the home hero, poster in the
+   rail, then poster-beside-content feature bands
+   ========================================================= */
+/* "NFP 2" set like the poster wordmark: NF white, P 2 green */
+.event-mark {
+  font-size: clamp(4.2rem, 11vw, 8.6rem);
+  line-height: 0.82;
+  margin-bottom: 10px !important;
+}
+.event-mark span { color: var(--green-bright); }
+
+.event-when {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.event-when i { color: var(--green); font-style: normal; margin: 0 8px; }
+
+.hero-card--event .lede { margin-bottom: 18px; }
+
+/* two amounts on one line, wraps to two on a phone */
+.bonus-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+  margin: 0 0 24px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #d8ded9;
+}
+.bonus-strip b {
+  margin-right: 6px;
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--green-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+/* poster at the head of the rail. Doubled class so it beats the .rail a
+   story-link rule (a 32px number column plus padding) */
+.rail .rail-poster {
+  display: block;
+  padding: 0;
+  margin-bottom: clamp(20px, 2vw, 26px);
+  border: 1px solid var(--line);
+  transition: border-color 0.25s var(--ease);
+}
+.rail .rail-poster:hover { padding-left: 0; background: none; border-color: var(--green); }
+.rail-poster img { width: 100%; height: auto; aspect-ratio: 4 / 5; }
+/* stacked under the hero on narrower screens: keep the poster phone sized */
+@media (max-width: 1100px) {
+  .rail--poster { border-left: 0; }
+  .rail .rail-poster { max-width: 460px; margin-inline: auto; }
+}
+
+/* poster on one side, content on the other */
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+}
+.feature--flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.feature-body > .lede { margin-bottom: clamp(18px, 2vw, 26px); }
+@media (max-width: 900px) {
+  .feature,
+  .feature--flip { grid-template-columns: minmax(0, 1fr); }
+  /* poster after the words on a phone, so the headline leads */
+  .feature--flip .poster { order: 2; }
+}
+
+.poster {
+  display: block;
+  max-width: 520px;
+  width: 100%;
+  margin-inline: auto;
+  border: 1px solid var(--line);
+  background: #000;
+  transition: border-color 0.25s var(--ease), transform 0.3s var(--ease);
+}
+.poster:hover { border-color: var(--green); }
+.poster img { width: 100%; height: auto; aspect-ratio: 4 / 5; }
+
+/* bonus rows, laid out like the bonus poster */
+.bonuses { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.bonus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: clamp(16px, 2vw, 22px) clamp(18px, 2.4vw, 26px);
+  background: var(--panel-2);
+  border-left: 4px solid var(--green);
+}
+.section--panel .bonus { background: var(--panel-3); }
+.bonus h3 { margin: 0; font-size: clamp(1.25rem, 2vw, 1.6rem); }
+.bonus p {
+  margin: 6px 0 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.bonus b {
+  flex-shrink: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  line-height: 1;
+  color: var(--green-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+/* NFP 2 card on the events page: the confirmed fights under the event row */
+.card-block .bouts--next { margin-top: 0; }
+.card-next-note {
+  margin: clamp(16px, 2vw, 22px) 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}

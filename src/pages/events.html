@@ -1,4 +1,4 @@
-<!--{"slug": "events", "title": "Events | Northeast Fight Promotion", "desc": "NFP events and results. NFP 1 took place on Saturday October 24 2026 at Nashua Community College in Nashua, New Hampshire. Full results inside."}-->
+<!--{"slug": "events", "title": "Events | Northeast Fight Promotion", "desc": "NFP events and results. NFP 2 is Saturday March 27 at the Sheraton Hotel in Nashua, New Hampshire. NFP 1 took place on October 24 2026 at Nashua Community College. Full results inside."}-->
 <!-- ===================== PAGE HERO ===================== -->
 <section class="page-hero">
   <img class="region" src="assets/img/region.png" alt="" aria-hidden="true" data-parallax="0.06">
@@ -15,27 +15,54 @@
 <section class="section">
   <div class="wrap">
     <div class="tabs" role="tablist" data-tabs>
-      <button type="button" role="tab" data-tab="upcoming" aria-selected="false">Upcoming</button>
-      <button type="button" role="tab" data-tab="past" aria-selected="true">Past</button>
-      <span class="count">1 event</span>
+      <button type="button" role="tab" data-tab="upcoming" aria-selected="true">Upcoming</button>
+      <button type="button" role="tab" data-tab="past" aria-selected="false">Past</button>
+      <span class="count">2 events</span>
     </div>
 
-    <div data-panel="upcoming" hidden>
-      <div class="empty" data-reveal>
-        <span class="bar bar--center"></span>
-        <h3>Nothing on the books yet</h3>
-        <p class="lede mx-auto" style="margin-inline:auto">
-          NFP 1 is in the books. The next card gets announced here first, and the
-          notification list hears before anyone else.
-        </p>
-        <div class="btn-row mt-3" style="justify-content:center">
-          <a class="btn" href="#notify">Get notified</a>
+    <div data-panel="upcoming">
+      <article class="event-row" data-reveal>
+        <div class="event-art">
+          <span class="tag flag">Announced</span>
+          <img src="assets/img/nfp-logo.png" alt="Northeast Fight Promotion 2">
         </div>
+
+        <div class="event-info">
+          <h3>NFP 2</h3>
+          <p class="when">Sat, Mar 27 2027 <i>/</i> Tickets on sale soon</p>
+          <p class="venue">
+            Sheraton Hotel<br>
+            Nashua, NH
+          </p>
+        </div>
+
+        <div class="event-actions">
+          <a class="btn btn--sm" href="fight-for-us.html#apply">Apply to fight</a>
+          <a class="btn btn--sm btn--ghost" href="#notify">Ticket alerts</a>
+        </div>
+      </article>
+
+      <div class="card-block" id="nfp2-card">
+        <div class="section-head">
+          <div data-reveal>
+            <span class="bar"></span>
+            <h2>NFP 2 card</h2>
+          </div>
+          <p class="meta" data-reveal="right">NFP 2 <span class="sep">/</span> Sat, Mar 27 2027 <span class="sep">/</span> Sheraton Hotel, Nashua</p>
+        </div>
+        <div class="bouts bouts--title bouts--next">
+          {{> nfp2-card}}
+        </div>
+        <p class="card-next-note">
+          More fights go up here as they are signed. Fight of the Night pays $2,000,
+          $1,000 to each fighter, and Performance of the Night pays $1,000.
+          <a class="green" href="fight-for-us.html#apply">Apply to fight</a>
+        </p>
       </div>
     </div>
 
     <!-- The bouts and results live in tools/make-fight-card.py. -->
-    <div data-panel="past">
+    <div data-panel="past" hidden>
       <article class="event-row" data-reveal>
         <div class="event-art">
           <span class="tag flag">Results</span>
@@ -54,7 +81,7 @@
 
         <div class="event-actions">
           <a class="btn btn--sm" href="#fights">Full results</a>
-          <a class="btn btn--sm btn--ghost" href="fight-for-us.html">Get on the next card</a>
+          <a class="btn btn--sm btn--ghost" href="fight-for-us.html#apply">Fight on NFP 2</a>
         </div>
       </article>
 
@@ -127,15 +154,15 @@
       <div class="acc-item">
         <button class="acc-q" type="button">When is the next card?<span class="pm"></span></button>
         <div class="acc-a"><div>
-          Not announced yet. Get on the notification list and you hear about the date,
-          the venue and tickets before anything goes public.
+          NFP 2 is Saturday March 27 at the Sheraton Hotel in Nashua. Tickets go on sale
+          soon, and the notification list gets the link before it goes public.
         </div></div>
       </div>
       <div class="acc-item">
         <button class="acc-q" type="button">Where was NFP 1?<span class="pm"></span></button>
         <div class="acc-a"><div>
           Nashua Community College, 505 Amherst Street, Nashua, New Hampshire, on Saturday
-          October 24 2026. The venue for the next card is announced with its date.
+          October 24 2026. NFP 2 moves to the Sheraton Hotel in Nashua.
         </div></div>
       </div>
       <div class="acc-item">

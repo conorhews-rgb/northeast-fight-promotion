@@ -1,4 +1,4 @@
-<!--{"slug": "index", "title": "Northeast Fight Promotion", "desc": "Northeast Fight Promotion is a new combat sports promotion in southern New Hampshire. NFP 1 took place on October 24 2026 at Nashua Community College in Nashua, NH. Full results inside."}-->
+<!--{"slug": "index", "title": "Northeast Fight Promotion", "desc": "Northeast Fight Promotion is a combat sports promotion in southern New Hampshire. NFP 2 is Saturday March 27 at the Sheraton Hotel in Nashua, NH, headlined by the first Muay Thai title in New Hampshire history. Fighter applications are open."}-->
 <!-- ===================== INTRO =====================
      Greets you with the mark, then flies it onto the hero logo while the rest
      of the page builds in underneath. Falls back to a plain CSS fade if JS
@@ -21,7 +21,9 @@
   })();
 </script>
 
-<!-- ===================== HERO ===================== -->
+<!-- ===================== HERO =====================
+     NFP 2 announcement. The logo panel stays because the intro flies the mark
+     onto it; the card under it and the poster in the rail carry the news. -->
 <section class="hero">
   <div class="wrap">
     <div class="hero-grid">
@@ -31,57 +33,65 @@
           <img src="assets/img/nfp-logo.png" alt="Northeast Fight Promotion">
         </div>
 
-        <div class="hero-card">
-          <p class="meta"><span class="dot"></span>NFP 1 results are in</p>
-          <h1>Northeast<br>Fight Promotion</h1>
+        <div class="hero-card hero-card--event">
+          <p class="meta"><span class="dot"></span>Officially announced</p>
+          <h1 class="event-mark">NF<span>P 2</span></h1>
+          <p class="event-when">Saturday&nbsp;March&nbsp;27 <i>|</i> Sheraton&nbsp;Hotel <i>|</i> Nashua,&nbsp;NH</p>
           <p class="lede">
-            A new combat sports promotion built in southern New Hampshire, putting the best
-            amateurs and pros in New England in front of a crowd that actually shows up.
+            We want this to be the biggest card we have done yet. The first fight is
+            already signed, and it is the first Muay Thai title in New Hampshire history.
           </p>
+          <ul class="bonus-strip" aria-label="Fight night bonuses">
+            <li><b>$2,000</b> Fight of the Night</li>
+            <li><b>$1,000</b> Performance of the Night</li>
+          </ul>
           <div class="btn-row">
-            <a class="btn" href="#fights">See the results</a>
-            <a class="btn btn--ghost" href="fight-for-us.html">Fight for us</a>
+            <a class="btn" href="fight-for-us.html#apply">Apply to fight</a>
+            <a class="btn btn--ghost" href="#first-fight">See the first fight</a>
           </div>
         </div>
       </div>
 
-      <!-- EDIT ME: swap these for real stories as they go live -->
-      <aside class="rail">
+      <aside class="rail rail--poster">
+        <a class="rail-poster" href="assets/img/posters/nfp2-announcement.webp" target="_blank" rel="noopener">
+          <img src="assets/img/posters/nfp2-announcement.webp" width="1080" height="1350"
+               alt="NFP 2 poster. Saturday March 27, Sheraton Hotel, Nashua, NH. Tickets on sale soon.">
+        </a>
         <h2>Top stories</h2>
         <ul>
           <li>
-            <a href="news.html">
+            <a href="#first-fight">
               <span class="n">1</span>
               <span>
-                <span class="k">Announcement</span>
-                <span class="t">NFP is coming to New England</span>
+                <span class="k">Title fight</span>
+                <span class="t">Kim vs Cetoute for NFP Muay Thai gold</span>
               </span>
             </a>
           </li>
           <li>
-            <a href="fight-for-us.html">
+            <a href="#bonuses">
               <span class="n">2</span>
               <span>
+                <span class="k">Bonuses</span>
+                <span class="t">$2,000 for Fight of the Night</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href="fight-for-us.html#apply">
+              <span class="n">3</span>
+              <span>
                 <span class="k">Fighters</span>
-                <span class="t">Fighter applications are open</span>
+                <span class="t">Applications are open for NFP 2</span>
               </span>
             </a>
           </li>
           <li>
             <a href="#fights">
-              <span class="n">3</span>
+              <span class="n">4</span>
               <span>
                 <span class="k">Results</span>
                 <span class="t">Barry and Walsh crowned at NFP 1</span>
-              </span>
-            </a>
-          </li>
-          <li>
-            <a href="contact.html#sponsor">
-              <span class="n">4</span>
-              <span>
-                <span class="k">Partners</span>
-                <span class="t">Founding sponsor slots are open</span>
               </span>
             </a>
           </li>
@@ -91,7 +101,61 @@
   </div>
 </section>
 
-<!-- ===================== FIGHT BANNER ===================== -->
+<!-- ===================== NFP 2: FIRST FIGHT ===================== -->
+<section class="section section--edge" id="first-fight">
+  <div class="wrap">
+    <div class="section-head">
+      <div data-reveal>
+        <span class="bar"></span>
+        <h2>First fight<br>announced</h2>
+      </div>
+      <p class="meta" data-reveal="right">NFP 2 <span class="sep">/</span> Sat, Mar 27 2027 <span class="sep">/</span> Sheraton Hotel, Nashua</p>
+    </div>
+
+    <div class="feature">
+      <a class="poster" href="assets/img/posters/nfp2-kim-cetoute.webp" target="_blank" rel="noopener" data-reveal="left">
+        <img src="assets/img/posters/nfp2-kim-cetoute.webp" width="1080" height="1350" loading="lazy"
+             alt="NFP 2 poster. Armani Kim vs Jeff Cetoute for the NFP 145 lb Muay Thai Championship.">
+      </a>
+      <div class="feature-body" data-reveal="right">
+        <p class="lede">
+          Armani Kim and Jeff Cetoute both won at NFP 1. On March 27 they meet for the
+          NFP 145 lb Muay Thai Championship, the first Muay Thai title in New Hampshire
+          history.
+        </p>
+        <div class="bouts">
+          {{> nfp2-card}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NFP 2: BONUSES ===================== -->
+<section class="section section--panel section--edge" id="bonuses">
+  <div class="wrap">
+    <div class="feature feature--flip">
+      <div class="feature-body" data-reveal="left">
+        <span class="bar"></span>
+        <h2>Fight night<br>bonuses</h2>
+        <p class="lede">
+          Two bonuses on the night at NFP 2. Put on the best fight or the best
+          performance on the card and it pays.
+        </p>
+        {{> bonuses}}
+        <div class="btn-row mt-3">
+          <a class="btn" href="fight-for-us.html#apply">Apply to fight</a>
+        </div>
+      </div>
+      <a class="poster" href="assets/img/posters/nfp2-bonuses.webp" target="_blank" rel="noopener" data-reveal="right">
+        <img src="assets/img/posters/nfp2-bonuses.webp" width="1080" height="1350" loading="lazy"
+             alt="NFP 2 fight night bonuses poster. Fight of the Night $2,000, $1,000 to each fighter. Performance of the Night $1,000.">
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NFP 1 BANNER ===================== -->
 <section class="fight-banner">
   <img class="region" src="assets/img/region.png" alt="" aria-hidden="true">
   <div class="wrap">
@@ -102,7 +166,7 @@
 
     <div class="btn-row">
       <a class="btn" href="#fights">See the results</a>
-      <a class="btn btn--ghost" href="#notify">Get notified for the next card</a>
+      <a class="btn btn--ghost" href="photos.html">Fight photos</a>
     </div>
   </div>
   <div class="shelf"></div>
@@ -160,10 +224,12 @@
         <span class="bar"></span>
         <h2>Home base:<br>the 603</h2>
         <p class="lede">
-          Southern New Hampshire is home. NFP 1 ran at Nashua Community College, close
-          enough to Manchester, Lowell and Boston that nobody has an excuse.
+          Southern New Hampshire is home. NFP 1 ran at Nashua Community College and NFP 2
+          is at the Sheraton in Nashua, close enough to Manchester, Lowell and Boston that
+          nobody has an excuse.
         </p>
         <ul class="checks mt-2">
+          <li>NFP 2 at the Sheraton Hotel, Nashua, on Saturday March 27</li>
           <li>NFP 1 at Nashua Community College, 505 Amherst Street, Nashua</li>
           <li>Sanctioned amateur and pro bouts under state athletic commission rules</li>
           <li>Open to fighters, coaches and officials from across the Northeast</li>
@@ -184,7 +250,7 @@
       <div class="stat" data-reveal><b data-count="6">0</b><span>Northeast states</span></div>
       <div class="stat" data-reveal><b data-count="100" data-suffix="%">0</b><span>Local talent</span></div>
       <div class="stat" data-reveal><b>12</b><span>Bouts at NFP 1</span></div>
-      <div class="stat" data-reveal><b style="font-size:2.6rem">Oct 24</b><span>NFP 1</span></div>
+      <div class="stat" data-reveal><b style="font-size:2.6rem">Mar 27</b><span>NFP 2</span></div>
     </div>
   </div>
 </section>
