@@ -137,8 +137,8 @@ def main():
     if RESULTS:
         heading = "NFP 1 results"
         cta = '''<div class="card-cta" data-reveal>
-  <p>That is NFP 1 in the books. Get on the list and you hear about the next card first.</p>
-  <a class="btn" href="#notify">Get notified</a>
+  <p>That is NFP 1 in the books. Next up is <b>NFP 2</b>, Saturday March 27 at the Sheraton Hotel in Nashua.</p>
+  <a class="btn" href="fight-for-us.html#apply">Apply to fight</a>
 </div>'''
     else:
         heading = "Confirmed fights"

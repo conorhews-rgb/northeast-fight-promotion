@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>News | Northeast Fight Promotion</title>
-<meta name="description" content="Announcements and updates from Northeast Fight Promotion, a New England fight promotion based in southern New Hampshire.">
+<meta name="description" content="NFP news. NFP 2 is Saturday March 27 at the Sheraton Hotel in Nashua, NH, with Armani Kim vs Jeff Cetoute for the NFP 145 lb Muay Thai Championship. NFP 1 results, champions and fight photos.">
 <meta name="theme-color" content="#000000">
 <meta property="og:title" content="News | Northeast Fight Promotion">
-<meta property="og:description" content="Announcements and updates from Northeast Fight Promotion, a New England fight promotion based in southern New Hampshire.">
+<meta property="og:description" content="NFP news. NFP 2 is Saturday March 27 at the Sheraton Hotel in Nashua, NH, with Armani Kim vs Jeff Cetoute for the NFP 145 lb Muay Thai Championship. NFP 1 results, champions and fight photos.">
 <meta property="og:image" content="assets/img/nfp-logo.png">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/BarlowCondensed-800-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=33a061c669">
+<link rel="stylesheet" href="assets/css/site.css?v=604c5d7214">
 </head>
 <body>
 
@@ -73,41 +73,48 @@
     <p class="crumbs"><a href="index.html">Home</a><span>/</span>News</p>
     <h1>News</h1>
     <p class="lede">
-      Announcements, matchmaking updates and everything happening behind the build.
-      Straight from us, no rumours.
+      Fight announcements, results and everything else from NFP. Straight from us, no
+      rumours.
     </p>
   </div>
 </section>
 
-<!-- ===================== FEATURED ===================== -->
-<!-- EDIT ME: swap this for your real headline story -->
+<!-- ===================== FEATURED =====================
+     The headline story. When it changes, move this one down into the grid
+     as a card. -->
 <section class="section">
   <div class="wrap">
-    <div class="split" data-reveal>
-      <div class="split-visual">
-        <span class="tag flag" style="position:absolute;top:12px;left:12px;z-index:2">Announcement</span>
-        <img src="assets/img/nfp-logo.png" alt="">
-      </div>
-      <div>
+    <div class="feature">
+      <a class="poster" href="assets/img/posters/nfp2-announcement.webp" target="_blank" rel="noopener" data-reveal="left">
+        <img src="assets/img/posters/nfp2-announcement.webp" width="1080" height="1350"
+             alt="NFP 2 poster. Saturday March 27, Sheraton Hotel, Nashua, NH. Tickets on sale soon.">
+      </a>
+      <div class="feature-body" data-reveal="right">
         <span class="bar"></span>
         <p class="meta">Announcement <span class="sep">/</span> Latest</p>
-        <h2>NFP is coming<br>to New England</h2>
+        <h2>NFP 2 is<br>official</h2>
         <p class="lede">
-          Northeast Fight Promotion is a new promotion based in southern New Hampshire,
-          built around the gyms and fighters already in this region. Our first show is
-          being put together now. The date, the venue and the opening card will be
-          announced here first.
+          NFP 2 is Saturday March 27 at the Sheraton Hotel in Nashua, and we want it to be
+          the biggest card we have done yet. The first fight is already signed: Armani Kim
+          vs Jeff Cetoute for the NFP 145 lb Muay Thai Championship, the first Muay Thai
+          title in New Hampshire history.
+        </p>
+        <p class="lede">
+          Fight of the Night pays $2,000, $1,000 to each fighter, and Performance of the
+          Night pays $1,000. Fighter applications are open now and tickets go on sale soon.
         </p>
         <div class="btn-row mt-3">
-          <a class="btn" href="#notify">Get the announcement</a>
-          <a class="btn btn--ghost" href="fight-for-us.html">Fight for us</a>
+          <a class="btn" href="fight-for-us.html#apply">Apply to fight</a>
+          <a class="btn btn--ghost" href="events.html">Event details</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== GRID ===================== -->
+<!-- ===================== GRID =====================
+     Newest first. Photo cards use card-media--photo; set object-position
+     on the img to pick which part of the picture shows. -->
 <section class="section section--panel section--edge">
   <div class="wrap">
     <div class="section-head">
@@ -118,60 +125,88 @@
       <span class="meta" data-reveal="right">Updated as it happens</span>
     </div>
 
-    <!-- EDIT ME: replace these placeholders with real posts as they land -->
     <div class="grid grid-3" data-stagger="80">
       <article class="card" data-reveal>
-        <div class="card-media"><span class="tag flag">Fighters</span><img src="assets/img/nfp-logo.png" alt=""></div>
+        <div class="card-media card-media--photo">
+          <span class="tag flag">Title fight</span>
+          <img src="assets/img/posters/nfp2-kim-cetoute.webp" alt="Armani Kim and Jeff Cetoute on the NFP 2 poster" loading="lazy" style="object-position:50% 36%">
+        </div>
         <div class="card-body">
           <span class="bar"></span>
-          <p class="meta">Fighters <span class="sep">/</span> Open now</p>
-          <h3>What we want on card one</h3>
-          <p>Who we are looking for, how matchmaking works, and the fastest way to get in front of us with a record and a highlight reel.</p>
-          <div class="card-foot"><a class="link-x" href="fight-for-us.html">Apply <span class="arw">&rarr;</span></a></div>
+          <p class="meta">NFP 2 <span class="sep">/</span> Title fight</p>
+          <h3>Kim vs Cetoute for NFP Muay Thai gold</h3>
+          <p>Both won at NFP 1. On March 27 they fight for the NFP 145 lb Muay Thai Championship, the first Muay Thai title in New Hampshire history.</p>
+          <div class="card-foot"><a class="link-x" href="index.html#first-fight">The fight <span class="arw">&rarr;</span></a></div>
         </div>
       </article>
 
       <article class="card" data-reveal>
-        <div class="card-media"><span class="tag flag">Partners</span><img src="assets/img/nfp-logo.png" alt=""></div>
+        <div class="card-media card-media--photo">
+          <span class="tag flag">Bonuses</span>
+          <img src="assets/img/posters/nfp2-bonuses.webp" alt="The NFP 2 fight night bonuses poster" loading="lazy" style="object-position:50% 77%">
+        </div>
         <div class="card-body">
           <span class="bar"></span>
-          <p class="meta">Partners <span class="sep">/</span> Open now</p>
-          <h3>Founding sponsor slots</h3>
-          <p>Event banners, walkout sponsorship, ticket back placement and stream branding across our first three shows.</p>
-          <div class="card-foot"><a class="link-x" href="contact.html#sponsor">Enquire <span class="arw">&rarr;</span></a></div>
+          <p class="meta">NFP 2 <span class="sep">/</span> Bonuses</p>
+          <h3>$2,000 for Fight of the Night</h3>
+          <p>$1,000 to each fighter in the best fight on the card, and $1,000 for the Performance of the Night.</p>
+          <div class="card-foot"><a class="link-x" href="index.html#bonuses">Bonuses <span class="arw">&rarr;</span></a></div>
         </div>
       </article>
 
       <article class="card" data-reveal>
-        <div class="card-media"><span class="tag flag">Venue</span><img src="assets/img/nfp-logo.png" alt=""></div>
+        <div class="card-media card-media--photo">
+          <span class="tag flag">Fighters</span>
+          <img src="assets/img/photos/nfp1-ferrivssmythe.jpg" alt="Jake Ferri and Tyler Smythe trading at NFP 1" loading="lazy">
+        </div>
         <div class="card-body">
           <span class="bar"></span>
-          <p class="meta">Venue <span class="sep">/</span> Confirmed</p>
-          <h3>Card one lands at Nashua Community College</h3>
-          <p>505 Amherst Street, Nashua. A proper room with parking on site, and an easy drive from Manchester, Lowell and Boston.</p>
-          <div class="card-foot"><a class="link-x" href="events.html">Event details <span class="arw">&rarr;</span></a></div>
+          <p class="meta">NFP 2 <span class="sep">/</span> Open now</p>
+          <h3>Applications are open for NFP 2</h3>
+          <p>Amateur and pro, every weight class, from anywhere in New England. Fill it out once and it goes straight to matchmaking.</p>
+          <div class="card-foot"><a class="link-x" href="fight-for-us.html#apply">Apply <span class="arw">&rarr;</span></a></div>
         </div>
       </article>
 
       <article class="card" data-reveal>
-        <div class="card-media"><span class="tag tag--outline flag">Merch</span><img src="assets/img/nfp-logo.png" alt=""></div>
+        <div class="card-media card-media--photo">
+          <span class="tag flag">Champions</span>
+          <img src="assets/img/photos/nfp1-barryvsteauge.jpg" alt="Connor Barry with the NFP middleweight championship belt" loading="lazy" style="object-position:50% 20%">
+        </div>
         <div class="card-body">
           <span class="bar"></span>
-          <p class="meta">Merch <span class="sep">/</span> Coming soon</p>
-          <h3>First merch drop</h3>
-          <p>Tees, hoodies and hats in the logo colours, landing alongside the first ticket on sale.</p>
-          <div class="card-foot"><a class="link-x" href="shop.html">See the shop <span class="arw">&rarr;</span></a></div>
+          <p class="meta">NFP 1 <span class="sep">/</span> Champions</p>
+          <h3>Barry and Walsh crowned at NFP 1</h3>
+          <p>Connor Barry stopped Paul Teague in round 2 for the middleweight title. Victoria Walsh took a unanimous decision over Maria Zahir for bantamweight gold.</p>
+          <div class="card-foot"><a class="link-x" href="champions.html">Champions <span class="arw">&rarr;</span></a></div>
         </div>
       </article>
 
       <article class="card" data-reveal>
-        <div class="card-media"><span class="tag flag">Press</span><img src="assets/img/nfp-logo.png" alt=""></div>
+        <div class="card-media card-media--photo">
+          <span class="tag flag">Results</span>
+          <img src="assets/img/photos/nfp1-faganvsjohnson.jpg" alt="Mike Fagan lands a knee on James Johnson at NFP 1" loading="lazy">
+        </div>
         <div class="card-body">
           <span class="bar"></span>
-          <p class="meta">Press <span class="sep">/</span> Open now</p>
-          <h3>Media credentials</h3>
-          <p>Photographers, videographers and writers covering New England combat sports, get on the list before card one.</p>
-          <div class="card-foot"><a class="link-x" href="contact.html#media">Request <span class="arw">&rarr;</span></a></div>
+          <p class="meta">NFP 1 <span class="sep">/</span> Results</p>
+          <h3>NFP 1 results</h3>
+          <p>Twelve bouts at Nashua Community College on October 24. Every result, title fights first.</p>
+          <div class="card-foot"><a class="link-x" href="index.html#fights">Results <span class="arw">&rarr;</span></a></div>
+        </div>
+      </article>
+
+      <article class="card" data-reveal>
+        <div class="card-media card-media--photo">
+          <span class="tag flag">Photos</span>
+          <img src="assets/img/photos/nfp1-drazhanvsacuna.jpg" alt="Kyrylo Drazhan and Andrew Acuna exchange kicks at NFP 1" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="bar"></span>
+          <p class="meta">NFP 1 <span class="sep">/</span> Photos</p>
+          <h3>NFP 1 fight photos are up</h3>
+          <p>Every bout from the night, set by set. Prints and downloads are in the gallery.</p>
+          <div class="card-foot"><a class="link-x" href="photos.html">Photos <span class="arw">&rarr;</span></a></div>
         </div>
       </article>
     </div>
@@ -249,7 +284,7 @@
         <ul>
           <!-- EDIT ME: real inbox and phone -->
           <li><a href="mailto:northeastfightpromotions@gmail.com">northeastfightpromotions@gmail.com</a></li>
-          <li><span class="muted">Nashua Community College, Nashua NH</span></li>
+          <li><span class="muted">Nashua, New Hampshire</span></li>
         </ul>
         <a class="btn btn--sm mt-2" href="#notify">Get notified</a>
       </div>

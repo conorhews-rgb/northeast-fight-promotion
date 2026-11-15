@@ -23,43 +23,38 @@ python3 ~/northeast-fight-promotion/build.py
 | Nav, logo, mobile menu | `src/partials/header.html` |
 | Footer links, socials, contact | `src/partials/footer.html` |
 | The "Be first to know" band | `src/partials/notify.html` |
+| NFP 2 confirmed fights (home and events) | `src/partials/nfp2-card.html` |
+| Fight night bonus amounts | `src/partials/bonuses.html` |
+| NFP 1 results | `tools/make-fight-card.py` (writes `src/partials/fight-card.html`) |
+| Fighter head squares | `tools/make-fighter-headshots.py` |
 | `<head>`, meta tags, SEO | `src/partials/head.html` |
 | The inbox every form sends to | `SITE["INBOX"]` in `build.py` |
 | Colours, type, motion | `assets/css/site.css` |
 | Countdown, reveals, forms | `assets/js/site.js` |
 
 Each page in `src/pages/` opens with a JSON config comment setting its slug, `<title>`
-and meta description. `{{> notify}}` pulls in the signup band.
+and meta description. `{{> name}}` pulls in `src/partials/name.html`.
 
-## Placeholders to replace before launch
+## Where things stand (Nov 2026)
 
-Search the source for `EDIT ME`. Every one is marked. The list:
-
-- **Email.** `info@nfpfights.com` is assumed, not confirmed. The mailbox has to actually
-  exist or every form submission bounces. It is set in three places: `SITE["INBOX"]` in
-  `build.py`, the fallback on `assets/js/site.js` line 348, and the signature line 360.
-- **Socials.** All four footer icons point at `#`.
-- **Event details.** Venue is confirmed: Nashua Community College, 505 Amherst Street,
-  Nashua, NH 03063. The date (Sat 24 Oct 2026) is still provisional and is marked
-  *(TBC)* on the page and in the copy. The countdown is set by
-  `data-countdown="2026-10-24T19:00:00-04:00"` on the event cards in
-  `src/pages/index.html` and `src/pages/events.html`.
-- **News posts.** The six cards on `news.html` and the three on the home page are
-  plausible placeholders, not real announcements.
-- **Shop.** Six products with placeholder prices; the "Notify" links go to the drop
-  signup form, not a store.
-- **Card imagery.** Every card currently uses the logo on a gradient. Drop real fight
-  photos into `assets/img/` and swap the `<img>` in the relevant `src/pages/` file.
+- **NFP 1** ran Sat Oct 24 2026 at Nashua Community College. Results, champions and
+  fight photos are on the site.
+- **NFP 2** is Sat March 27 2027 at the Sheraton Hotel, Nashua. It leads the home page.
+  The first fight is Kim vs Cetoute for the NFP 145 lb Muay Thai Championship. Add each
+  new fight to `src/partials/nfp2-card.html`, cut its head squares with
+  `tools/make-fighter-headshots.py`, and add a card to `src/pages/news.html`.
+- **Tickets.** NFP 2 tickets are not on sale. `SITE["TICKETS"]` in `build.py` still
+  points at the NFP 1 TicketSpice page and nothing on the site links to it. Change it,
+  and the `NFP 1` eyebrow in `src/partials/tickets.html`, when NFP 2 goes on sale.
+- **Still placeholders.** All four footer social icons point at `#`. Shop prices are
+  placeholders and the shop has no store behind it.
 
 ## Forms
 
-There's no backend. Every form opens a pre-filled email in the visitor's mail app
-(`data-mailto` on the `<form>`, handled in `assets/js/site.js`). That works from day one
-with zero hosting cost.
-
-To move to a real form handler later (Formspree, Netlify Forms, your own endpoint),
-replace the `data-mailto` submit handler in `site.js` section 10 with a `fetch()` POST.
-The field `name` attributes are already sensible.
+Every form posts to Web3Forms, which emails the submission to `SITE["INBOX"]` with the
+visitor's address as reply-to. The access key is `SITE["FORM_KEY"]` in `build.py`. If the
+post fails or takes longer than 12 seconds, the visitor's mail app opens with the message
+pre-filled instead (`assets/js/site.js` section 9).
 
 ## Assets
 
