@@ -1864,3 +1864,14 @@ html.tk-open { overflow: hidden; }
 }
 .card-media--photo .flag,
 .card-media--photo .flag-r { z-index: 2; }
+
+/* eligibility line under the bonus rows */
+.bonus-note {
+  margin: 12px 0 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
