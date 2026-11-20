@@ -30,19 +30,19 @@ TIERS = [  # name, price, metallic gradient for the name (top, bottom), perks
         "2 FREE GENERAL ADMISSION TICKETS",
         "BUSINESS LOGO ON EVERY POSTER",
         "LOGO DISPLAYED IN VENUE",
-        "2 IN RING MC ANNOUNCEMENTS AT THE EVENT",
+        "IN RING MC ANNOUNCEMENTS AT THE EVENT",
         "SOCIAL MEDIA POST"]),
     dict(name="GOLD", price="$2,000", grad=((255, 228, 132), (198, 146, 42)), perks=[
-        "4 GENERAL ADMISSION TICKETS",
+        "4 PRIORITY SEATS",
         "LOGO ON CANVAS",
         "LOGO ON EVERY FUTURE POSTER",
-        "4 IN RING MC ANNOUNCEMENTS AT THE EVENT",
+        "IN RING MC ANNOUNCEMENTS AT THE EVENT",
         "DEDICATED SOCIAL MEDIA POST"]),
     dict(name="PLATINUM", price="$2,500", grad=((255, 255, 255), (166, 204, 224)), perks=[
         "4 FRONT ROW SEATS",
         "LOGO ON CANVAS",
         "LOGO ON EVERY FUTURE POSTER",
-        "6 IN RING MC ANNOUNCEMENTS AT THE EVENT",
+        "IN RING MC ANNOUNCEMENTS AT THE EVENT",
         "DEDICATED SOCIAL MEDIA POST",
         "DEDICATED TABLE AT THE EVENT"]),
 ]
