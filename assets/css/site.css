@@ -1875,3 +1875,75 @@ html.tk-open { overflow: hidden; }
   text-transform: uppercase;
   color: var(--muted);
 }
+
+/* =========================================================
+   APPLICATION Fighters / Gyms tabs over the form panel, the
+   gym roster rows, and the missing-field outline
+   ========================================================= */
+.tabs--form { margin-bottom: 0; gap: 24px; border-bottom: 0; }
+.tabs--form button { font-size: clamp(1.35rem, 2.2vw, 1.75rem); padding-bottom: 12px; }
+
+.form-lead {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* an empty required select reads as a placeholder until it is chosen */
+.field select:invalid { color: var(--muted-2); }
+.field select option { color: #fff; }
+
+/* only after a send attempt, so a fresh form is not covered in red */
+.is-checked .field input:invalid,
+.is-checked .field textarea:invalid,
+.is-checked .field select:invalid { border-color: #e5484d; }
+
+.slots { min-width: 0; margin: 0 0 16px; padding: 0; border: 0; }
+.slots legend {
+  padding: 0;
+  margin-bottom: 7px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.slot {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.3fr) minmax(0, 0.95fr) 46px;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+/* narrow selects: stop the text short of the arrow instead of under it */
+.slot select { padding-left: 12px; padding-right: 30px; font-size: 0.92rem; text-overflow: ellipsis; }
+.slot-remove {
+  height: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.slot-remove:hover { border-color: #e5484d; color: #fff; }
+/* the remove button is hidden when there is only one row; keep its column */
+.slot-remove[hidden] { display: block !important; visibility: hidden; }
+.slot-add { margin-top: 2px; }
+/* Three dropdowns side by side need about 460px. The form column is
+   narrower than that on phones and on screens just wide enough for the
+   two-column layout, so stack by the form's own width, not the screen's. */
+.slots { container-type: inline-size; }
+@container (max-width: 460px) {
+  .slot {
+    grid-template-columns: minmax(0, 1fr) 46px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .slot select { grid-column: 1; }
+  .slot-remove { grid-column: 2; grid-row: 1 / span 3; }
+}

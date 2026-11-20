@@ -307,19 +307,87 @@
   }
 
   /* ---------------------------------------------------------
-     7. Tab switchers (Upcoming / Past on the events page)
+     7. Tab switchers (Upcoming / Past on the events page,
+     Fighters / Gyms on the application)
      --------------------------------------------------------- */
   $$("[data-tabs]").forEach((group) => {
     const buttons = $$("[data-tab]", group);
+    // panels sit beside their tab strip, so two tab groups on one page never
+    // switch each other's panels
+    const panels = $$(":scope > [data-panel]", group.parentElement);
+    const show = (name) => {
+      buttons.forEach((b) => b.setAttribute("aria-selected", String(b.getAttribute("data-tab") === name)));
+      panels.forEach((panel) => {
+        panel.hidden = panel.getAttribute("data-panel") !== name;
+      });
+    };
     buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const name = btn.getAttribute("data-tab");
-        buttons.forEach((b) => b.setAttribute("aria-selected", String(b === btn)));
-        $$("[data-panel]").forEach((panel) => {
-          panel.hidden = panel.getAttribute("data-panel") !== name;
+      btn.addEventListener("click", () => show(btn.getAttribute("data-tab")));
+    });
+    // a link to a panel's id (fight-for-us.html#gyms) opens that tab. The
+    // browser cannot scroll to a hidden panel itself, so bring the tabs in.
+    const panelFor = () => panels.find((p) => p.id && "#" + p.id === location.hash);
+    const open = (behavior) => {
+      const panel = panelFor();
+      if (!panel) return;
+      show(panel.getAttribute("data-panel"));
+      group.scrollIntoView({ block: "start", behavior: behavior });
+    };
+    // arriving from another page: switch the tab now, but scroll only once
+    // the page has loaded, or the browser's own jump to the fragment cancels it
+    if (panelFor()) {
+      show(panelFor().getAttribute("data-panel"));
+      const land = () => setTimeout(() => open("instant"), 0);
+      if (document.readyState === "complete") land();
+      else window.addEventListener("load", land, { once: true });
+    }
+    window.addEventListener("hashchange", () => open("smooth"));
+  });
+
+  /* ---------------------------------------------------------
+     7b. Repeating rows (the gym roster on Fight For Us)
+     Each [data-slot] row is a set of unnamed selects. Every row
+     is written, one line each, into the hidden [data-slots-out]
+     field, and that field is what the form sends.
+     --------------------------------------------------------- */
+  $$("[data-slots]").forEach((box) => {
+    const list = $("[data-slot-list]", box);
+    const out = $("[data-slots-out]", box);
+    const template = $("[data-slot]", list).cloneNode(true);
+    const rows = () => $$("[data-slot]", list);
+    const sync = () => {
+      const all = rows();
+      all.forEach((row, i) => {
+        $$("select", row).forEach((s) => {
+          s.setAttribute("aria-label", s.getAttribute("data-label") + ", fighter " + (i + 1));
         });
+        $("[data-slot-remove]", row).hidden = all.length === 1;
+      });
+      out.value = all
+        .map((row, i) => i + 1 + ". " + $$("select", row).map((s) => s.value || "?").join(", "))
+        .join("\n");
+    };
+    box.addEventListener("change", sync);
+    box.addEventListener("click", (e) => {
+      if (e.target.closest("[data-slot-add]")) {
+        const row = template.cloneNode(true);
+        list.appendChild(row);
+        sync();
+        $("select", row).focus();
+      } else if (e.target.closest("[data-slot-remove]")) {
+        e.target.closest("[data-slot]").remove();
+        sync();
+      }
+    });
+    // after a successful send the form resets: back to one empty row. The
+    // reset event fires before the values clear, hence the timeout.
+    box.closest("form").addEventListener("reset", () => {
+      setTimeout(() => {
+        rows().slice(1).forEach((r) => r.remove());
+        sync();
       });
     });
+    sync();
   });
 
   /* ---------------------------------------------------------
@@ -360,8 +428,21 @@
     trap.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px;opacity:0";
     form.appendChild(trap);
 
+    // once someone tries to send, outline everything still missing in red,
+    // and start clean again after a successful send resets the form
+    form.addEventListener("invalid", () => form.classList.add("is-checked"), true);
+    form.addEventListener("reset", () => form.classList.remove("is-checked"));
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      // the browser's own check lets an answer of only spaces through
+      const blank = $$("[required]", form).find((el) => !String(el.value).trim());
+      if (blank) {
+        blank.value = "";
+        form.classList.add("is-checked");
+        form.reportValidity();
+        return;
+      }
       const subject = form.getAttribute("data-subject") || "Website enquiry";
       const button = $("button[type=submit], button:not([type])", form);
       const success = $(".form-success", form);

@@ -13,7 +13,7 @@
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/BarlowCondensed-800-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=ca45a4be67">
+<link rel="stylesheet" href="assets/css/site.css?v=5c79b745bd">
 </head>
 <body>
 
@@ -126,8 +126,9 @@
         <span class="bar"></span>
         <h2>Put your<br>name in</h2>
         <p class="lede">
-          Fill this out once. It goes straight to matchmaking, and if you are a fit for
-          NFP 2 we will come back to you and your coach directly.
+          Fighters, fill this out once. It goes straight to matchmaking, and if you are a
+          fit for NFP 2 we will come back to you and your coach directly. Gyms, use the Gyms
+          tab to send everyone you have available in one go.
         </p>
         <ul class="checks mt-2">
           <li>Amateur and pro bouts, all weight classes</li>
@@ -159,61 +160,142 @@
 
       </div>
 
-      <form class="form-panel" data-mailto data-subject="NFP fighter application" data-reveal="right">
-        <div class="field-row">
-          <div class="field">
-            <label for="f-name">Full name</label>
-            <input id="f-name" name="full_name" type="text" placeholder="First and last" required>
-          </div>
-          <div class="field">
-            <label for="f-nick">Nickname</label>
-            <input id="f-nick" name="nickname" type="text" placeholder="Optional">
-          </div>
+      <!-- Two tabs over two forms. Every field is required so nothing arrives
+           half filled; site.js also rejects answers that are only spaces.
+           Linking to #fighters or #gyms opens that tab. -->
+      <div class="apply-forms" data-reveal="right">
+        <div class="tabs tabs--form" role="tablist" data-tabs>
+          <button type="button" role="tab" data-tab="fighters" aria-selected="true" aria-controls="fighters">Fighters</button>
+          <button type="button" role="tab" data-tab="gyms" aria-selected="false" aria-controls="gyms">Gyms</button>
         </div>
 
-        <div class="field-row">
-          <div class="field">
-            <label for="f-email">Email</label>
-            <input id="f-email" name="email" type="email" placeholder="you@email.com" required>
-          </div>
-          <div class="field">
-            <label for="f-phone">Phone</label>
-            <input id="f-phone" name="phone" type="tel" placeholder="(603) 555-0100">
-          </div>
-        </div>
+        <!-- ===== FIGHTERS ===== -->
+        <form class="form-panel" id="fighters" data-panel="fighters" role="tabpanel"
+              data-mailto data-subject="NFP fighter application">
+          <p class="form-lead">Every field is required.</p>
 
-        <div class="field-row">
-          <div class="field">
-            <label for="f-status">Status</label>
-            <select id="f-status" name="status">
-              <option>Amateur</option>
-              <option>Pro</option>
-              <option>Amateur, turning pro</option>
-            </select>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-name">Full name</label>
+              <input id="f-name" name="full_name" type="text" placeholder="First and last" required>
+            </div>
+            <div class="field">
+              <label for="f-nick">Nickname</label>
+              <input id="f-nick" name="nickname" type="text" placeholder="Write none if you do not have one" required>
+            </div>
           </div>
-          <div class="field">
-            <label for="f-weight">Weight class</label>
-            <select id="f-weight" name="weight_class">
-              <option>Flyweight (125)</option>
-              <option>Bantamweight (135)</option>
-              <option>Featherweight (145)</option>
-              <option>Lightweight (155)</option>
-              <option>Welterweight (170)</option>
-              <option>Middleweight (185)</option>
-              <option>Light heavyweight (205)</option>
-              <option>Heavyweight (265)</option>
-            </select>
-          </div>
-        </div>
 
-        <div class="field-row">
-          <div class="field">
-            <label for="f-record">Record</label>
-            <input id="f-record" name="record" type="text" placeholder="For example 4-1">
+          <div class="field-row">
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" placeholder="you@email.com" required>
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone</label>
+              <input id="f-phone" name="phone" type="tel" placeholder="(603) 555-0100" required>
+            </div>
           </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-status">Status</label>
+              <select id="f-status" name="status" required>
+                <option value="" disabled selected>Choose one</option>
+                <option>Amateur</option>
+                <option>Pro</option>
+                <option>Amateur, turning pro</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-weight">Weight class</label>
+              <select id="f-weight" name="weight_class" required>
+                <option value="" disabled selected>Choose one</option>
+                <option>Flyweight (125)</option>
+                <option>Bantamweight (135)</option>
+                <option>Featherweight (145)</option>
+                <option>Lightweight (155)</option>
+                <option>Welterweight (170)</option>
+                <option>Middleweight (185)</option>
+                <option>Light heavyweight (205)</option>
+                <option>Heavyweight (265)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-record">Record</label>
+              <input id="f-record" name="record" type="text" placeholder="For example 4-1, or 0-0" required>
+            </div>
+            <div class="field">
+              <label for="f-state">State</label>
+              <select id="f-state" name="state" required>
+                <option value="" disabled selected>Choose one</option>
+                <option>New Hampshire</option>
+                <option>Massachusetts</option>
+                <option>Maine</option>
+                <option>Vermont</option>
+                <option>Rhode Island</option>
+                <option>Connecticut</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
           <div class="field">
-            <label for="f-state">State</label>
-            <select id="f-state" name="state">
+            <label for="f-gym">Gym and head coach</label>
+            <input id="f-gym" name="gym_and_coach" type="text" placeholder="Gym name, coach name" required>
+          </div>
+
+          <div class="field">
+            <label for="f-links">Footage or record links</label>
+            <input id="f-links" name="links" type="text" placeholder="Tapology, Smoothcomp, YouTube, Instagram" required>
+          </div>
+
+          <div class="field">
+            <label for="f-msg">Availability and who you want to fight</label>
+            <textarea id="f-msg" name="message" placeholder="Availability, recent camps, who you want to fight" required></textarea>
+          </div>
+
+          <button class="btn btn--block" type="submit">Submit application</button>
+          <div class="form-success" role="status">Application received. We will be in touch.</div>
+          <p class="form-note">
+            All bouts are sanctioned under the applicable state athletic commission. Medicals,
+            licensing and clearance are required before anyone is announced on a card.
+          </p>
+        </form>
+
+        <!-- ===== GYMS ===== -->
+        <form class="form-panel" id="gyms" data-panel="gyms" role="tabpanel" hidden
+              data-mailto data-subject="NFP gym roster">
+          <p class="form-lead">Every field is required. Add a row for each fighter you have available.</p>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="g-gym">Gym name</label>
+              <input id="g-gym" name="gym_name" type="text" placeholder="Gym name" required>
+            </div>
+            <div class="field">
+              <label for="g-coach">Head coach</label>
+              <input id="g-coach" name="head_coach" type="text" placeholder="First and last" required>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="g-email">Email</label>
+              <input id="g-email" name="email" type="email" placeholder="you@email.com" required>
+            </div>
+            <div class="field">
+              <label for="g-phone">Phone</label>
+              <input id="g-phone" name="phone" type="tel" placeholder="(603) 555-0100" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="g-state">State</label>
+            <select id="g-state" name="state" required>
+              <option value="" disabled selected>Choose one</option>
               <option>New Hampshire</option>
               <option>Massachusetts</option>
               <option>Maine</option>
@@ -223,30 +305,58 @@
               <option>Other</option>
             </select>
           </div>
-        </div>
 
-        <div class="field">
-          <label for="f-gym">Gym and head coach</label>
-          <input id="f-gym" name="gym_and_coach" type="text" placeholder="Gym name, coach name" required>
-        </div>
+          <!-- One row per fighter. The selects have no name: site.js writes
+               every row into the hidden fighters_available field, one line
+               each, and that is what gets sent. -->
+          <fieldset class="slots" data-slots>
+            <legend>Fighters available</legend>
+            <div data-slot-list>
+              <div class="field slot" data-slot>
+                <select data-label="Weight class" required>
+                  <option value="" disabled selected>Weight class</option>
+                  <option>125 lbs</option>
+                  <option>135 lbs</option>
+                  <option>145 lbs</option>
+                  <option>155 lbs</option>
+                  <option>170 lbs</option>
+                  <option>185 lbs</option>
+                  <option>205 lbs</option>
+                  <option>265 lbs</option>
+                </select>
+                <select data-label="Sport" required>
+                  <option value="" disabled selected>Sport</option>
+                  <option>Boxing</option>
+                  <option>Kickboxing</option>
+                  <option>Muay Thai</option>
+                  <option>No-gi grappling</option>
+                  <option>Gi grappling</option>
+                </select>
+                <select data-label="Status, pro or amateur" required>
+                  <option value="" disabled selected>Status</option>
+                  <option>Amateur</option>
+                  <option>Pro</option>
+                </select>
+                <button class="slot-remove" type="button" data-slot-remove aria-label="Remove this fighter">&times;</button>
+              </div>
+            </div>
+            <button class="btn btn--sm btn--ghost slot-add" type="button" data-slot-add>Add another fighter</button>
+            <input type="hidden" name="fighters_available" data-slots-out>
+          </fieldset>
 
-        <div class="field">
-          <label for="f-links">Footage or record links</label>
-          <input id="f-links" name="links" type="text" placeholder="Tapology, Smoothcomp, YouTube, Instagram">
-        </div>
+          <div class="field">
+            <label for="g-names">Fighter names and records</label>
+            <textarea id="g-names" name="fighter_names_and_records" placeholder="One line per fighter, for example Jake Smith, 3-1" required></textarea>
+          </div>
 
-        <div class="field">
-          <label for="f-msg">Anything else</label>
-          <textarea id="f-msg" name="message" placeholder="Availability, recent camps, who you want to fight"></textarea>
-        </div>
-
-        <button class="btn btn--block" type="submit">Submit application</button>
-        <div class="form-success" role="status">Application received. We will be in touch.</div>
-        <p class="form-note">
-          All bouts are sanctioned under the applicable state athletic commission. Medicals,
-          licensing and clearance are required before anyone is announced on a card.
-        </p>
-      </form>
+          <button class="btn btn--block" type="submit">Send roster</button>
+          <div class="form-success" role="status">Roster received. We will be in touch.</div>
+          <p class="form-note">
+            All bouts are sanctioned under the applicable state athletic commission. Medicals,
+            licensing and clearance are required before anyone is announced on a card.
+          </p>
+        </form>
+      </div>
     </div>
   </div>
 </section>
@@ -269,7 +379,7 @@
       <div class="panel" data-reveal>
         <h3>Gyms and coaches</h3>
         <p>Got a stable of fighters ready? Send the whole roster at once and we will work through it with you.</p>
-        <a class="link-x" href="#apply">Send a roster <span class="arw">&rarr;</span></a>
+        <a class="link-x" href="#gyms">Send a roster <span class="arw">&rarr;</span></a>
       </div>
       <div class="panel" data-reveal>
         <h3>Officials</h3>
@@ -406,6 +516,6 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=d4bfb2e7e2"></script>
+<script src="assets/js/site.js?v=37692a9f67"></script>
 </body>
 </html>
