@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Render the NFP 1 recap posts, 1080x1350 PNGs, from Paperview's gallery.
 
-Posts 1 to 11 are the first set, 13 to 22 the second (12 is the Sequel thank
+Posts 1 to 11 are the first set, 13 to 34 the second (12 is the Sequel thank
 you, made by hand). Photos are pulled from Pixieset's image CDN by key and
 cached in the temp dir, so nothing large lands in the repo. Results, names,
 gyms, weights and bout titles mirror the fight card in tools/make-fight-card.py,
@@ -9,7 +9,8 @@ and the NFP 2 lines mirror src/partials/nfp2-card.html and bonuses.html. Type
 is the site's Barlow Condensed, as on the fight card poster.
 
 House wording: winner named first, "DEF." for a win, methods as TKO RD 1 / UD /
-DRAW, " | " between facts, no full stops or exclamation marks.
+DRAW, " | " between facts, no full stops or exclamation marks. The art carries
+labels, names and facts only; anything conversational goes in the caption.
 
 Run from the repo root:
     python3 tools/make-recap-posts.py OUT_DIR [POST_NUMBER ...]
@@ -19,7 +20,7 @@ images.pixieset.com/922645521/<key>-xlarge.jpg
 """
 import concurrent.futures as cf
 import os, sys, tempfile, urllib.request
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageFilter
 
 out = sys.argv[1]
 ONLY = {int(a) for a in sys.argv[2:]}
@@ -52,26 +53,29 @@ PHOTOS = {  # name: Pixieset key, gallery set in the comment
     "mackey-burbach":    "832c9bca4e4b4115c57332fb9d57e38a",  # mackeyvsburbach
     "round-1-card":      "f150bf85615cd5a9b288bb8d7a2cb1af",  # extras
     # second set
-    "fagan-raised":          "4bff11a2ae950d5999b4afacfc1e1bf3",  # faganvsjohnson
-    "fagan-hand-raised":     "50cc7f1f32579fbc64f377dab622a33a",  # faganvsjohnson
-    "ferri-smythe-respect":  "ee4ef4ea7a2c8465f5800f74b5f6acbc",  # ferrivssmythe
-    "walsh-zahir-hug":       "b5a79c96a9414b5ffb4317d0c5ce0deb",  # walshvszahir
-    "barry-teague-respect":  "b1aed773b7f3002563c35d7839a3775b",  # barryvsteauge
-    "pacy-juarez-respect":   "49d2fcb175370f923469182149e4c236",  # pacyvsjuarez
-    "kim-arms-up":           "b886c0e55654321696b2c76db0ca6704",  # kimvscolon
-    "cetoute-point":         "48c056bff4c4aced0efe1df683e6559d",  # cetoutevsduffy
+    "fagan-ropes":           "ec52b264f0da6faae0c0f7af5c3b4fe7",  # faganvsjohnson
+    "ferri-roar":            "539ba8311df025222f1646263f7307ba",  # ferrivssmythe
+    "walsh-hand-raised":     "d672497e43ca3912bdccec3d601263ec",  # walshvszahir
+    "fagan-hand-raised":     "8cf03ee670ee7eaca12e950a9b2a3322",  # faganvsjohnson
+    "kim-hand-raised":       "6d6b912315d7da014ff1448714276098",  # kimvscolon
+    "cetoute-hand-raised":   "be1a577bb3c2701b011890e1cf48b8b8",  # cetoutevsduffy
+    "kelly-hand-raised":     "f1c8dfc27eb929dbc0e639bf09587f44",  # kellyvsstfelix
     "drazhan-hand-raised":   "e7e080a7b6fd2236446889db93863d7a",  # drazhanvsacuna
-    "walsh-belt-kiss":       "e3ef92d8191b2be479d3f5315257a8f7",  # walshvszahir
-    "ring-wide":             "c0d5e015daa11723763a914f8c11f81a",  # barryvsteauge
-    "ferri-smythe-faceoff":  "fe7ce49fc321b793bdb829783f5d88a6",  # ferrivssmythe
-    "barry-right-hand":      "a2844187bc55dc2269c5ae43397a0655",  # barryvsteauge
-    "walsh-jab":             "6733375952ffead6d9ac87b6cb062296",  # walshvszahir
-    "ferri-jab":             "95305f327fcf5279a3b513bc20819195",  # ferrivssmythe
-    "kelly-exchange":        "7db9b7e6776de6c675443055e497f9eb",  # kellyvsstfelix
-    "through-the-ropes":     "177f24a415a74b4715ef5a07c281351e",  # connertonvsstocker
+    "barry-belt-close":      "a4d70cbfc3399514ac0c99c76deab590",  # barryvsteauge
+    "walsh-studio":          "4e3669b9010cff8bf700074fe675c533",  # walshvszahir
+    "kim-kick":              "ce0946cfe8aec98ebf142cb6d83a2d97",  # kimvscolon
+    "cetoute-exchange":      "2c01bce8a47277844a614a71409fcd2d",  # cetoutevsduffy
     "barry-crowd":           "1e6435f0edb416704d4b35c78fb48f00",  # barryvsteauge
+    "ferri-smythe-faceoff":  "fe7ce49fc321b793bdb829783f5d88a6",  # ferrivssmythe
+    "teague-hot-dog":        "b723a86bc7bfbb1fc944d3fcfabcda1c",  # barryvsteauge
+    "kelly-robe":            "9877e7d573a4bbed0b79155615cfd1d4",  # kellyvsstfelix
+    "cetoute-ropes":         "33cb690a24feb092cb596eefb468f52b",  # cetoutevsduffy
+    "walsh-zahir-hug":       "b5a79c96a9414b5ffb4317d0c5ce0deb",  # walshvszahir
+    "johnson-corner":        "78358115c4c648c0e34a0a4eabfb8a18",  # faganvsjohnson
+    "kim-stare":             "ac8c0d0c5294219cefdcd1692ec1de5f",  # kimvscolon
+    "cetoute-walk":          "34228c26dbd91d4aa3bf2ef947f72626",  # cetoutevsduffy
+    "st-felix-intro":        "f959736b8529517c5514842921441a72",  # kellyvsstfelix
 }
-BELT = "assets/img/poster-src/nfp-belt.webp"
 GALLERY_COUNT = 769                                     # photos in the gallery, printed on post 9
 
 # every 8th photo of the gallery, in gallery order, for the 766 PHOTOS mosaic
@@ -127,6 +131,21 @@ RESULTS = [  # (winner or first named, loser or second named, method, title figh
         ("JULIAN CONNERTON", "OWEN STOCKER", "DRAW", False),
         ("SHAYNE MACKEY", "BLANE BURBACH", "DRAW", False)]),
 ]
+
+
+def solid_logo():
+    """The logo with every part fully opaque. nfp-logo-alpha.png takes its alpha from brightness,
+    so its greens are see-through; this one is cut from the black-background original instead."""
+    src = Image.open("assets/img/nfp-logo.png").convert("RGB")
+    r, g, b = src.split()
+    alpha = ImageChops.lighter(ImageChops.lighter(r, g), b).point(lambda v: min(255, v * 4))
+    # anything the outside cannot reach (the fighters in the letters, the state lines) stays solid black
+    outside = Image.new("L", (src.width + 2, src.height + 2), 0)
+    outside.paste(alpha.point(lambda v: 255 if v > 96 else 0), (1, 1))
+    ImageDraw.floodfill(outside, (0, 0), 128)
+    holes = outside.crop((1, 1, src.width + 1, src.height + 1)).point(lambda v: 255 if v == 0 else 0)
+    src.putalpha(ImageChops.lighter(alpha, holes))
+    return src
 
 
 def fetch(key, size):
@@ -204,8 +223,9 @@ class Post:
         while px > 10 and self.width(runs_fn(px)) > maxw: px -= 1
         return runs_fn(px)
 
-    def logo(self, x, y, w=110, align="c"):
-        lg = LOGO.resize((w, round(w * LOGO.height / LOGO.width)), Image.LANCZOS)
+    def logo(self, x, y, w=110, align="c", solid=False):
+        src = solid_logo() if solid else LOGO
+        lg = src.resize((w, round(w * src.height / src.width)), Image.LANCZOS)
         x = x - w // 2 if align == "c" else x - w if align == "r" else x
         glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
         glow.paste(Image.new("RGBA", lg.size, (0, 0, 0, 170)), (x, y), lg)
@@ -421,158 +441,12 @@ def who_next():
     p.save("11-who-should-be-on-nfp-2")
 
 
-# ---------------------------------------------------------------- second set, posts 13 to 22
-def done_in_one():
-    p = Post()
-    p.put(cover(photo("fagan-raised"), W, H, fx=.5, fy=.5))
-    p.shade(0, 240, 190, 0)
-    p.shade(640, H, 0, 250)
-    p.text(44, 76, [("AMATEUR KICKBOXING", font("800i", 46), GREEN)], shadow=5)
-    p.text(44, 112, [("155 LBS", font("700", 23), MUTED)], shadow=4)
-    p.logo(W - 40, 22, 100, align="r")
-    p.text(W / 2, 1120, p.fit(lambda px: [("DONE IN ", font("800i", px), WHITE), ("ONE", font("800i", px), GREEN)], 230, W - 88), "c", shadow=10)
-    p.text(44, 1212, [("MIKE FAGAN", font("800i", 64), WHITE)], shadow=6)
-    p.text(44, 1258, [("DEF. JAMES JOHNSON", font("700", 30), MUTED)])
-    p.text(W - 44, 1212, [("TKO RD 1", font("800i", 64), GREEN)], "r", shadow=6)
-    p.text(W - 44, 1258, [("NFP 1  |  NASHUA, NH", font("700", 30), MUTED)], "r")
-    p.save("13-done-in-one")
-
-
-def all_respect():
-    p = Post()
-    tiles = [("ferri-smythe-respect", (0, 0, 700, 560), .5, .4, "FERRI VS SMYTHE"),
-             ("walsh-zahir-hug", (706, 0, 374, 560), .5, .45, "WALSH VS ZAHIR"),
-             ("barry-teague-respect", (0, 566, 537, 440), .45, .45, "BARRY VS TEAGUE"),
-             ("pacy-juarez-respect", (543, 566, 537, 440), .5, .4, "PACY VS JUAREZ")]
-    for name, (x, y, w, h), fx, fy, label in tiles:
-        p.put(cover(photo(name), w, h, fx=fx, fy=fy), (x, y))
-        p.shade(y + h - 110, y + h, 0, 190, x, x + w)
-        p.text(x + 20, y + h - 20, [(label, font("800i", 30), WHITE)], shadow=4)
-    p.shade(0, 150, 150, 0)
-    p.logo(40, 24, 100, align="l")
-    p.text(W / 2, 1222, p.fit(lambda px: [("ALL ", font("800i", px), WHITE), ("RESPECT", font("800i", px), GREEN)], 230, W - 88), "c")
-    p.text(W / 2, 1278, [("NFP 1  |  SAT OCT 24  |  NASHUA, NH", font("700", 23), MUTED)], "c")
-    p.save("14-all-respect")
-
-
-def one_belt():
-    p = Post()
-    ph, top_x, bot_x = 1010, 500, 580                   # diagonal seam, Kim left, Cetoute right
-    p.put(cover(photo("kim-arms-up"), 640, ph, fx=.50, fy=.5))       # pushed left, clear of the seam
-    p.put(cover(photo("cetoute-point"), 640, ph, fx=.32, fy=.45), (440, 0),
-          poly_mask([(top_x, 0), (W, 0), (W, ph), (bot_x, ph)]))
-    p.d.polygon([(top_x - 5, 0), (top_x + 5, 0), (bot_x + 5, ph), (bot_x - 5, ph)], fill=GREEN)
-    p.shade(0, 190, 160, 0)
-    p.shade(ph - 400, ph, 0, 255)
-    p.logo(504, 24, 112)                                # sits on the seam
-    belt = Image.open(BELT).convert("RGBA")
-    bw = 540; belt = belt.resize((bw, round(bw * belt.height / belt.width)), Image.LANCZOS)
-    bx, by = (W - bw) // 2, 826
-    sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    sh.paste(Image.new("RGBA", belt.size, (0, 0, 0, 220)), (bx, by + 12), belt)
-    p.im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(16)))
-    p.im.alpha_composite(belt, (bx, by))
-    p.text(W / 2, 1112, p.fit(lambda px: [("TWO WINNERS ", font("800i", px), WHITE), ("ONE BELT", font("800i", px), GREEN)], 130, W - 80), "c", shadow=8)
-    for cx, name, gym in ((270, "ARMANI KIM", "GATE CITY MMA"), (810, "JEFF CETOUTE", "RAJASI MUAY THAI")):
-        p.text(cx, 1186, [(name, font("800i", 56), WHITE)], "c", shadow=6)
-        p.text(cx, 1222, [(gym, font("700", 23), MUTED)], "c")
-        p.text(cx, 1258, [("WON BY UD AT NFP 1", font("800i", 26), GREEN)], "c")
-    p.text(W / 2, 1314, [("NFP 145 LB MUAY THAI CHAMPIONSHIP  |  NFP 2  |  SAT MARCH 27", font("700", 21), MUTED)], "c")
-    p.save("15-two-winners-one-belt")
-
-
-def recon():
-    p = Post()
-    ph, g = 1000, 6
-    hw = (W - g) // 2
-    p.put(cover(photo("fagan-hand-raised"), hw, ph, fx=.25, fy=.5))
-    p.put(cover(photo("drazhan-hand-raised"), hw, ph, fx=.49, fy=.5), (hw + g, 0))
-    p.shade(0, 190, 160, 0)
-    p.shade(ph - 340, ph, 0, 255)
-    p.logo(W // 2, 24, 112)
-    for cx, name, how in ((hw / 2, "MIKE FAGAN", "TKO RD 1"), (hw + g + hw / 2, "KYRYLO DRAZHAN", "UD")):
-        p.text(cx, 934, [(name, font("800i", 54), WHITE)], "c", shadow=6)
-        p.text(cx, 974, [(how, font("800i", 30), GREEN)], "c")
-    p.text(36, 1296, [("2-0", font("800i", 300), GREEN)], shadow=10)
-    p.text(W - 44, 1186, [("RECON MMA", font("800i", 118), WHITE)], "r", shadow=6)
-    p.text(W - 44, 1250, [("2 FIGHTS  |  2 WINS", font("800i", 46), GREEN)], "r")
-    p.text(W - 44, 1294, [("NFP 1  |  NASHUA, NH", font("700", 26), MUTED)], "r")
-    p.save("16-recon-mma-2-0")
-
-
-def the_first():
-    p = Post()
-    p.put(cover(photo("walsh-belt-kiss"), W, H, fx=.46, fy=.5))
-    p.shade(0, 240, 190, 0)
-    p.shade(640, H, 0, 250)
-    p.text(44, 76, [("TITLE FIGHT", font("800i", 46), GREEN)], shadow=5)
-    p.text(44, 112, [("NFP BANTAMWEIGHT CHAMPIONSHIP  |  AMATEUR KICKBOXING", font("700", 23), MUTED)], shadow=4)
-    p.logo(W - 40, 22, 100, align="r")
-    p.text(40, 1104, p.fit(lambda px: [("THE ", font("800i", px), WHITE), ("FIRST", font("800i", px), GREEN)], 250, W - 88), shadow=10)
-    p.text(44, 1192, [("VICTORIA WALSH", font("800i", 64), WHITE)], shadow=6)
-    p.text(44, 1238, [("NFP BANTAMWEIGHT CHAMPION", font("800i", 30), GREEN)])
-    p.text(44, 1280, [("DEF. MARIA ZAHIR  |  UD", font("700", 30), MUTED)])
-    p.save("17-the-first")
-
-
-def by_the_numbers():
-    p = Post()
-    p.put(cover(photo("ring-wide"), W, H, fx=.5).filter(ImageFilter.GaussianBlur(5)))
-    p.im.alpha_composite(Image.new("RGBA", (W, H), (0, 0, 0, 172)))
-    p.shade(0, 320, 210, 0)
-    p.shade(H - 300, H, 0, 200)
-    p.logo(W // 2, 22, 104)
-    p.text(W / 2, 306, p.fit(lambda px: [("NFP 1 ", font("800i", px), GREEN), ("BY THE NUMBERS", font("800i", px), WHITE)], 130, W - 88), "c", shadow=8)
-    p.text(W / 2, 348, [("SAT OCT 24  |  NASHUA, NH", font("700", 23), MUTED)], "c")
-    y = 540
-    for n, label in (("12", "FIGHTS"), ("24", "FIGHTERS"), ("2", "NEW CHAMPIONS"), ("2", "FINISHES"), ("1", "NIGHT IN NASHUA")):
-        p.text(330, y, [(n, font("800i", 170), GREEN)], "r", shadow=8)
-        p.text(372, y, [(label, font("800i", 84), WHITE)], shadow=6)
-        y += 172
-    p.save("18-by-the-numbers")
-
-
-def face_off():
-    p = Post()
-    p.put(cover(photo("ferri-smythe-faceoff"), W, H, fx=.36, fy=.5))
-    p.shade(0, 420, 230, 0)
-    p.shade(980, H, 0, 245)
-    p.text(44, 76, [("CO-MAIN EVENT", font("800i", 46), GREEN)], shadow=5)
-    p.text(44, 112, [("PRO BOXING  |  135 LBS", font("700", 23), MUTED)], shadow=4)
-    p.logo(W - 40, 22, 100, align="r")
-    p.text(W / 2, 336, p.fit(lambda px: [("FACE ", font("800i", px), WHITE), ("OFF", font("800i", px), GREEN)], 250, W - 88), "c", shadow=10)
-    for x, align, name, gym in ((44, "l", "TYLER SMYTHE", "NOSTOS"), (W - 44, "r", "JAKE FERRI", "KTA")):
-        p.text(x, 1262, [(name, font("800i", 60), WHITE)], align, shadow=6)
-        p.text(x, 1302, [(gym, font("700", 26), MUTED)], align)
-    p.save("19-face-off")
-
-
-def fight_of_the_night():
-    p = Post()
-    top, gap = 390, 6
-    tw, th = (W - gap) // 2, (H - top - gap) // 2
-    tiles = [("barry-right-hand", .5, .45, "BARRY VS TEAGUE"), ("walsh-jab", .45, .4, "WALSH VS ZAHIR"),
-             ("ferri-jab", .55, .45, "FERRI VS SMYTHE"), ("kelly-exchange", .4, .5, "KELLY VS ST. FELIX")]
-    for i, (name, fx, fy, label) in enumerate(tiles):
-        x, y = (i % 2) * (tw + gap), top + (i // 2) * (th + gap)
-        p.put(cover(photo(name), tw, th, fx=fx, fy=fy), (x, y))
-        p.shade(y + th - 130, y + th, 0, 210, x, x + tw)
-        letter, lab = ("ABCD"[i], font("800i", 96), GREEN), (label, font("800i", 30), WHITE)
-        right = i % 2                                   # letters on the outer corners, clear of the badge
-        p.text(x + tw - 22 if right else x + 22, y + th - 20,
-               [lab, ("  ", lab[1], WHITE), letter] if right else [letter, ("  ", lab[1], WHITE), lab], "r" if right else "l", shadow=5)
-    p.text(44, 142, p.fit(lambda px: [("FIGHT OF THE NIGHT", font("800i", px), WHITE), ("?", font("800i", px), GREEN)], 200, W - 88))
-    p.text(48, 232, [("IT PAYS ", font("800i", 76), WHITE), ("$2,000", font("800i", 76), GREEN), (" AT NFP 2", font("800i", 76), WHITE)])
-    p.text(48, 304, p.fit(lambda px: [("WHICH NFP 1 FIGHT GETS YOUR VOTE?", font("800i", px), MUTED)], 50, W - 96))
-    cx, cy = W // 2, top + th + gap // 2               # logo badge where the four tiles meet
-    p.d.ellipse((cx - 74, cy - 74, cx + 74, cy + 74), fill=(0, 0, 0), outline=GREEN_DK, width=4)
-    p.logo(cx, cy - 44, 100)
-    p.save("20-fight-of-the-night")
-
-
+# ---------------------------------------------------------------- second set, posts 13 to 34
+# Templated the way a promotion's PR desk works: the graphic carries a label, a name and the facts,
+# and the caption does the talking. No taglines on the art.
 def want_in():
     p = Post()
-    p.put(cover(photo("through-the-ropes"), W, H, fx=.52, fy=.5))
+    p.put(cover(photo("fagan-ropes"), W, H, fx=.52, fy=.42))
     p.shade(0, 220, 170, 0)
     p.shade(680, H, 0, 250)
     p.logo(40, 24, 100, align="l")
@@ -583,24 +457,168 @@ def want_in():
     p.text(W / 2, 1186, [("AMATEUR AND PRO  |  ALL WEIGHT CLASSES", font("700", 26), MUTED)], "c")
     p.d.rectangle((W / 2 - 300, 1222, W / 2 + 300, 1292), outline=GREEN_DK, width=3)
     p.text(W / 2, 1271, [("APPLY  |  NFPFIGHTS.COM", font("800i", 38), WHITE)], "c")
-    p.save("21-want-in")
+    p.save("13-want-in")
 
 
-def nashua_showed_up():
+def result_card(n, slug, pic, fx, fy, bout, winner, loser, method, note="NFP 1"):
+    """OFFICIAL RESULT: winner's photo full bleed, bout line up top, name, DEF. and method below."""
+    p = Post()
+    p.put(cover(photo(pic), W, H, fx=fx, fy=fy))
+    p.shade(0, 240, 190, 0)
+    p.shade(640, H, 0, 252)
+    p.text(44, 76, [("OFFICIAL RESULT", font("800i", 46), GREEN)], shadow=5)
+    p.text(44, 112, [(bout, font("700", 23), MUTED)], shadow=4)
+    p.logo(W - 40, 22, 100, align="r")
+    p.text(40, 1140, p.fit(lambda px: [(winner, font("800i", px), WHITE)], 170, W - 88), shadow=10)
+    p.text(44, 1210, [("DEF. " + loser, font("800i", 54), MUTED)], shadow=5)
+    p.text(44, 1278, [(method, font("800i", 54), GREEN)], shadow=5)
+    p.text(W - 44, 1278, [(note, font("700", 26), MUTED)], "r")
+    p.save(f"{n}-result-{slug}")
+
+
+def champion_card(n, slug, pic, fx, fy, zoom, title, name, gym):
+    p = Post()
+    p.put(cover(photo(pic), W, H, fx=fx, fy=fy, zoom=zoom))
+    p.shade(0, 200, 170, 0)
+    p.shade(700, H, 0, 252)
+    p.logo(W // 2, 22, 108)
+    p.text(W / 2, 1150, p.fit(lambda px: [(name, font("800i", px), WHITE)], 170, W - 88), "c", shadow=10)
+    p.text(W / 2, 1218, p.fit(lambda px: [(title, font("800i", px), GREEN)], 62, W - 88), "c", shadow=5)
+    p.text(W / 2, 1268, [(gym, font("700", 28), MUTED)], "c")
+    p.save(f"{n}-champion-{slug}")
+
+
+def last_time_out(n, slug, pic, fx, fy, bout, name, result, opponent):
+    """A title challenger's NFP 1 win, with the NFP 2 title fight underneath."""
+    p = Post()
+    p.put(cover(photo(pic), W, 760, fx=fx, fy=fy), (0, 140))
+    p.shade(140, 260, 255, 0)
+    p.shade(700, 900, 0, 255)
+    p.text(44, 76, [("LAST TIME OUT", font("800i", 46), GREEN)])
+    p.text(44, 112, [(bout, font("700", 23), MUTED)])
+    p.logo(W - 40, 22, 100, align="r")
+    p.text(40, 1000, p.fit(lambda px: [(name, font("800i", px), WHITE)], 150, W - 88), shadow=8)
+    p.text(44, 1054, [(result, font("800i", 42), MUTED)])
+    p.d.line((44, 1090, W - 44, 1090), fill=(52, 58, 54), width=2)
+    p.text(44, 1146, [("NEXT", font("800i", 34), GREEN), ("   NFP 2  |  SAT MARCH 27  |  NASHUA, NH", font("700", 26), MUTED)])
+    p.text(44, 1220, [("VS " + opponent, font("800i", 76), WHITE)])
+    p.text(44, 1272, [("NFP 145 LB MUAY THAI CHAMPIONSHIP", font("800i", 38), GREEN)])
+    p.save(f"{n}-last-time-out-{slug}")
+
+
+def thank_you_nashua():
     p = Post()
     p.put(cover(photo("barry-crowd"), W, H, fx=.47, fy=.5))
     p.shade(0, 220, 150, 0)
-    p.shade(760, H, 0, 250)
+    p.shade(720, H, 0, 252)
     p.logo(40, 26, 104, align="l")
-    p.text(48, 1130, [("NASHUA", font("800i", 160), WHITE)], shadow=8)
-    p.text(48, 1280, p.fit(lambda px: [("SHOWED UP", font("800i", px), GREEN)], 160, W - 96), shadow=8)
-    p.save("22-nashua-showed-up")
+    p.text(48, 1100, [("THANK YOU", font("800i", 170), WHITE)], shadow=8)
+    p.text(48, 1250, [("NASHUA", font("800i", 170), GREEN)], shadow=8)
+    p.text(52, 1300, [("NFP 1  |  SAT OCT 24  |  NASHUA COMMUNITY COLLEGE", font("700", 24), MUTED)])
+    p.save("25-thank-you-nashua")
 
+
+def hundred_days():
+    """For Thu Dec 17 2026, 100 days before NFP 2. The venue at night, from the NFP 2 posters."""
+    p = Post()
+    hotel = Image.open("assets/img/poster-src/sheraton-night.webp").convert("RGB")
+    p.put(cover(hotel, W, H, fx=.43, fy=.5))
+    p.shade(0, 240, 190, 0)
+    p.shade(620, H, 0, 255)
+    p.logo(W // 2, 22, 108)
+    p.text(W / 2, 1090, [("100 ", font("800i", 300), GREEN), ("DAYS", font("800i", 300), WHITE)], "c", shadow=12)
+    p.text(W / 2, 1176, [("UNTIL NFP 2", font("800i", 74), WHITE)], "c", shadow=6)
+    p.text(W / 2, 1234, [("SAT MARCH 27  |  SHERATON HOTEL  |  NASHUA, NH", font("700", 30), MUTED)], "c")
+    p.text(W / 2, 1290, [("TICKETS ON SALE SOON", font("800i", 34), GREEN)], "c")
+    p.save("26-100-days")
+
+
+def bout_card():
+    p = Post()
+    p.put(cover(photo("ferri-smythe-faceoff"), W, H, fx=.36, fy=.5))
+    p.shade(0, 300, 210, 0)
+    p.shade(900, H, 0, 250)
+    p.text(44, 76, [("CO-MAIN EVENT", font("800i", 46), GREEN)], shadow=5)
+    p.text(44, 112, [("PRO BOXING  |  135 LBS", font("700", 23), MUTED)], shadow=4)
+    p.logo(W - 40, 22, 100, align="r")
+    f = font("800i", 132)
+    p.text(W / 2, 1236, [("SMYTHE ", f, WHITE), ("VS", f, GREEN), (" FERRI", f, WHITE)], "c", shadow=10)   # as they stand in the photo
+    p.text(W / 2, 1290, [("NFP 1  |  SAT OCT 24  |  NASHUA, NH", font("700", 24), MUTED)], "c")
+    p.save("27-smythe-vs-ferri")
+
+
+def photo_card(n, slug, pic, fx, fy, name, line, zoom=1.0):
+    """A gallery photo with a name tag and nothing else."""
+    p = Post()
+    p.put(cover(photo(pic), W, H, fx=fx, fy=fy, zoom=zoom))
+    p.shade(0, 200, 150, 0)
+    p.shade(860, H, 0, 245)
+    p.logo(40, 26, 100, align="l")
+    p.text(44, 1240, p.fit(lambda px: [(name, font("800i", px), WHITE)], 130, W - 88), shadow=10)
+    p.text(48, 1290, [(line, font("700", 26), MUTED)], shadow=4)
+    p.save(f"{n}-{slug}")
+
+
+def title_fight():
+    """NFP 2 title fight, Kim left and Cetoute right as on the card and the flyer."""
+    p = Post()
+    ph, top_x, bot_x = 1010, 600, 480                   # diagonal seam
+    # zoomed so both heads are the same size with eyes level near y 265
+    p.put(cover(photo("kim-stare"), 640, ph, fx=.455, fy=1, zoom=1.2))
+    p.put(cover(photo("cetoute-walk"), 640, ph, fx=.469, fy=0, zoom=1.08), (440, 0),
+          poly_mask([(top_x, 0), (W, 0), (W, ph), (bot_x, ph)]))
+    # the green seam fades in under the logo instead of running behind it
+    seam = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(seam).polygon([(top_x - 5, 0), (top_x + 5, 0), (bot_x + 5, ph), (bot_x - 5, ph)], fill=GREEN)
+    fade = Image.new("L", (1, H)); fade.putdata([max(0, min(255, (y - 132) * 4)) for y in range(H)])
+    seam.putalpha(ImageChops.multiply(seam.getchannel("A"), fade.resize((W, H))))
+    p.im.alpha_composite(seam)
+    p.shade(0, 200, 170, 0)
+    p.shade(ph - 420, ph + 4, 0, 255)                   # runs just past the photos so the seam's end is covered
+    p.logo(592, 24, 112, solid=True)                    # sits on the seam, fully opaque
+    p.text(44, 76, [("TITLE FIGHT", font("800i", 46), GREEN)], shadow=5)
+    p.text(44, 112, [("NFP 2  |  SAT MARCH 27", font("700", 23), MUTED)], shadow=4)
+    p.text(W / 2, 1098, p.fit(lambda px: [("KIM ", font("800i", px), WHITE), ("VS", font("800i", px), GREEN), (" CETOUTE", font("800i", px), WHITE)],
+                              190, W - 80), "c", shadow=10)
+    p.text(W / 2, 1156, p.fit(lambda px: [("NFP 145 LB MUAY THAI CHAMPIONSHIP", font("800i", px), GREEN)], 52, W - 88), "c")
+    for cx, name, gym, code in ((270, "ARMANI KIM", "GATE CITY MMA", "KIM"), (810, "JEFF CETOUTE", "RAJASI MUAY THAI", "CETOUTE")):
+        p.text(cx, 1216, [(name, font("800i", 42), WHITE)], "c")
+        p.text(cx, 1248, [(gym, font("700", 23), MUTED)], "c")
+        p.text(cx, 1280, [("TICKET CODE  ", font("700", 23), MUTED), (code, font("800i", 26), GREEN)], "c")
+    p.text(W / 2, 1326, [("SHERATON HOTEL  |  NASHUA, NH", font("700", 21), MUTED)], "c")
+    p.save("34-kim-vs-cetoute")
+
+
+KB = "AMATEUR KICKBOXING  |  {} LBS"
+UD = "UNANIMOUS DECISION"
+SECOND = {
+    13: want_in,
+    14: lambda: result_card(14, "ferri", "ferri-roar", .5, .45, "CO-MAIN EVENT  |  PRO BOXING  |  135 LBS", "JAKE FERRI", "TYLER SMYTHE", UD),
+    15: lambda: result_card(15, "walsh", "walsh-hand-raised", .53, .5, "NFP BANTAMWEIGHT CHAMPIONSHIP  |  AMATEUR KICKBOXING  |  135 LBS",
+                            "VICTORIA WALSH", "MARIA ZAHIR", UD, "NEW CHAMPION"),
+    16: lambda: result_card(16, "fagan", "fagan-hand-raised", .50, .5, KB.format(155), "MIKE FAGAN", "JAMES JOHNSON", "TKO  |  RD 1"),
+    17: lambda: result_card(17, "kim", "kim-hand-raised", .50, .5, KB.format(150), "ARMANI KIM", "NATE COLON", UD),
+    18: lambda: result_card(18, "cetoute", "cetoute-hand-raised", .44, .5, KB.format(145), "JEFF CETOUTE", "TOM DUFFY", UD),
+    19: lambda: result_card(19, "kelly", "kelly-hand-raised", .46, .5, KB.format(165), "JOSH KELLY", "JEAN ST. FELIX", UD),
+    20: lambda: result_card(20, "drazhan", "drazhan-hand-raised", .50, .5, KB.format(155), "KYRYLO DRAZHAN", "ANDREW ACUNA", UD),
+    21: lambda: champion_card(21, "barry", "barry-belt-close", .45, .5, 1.0, "NFP MIDDLEWEIGHT CHAMPION", "CONNOR BARRY", "IMPERIUM MARTIAL ARTS"),
+    22: lambda: champion_card(22, "walsh", "walsh-studio", .5, .40, 1.0, "NFP BANTAMWEIGHT CHAMPION", "VICTORIA WALSH", "BLACK WOLF MARTIAL ARTS"),
+    23: lambda: last_time_out(23, "kim", "kim-kick", .5, .5, "NFP 1  |  " + KB.format(150), "ARMANI KIM", "DEF. NATE COLON  |  UD", "JEFF CETOUTE"),
+    24: lambda: last_time_out(24, "cetoute", "cetoute-exchange", .5, .5, "NFP 1  |  " + KB.format(145), "JEFF CETOUTE", "DEF. TOM DUFFY  |  UD", "ARMANI KIM"),
+    25: thank_you_nashua,
+    26: hundred_days,
+    27: bout_card,
+    28: lambda: photo_card(28, "teague-walkout", "teague-hot-dog", .5, .5, "PAUL TEAGUE", "MAIN EVENT WALKOUT  |  NFP 1"),
+    29: lambda: photo_card(29, "kelly", "kelly-robe", .5, .5, "JOSH KELLY", "KTA NASHUA  |  NFP 1"),
+    30: lambda: photo_card(30, "cetoute", "cetoute-ropes", .45, .5, "JEFF CETOUTE", "RAJASI  |  NFP 1"),
+    31: lambda: photo_card(31, "walsh-zahir", "walsh-zahir-hug", .5, .45, "WALSH VS ZAHIR", "NFP BANTAMWEIGHT CHAMPIONSHIP  |  NFP 1"),
+    32: lambda: photo_card(32, "johnson", "johnson-corner", .5, .35, "JAMES JOHNSON", "KTA NASHUA  |  NFP 1"),
+    33: lambda: photo_card(33, "st-felix", "st-felix-intro", .46, .5, "JEAN ST. FELIX", "SONG KHAO MUAY THAI  |  NFP 1"),
+    34: title_fight,
+}
 
 POSTS = {1: new_champions, 2: main_event_tko, 3: results, 4: the_walk, 5: corner, 6: grappling,
-         7: kicks_or_hands, 8: shot_of_the_night, 9: every_frame, 10: that_was_round_1, 11: who_next,
-         13: done_in_one, 14: all_respect, 15: one_belt, 16: recon, 17: the_first, 18: by_the_numbers,
-         19: face_off, 20: fight_of_the_night, 21: want_in, 22: nashua_showed_up}
+         7: kicks_or_hands, 8: shot_of_the_night, 9: every_frame, 10: that_was_round_1, 11: who_next, **SECOND}
 
 os.makedirs(out, exist_ok=True)
 os.makedirs(CACHE, exist_ok=True)
